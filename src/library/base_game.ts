@@ -1,0 +1,116 @@
+import { Application } from "pixi.js";
+import { Entity } from "./entity";
+import { Debug } from "./debug";
+import { HashSet } from "./hash";
+import { GameState } from "./state";
+import { TypesafeLoader } from "./typesafe_loader";
+import { CreateGame } from "./react/react_root";
+
+export let GameReference: BaseGame<any>;
+
+export type GameArgs<T> = {
+  canvasWidth : number;
+  canvasHeight: number;
+  resources   : T;
+}
+
+export class BaseGame<Resources> {
+  app   : PIXI.Application;
+
+  state : GameState;
+
+  /** 
+   * The root of the display hierarchy for the game. Everything that exists in
+   * the game that isn't fixed as the camera moves should be under this.
+   */
+  stage : Entity;
+
+  /**
+   * A stage for things in the game that don't move when the camera move and are
+   * instead fixed to the screen. For example, the HUD.
+   */
+  fixedCameraStage: Entity;
+
+  loader: TypesafeLoader<Resources>;
+
+  constructor(props: GameArgs<Resources>) {
+    GameReference = this;
+
+    this.state = new GameState();
+
+    const view = document.getElementById('canvas');
+
+    if (!view) {
+      throw new Error("I couldn't find an element named #canvas on initialization. Giving up!")
+    }
+
+    this.app = new Application({
+      width          : props.canvasWidth,
+      height         : props.canvasHeight,
+      antialias      : true,
+      transparent    : false,
+      resolution     : window.devicePixelRatio,
+      autoDensity    : true,
+      backgroundColor: 0x000,
+      view           : view as HTMLCanvasElement,
+    });
+
+    this.stage = new Entity({
+      name: "Stage",
+    });
+    this.state.stage = this.stage;
+
+    this.app.stage.addChild(this.stage.sprite);
+
+    this.fixedCameraStage = new Entity({
+      name: "FixedStage"
+    });
+    this.app.stage.addChild(this.fixedCameraStage.sprite);
+
+    this.state.renderer = this.app.renderer;
+    this.state.stage = this.stage;
+
+    this.loader = new TypesafeLoader(props.resources)
+    this.loader.onLoadComplete(() => this.startGameLoop());
+    this.loader.onLoadComplete(() => this.initialize());
+
+    CreateGame(this);
+  }
+
+  /**
+   * Called after resources are finished loading.
+   */
+  initialize() {
+
+  }
+
+  startGameLoop = () => {
+    this.app.ticker.add(() => this.gameLoop());
+  };
+
+  gameLoop = () => {
+    const { entities } = this.state;
+
+    Debug.Clear();
+
+    this.state.keys.update();
+
+    const activeEntities = entities.values();
+
+    for (const entity of activeEntities) {
+      entity.update(this.state);
+    }
+
+    this.state.entities = new HashSet(entities.values().filter(ent => !this.state.toBeDestroyed.includes(ent)));
+
+    this.state.toBeDestroyed = [];
+
+    // const grid = this.collisionHandler.buildCollisionGrid(this.state);
+
+    // this.collisionHandler.resolveCollisions(this.state, grid);
+
+    // this.camera.update(this.state);
+
+    Debug.ResetDrawCount();
+  };
+}
