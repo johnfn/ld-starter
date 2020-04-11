@@ -7,6 +7,7 @@ export class Player extends Entity {
 
   constructor() {
     super({
+      name   : "Player",
       texture: Game.Instance.loader.getResource("owo.png").texture,
     });
   }
