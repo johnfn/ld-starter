@@ -1,6 +1,7 @@
 import { BaseGame } from "../library/base_game";
 import { ResourcesToLoad } from "./resources";
 import { Player } from "./player";
+import { GameMap } from "./map";
 
 export class Game extends BaseGame<typeof ResourcesToLoad> {
   public static Instance: Game;
@@ -16,6 +17,7 @@ export class Game extends BaseGame<typeof ResourcesToLoad> {
   }
 
   initialize() {
+    this.stage.addChild(new GameMap());
     this.stage.addChild(new Player());
   };
 }

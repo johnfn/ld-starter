@@ -30,7 +30,7 @@ export class TiledTilemap {
     renderer     : Renderer; 
     pathToTilemap: string;
     customObjects: TilemapCustomObjects[];
-    game         : BaseGame<unknown>;
+    game         : BaseGame<any>;
   }) {
     this._data       = new TilemapData({ data, pathToTilemap });
     this._renderer   = renderer;
@@ -59,7 +59,7 @@ export class TiledTilemap {
     throw new Error("Not a rect layer");
   }
 
-  public loadRegion(region: Rect): MapLayer[] {
+  public loadLayersInRect(region: Rect): MapLayer[] {
     let tileLayers: MapLayer[] = [];
 
     // Load tile layers

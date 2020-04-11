@@ -3,13 +3,15 @@
 
 export enum ResourceType {
   Image,
-  Tileset,
+  TileMap,
   Spritesheet,
 }
 
 export const ResourcesToLoad = {
   "logo192.png": ResourceType.Image,
   "owo.png"    : ResourceType.Image,
+  "map.json"   : ResourceType.TileMap,
+  "tileset.png": ResourceType.Image,
 };
 
 export type ResourceName = keyof typeof ResourcesToLoad;

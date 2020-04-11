@@ -36,7 +36,7 @@ export class TypesafeLoader<Resources> {
       const castedResource = resource as keyof typeof ResourcesToLoad;
       const pathToTilemap = resource.substring(0, resource.lastIndexOf("/"))
 
-      if (ResourcesToLoad[castedResource] === ResourceType.Tileset) {
+      if (ResourcesToLoad[castedResource] === ResourceType.TileMap) {
         const tilemapData = new TilemapData({ data: this.getResource(castedResource).data, pathToTilemap });
 
         allTilemapDependencyPaths = allTilemapDependencyPaths.concat(
@@ -46,7 +46,9 @@ export class TypesafeLoader<Resources> {
     }
 
     for (const tilemapDependencyPath of allTilemapDependencyPaths) {
-      this.loader.add(tilemapDependencyPath);
+      if (!this.loader.resources[tilemapDependencyPath]) {
+        this.loader.add(tilemapDependencyPath);
+      }
     }
 
     this.loader.load(this.finishLoading);

@@ -1,4 +1,4 @@
-import { Application } from "pixi.js";
+import { Application, Renderer } from "pixi.js";
 import { Entity } from "./entity";
 import { Debug } from "./debug";
 import { HashSet } from "./hash";
@@ -31,7 +31,9 @@ export class BaseGame<Resources> {
    */
   fixedCameraStage: Entity;
 
-  loader: TypesafeLoader<Resources>;
+  assets: TypesafeLoader<Resources>;
+
+  renderer: Renderer;
 
   constructor(props: GameArgs<Resources>) {
     GameReference = this;
@@ -70,9 +72,11 @@ export class BaseGame<Resources> {
     this.state.renderer = this.app.renderer;
     this.state.stage = this.stage;
 
-    this.loader = new TypesafeLoader(props.resources)
-    this.loader.onLoadComplete(() => this.startGameLoop());
-    this.loader.onLoadComplete(() => this.initialize());
+    this.assets = new TypesafeLoader(props.resources)
+    this.assets.onLoadComplete(() => this.startGameLoop());
+    this.assets.onLoadComplete(() => this.initialize());
+
+    this.renderer = this.app.renderer;
 
     CreateGame(this);
   }

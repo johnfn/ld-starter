@@ -17,7 +17,7 @@ export class TextureCache {
     const key = `${ textureName }-${ x }-${ y }`;
 
     if (!TextureCache.Cache[key]) {
-      const texture = game.loader.getResource(textureName).texture.clone();
+      const texture = game.assets.getResource(textureName).texture.clone();
 
       texture.frame = new Rectangle(x * tilewidth, y * tileheight, tilewidth, tileheight);
 
