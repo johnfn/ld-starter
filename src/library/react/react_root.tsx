@@ -64,7 +64,7 @@ export class GameReactWrapper extends React.Component<ReactWrapperProps, ReactWr
           }
 
           {
-            !this.state.debug &&
+            !this.state.debug && window.location.href.includes("localhost") &&
             <div>
               Go <a href={ window.location.href + "?debug=true"}>here</a> to see the debug view.
             </div>
