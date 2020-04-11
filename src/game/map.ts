@@ -7,7 +7,9 @@ export class GameMap extends Entity {
   tilemap: TiledTilemap;
 
   constructor() {
-    super({ });
+    super({ 
+      name: "Map",
+    });
 
     this.tilemap = new TiledTilemap({
       pathToTilemap: "",

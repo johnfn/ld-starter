@@ -103,13 +103,6 @@ export class Entity {
     });
   }
 
-  positionVector() {
-    return new Vector2({
-      x: this.x,
-      y: this.y,
-    });
-  }
-
   children(): Entity[] {
     const children = this.sprite.children;
     const result: Entity[] = [];

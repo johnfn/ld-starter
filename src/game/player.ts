@@ -28,5 +28,7 @@ export class Player extends Entity {
     if (state.keys.down.D) {
       this.x += this.speed;
     }
+
+    Game.Instance.camera.centerOn(this.position);
   }
 }

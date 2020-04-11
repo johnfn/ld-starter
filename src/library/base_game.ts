@@ -4,7 +4,8 @@ import { Debug } from "./debug";
 import { HashSet } from "./hash";
 import { GameState } from "./state";
 import { TypesafeLoader } from "./typesafe_loader";
-import { CreateGame } from "./react/react_root";
+import { CreateGame as ReactMountGame } from "./react/react_root";
+import { Camera } from "./camera";
 
 export let GameReference: BaseGame<any>;
 
@@ -34,6 +35,8 @@ export class BaseGame<Resources> {
   assets: TypesafeLoader<Resources>;
 
   renderer: Renderer;
+
+  camera: Camera;
 
   constructor(props: GameArgs<Resources>) {
     GameReference = this;
@@ -78,7 +81,14 @@ export class BaseGame<Resources> {
 
     this.renderer = this.app.renderer;
 
-    CreateGame(this);
+    this.camera = new Camera({
+      stage       : this.stage,
+      state       : this.state,
+      canvasWidth : props.canvasWidth,
+      canvasHeight: props.canvasHeight,
+    });
+
+    ReactMountGame(this);
   }
 
   /**
@@ -113,7 +123,7 @@ export class BaseGame<Resources> {
 
     // this.collisionHandler.resolveCollisions(this.state, grid);
 
-    // this.camera.update(this.state);
+    this.camera.update(this.state);
 
     Debug.ResetDrawCount();
   };
