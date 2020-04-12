@@ -1,6 +1,5 @@
 import { VanishingEntity } from "../library/vanishing_entity";
 import { TextEntity } from "../library/text_entity";
-import { Entity } from "../library/entity";
 import { Texture } from "pixi.js";
 
 export class Bookshelf extends VanishingEntity {
@@ -12,7 +11,8 @@ export class Bookshelf extends VanishingEntity {
       texture: tex,
     });
 
-    this.floatingText = new TextEntity("FloatingText");
+    this.floatingText = new TextEntity("It’s a bookshelf. Surprisingly, it’s filled with books.");
+    this.floatingText.y = -50;
 
     this.addChild(this.floatingText);
   }

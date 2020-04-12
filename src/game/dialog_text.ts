@@ -1,6 +1,7 @@
 import { DialogText } from "./dialog";
 
 export class DialogTexts {
+
   public static IntroText: DialogText = [
     { speaker: "Chief Oberon Nabisco", text : "Detective Pringle. It’s me. Do you come in?", },
     { speaker: "Detective Pringle", text : "Loud and clear, Chief Nabisco. And my partner Tasukete is here too.", },

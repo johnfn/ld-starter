@@ -91,7 +91,7 @@ export class TextEntity extends BaseTextEntity {
       text: "",
       style: {
         color   : "white",
-        fontSize: 18
+        fontSize: 28,
       },
     }];
 

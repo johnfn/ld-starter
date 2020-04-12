@@ -1,4 +1,4 @@
-import { Application, Renderer } from "pixi.js";
+import { Application, Renderer, Point } from "pixi.js";
 import { Entity } from "./entity";
 import { Debug } from "./debug";
 import { HashSet } from "./hash";
@@ -10,6 +10,7 @@ import { Camera } from "./camera";
 export let GameReference: BaseGame<any>;
 
 export type GameArgs<T> = {
+  scale       : number;
   canvasWidth : number;
   canvasHeight: number;
   resources   : T;
@@ -59,6 +60,8 @@ export class BaseGame<Resources> {
       backgroundColor: 0x000,
       view           : view as HTMLCanvasElement,
     });
+
+    this.app.stage.scale = new Point(props.scale, props.scale);
 
     this.stage = new Entity({
       name: "Stage",

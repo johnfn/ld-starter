@@ -12,8 +12,9 @@ export class Game extends BaseGame<typeof ResourcesToLoad> {
 
   constructor() {
     super({
-      canvasWidth : 600,
-      canvasHeight: 400,
+      canvasWidth : 800,
+      canvasHeight: 800,
+      scale       : 0.5,
       resources   : ResourcesToLoad,
     });
 

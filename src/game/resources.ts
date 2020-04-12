@@ -9,6 +9,7 @@ export enum ResourceType {
 
 export const ResourcesToLoad = {
   "owo.png"    : ResourceType.Image,
+  "miranda.png": ResourceType.Image,
   "map.json"   : ResourceType.TileMap,
   "music.json" : ResourceType.TileMap,
   "tileset.png": ResourceType.Image,

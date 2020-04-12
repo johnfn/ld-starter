@@ -10,8 +10,11 @@ export class Player extends Entity {
   constructor() {
     super({
       name   : "Player!",
-      texture: Game.Instance.assets.getResource("owo.png").texture,
+      texture: Game.Instance.assets.getResource("miranda.png").texture,
     });
+
+    this.width = 200;
+    this.height = 200;
   }
 
   audio: HTMLAudioElement | null = null;

@@ -59,8 +59,8 @@ export class GameMap extends Entity {
     const layers = this.artMap.loadLayersInRect(new Rect({
       x     : 0,
       y     : 0,
-      width : 640,
-      height: 640,
+      width : 5000,
+      height: 5000,
     }));
 
     for (const layer of layers) {
