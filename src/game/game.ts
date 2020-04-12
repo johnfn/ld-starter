@@ -29,14 +29,5 @@ export class Game extends BaseGame<typeof ResourcesToLoad> {
     if (MyName === "Grant") {
       // DialogBox.StartDialog(DialogTexts.IntroText);
     }
-
-    // let bookshelf = new Bookshelf();
-    // bookshelf.width = 50;
-    // bookshelf.height = 90;
-    // bookshelf.sprite.interactive = true;
-    // bookshelf.sprite.on('click', function() {
-    //   bookshelf.sprite.parent.removeChild(bookshelf.sprite);
-    // });
-    // this.stage.addChild(bookshelf);
   };
 }
