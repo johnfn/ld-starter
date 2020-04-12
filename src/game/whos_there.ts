@@ -1,0 +1,1 @@
+export const MyName = window.location.href.includes("name=grant") ? "Grant" : "Not-Grant";
