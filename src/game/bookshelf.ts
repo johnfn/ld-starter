@@ -1,6 +1,7 @@
 import { VanishingEntity } from "../library/vanishing_entity";
 import { TextEntity } from "../library/text_entity";
 import { Texture } from "pixi.js";
+import { GameState } from "../library/state";
 
 export class Bookshelf extends VanishingEntity {
   floatingText: TextEntity;
@@ -15,5 +16,9 @@ export class Bookshelf extends VanishingEntity {
     this.floatingText.y = -50;
 
     this.addChild(this.floatingText);
+  }
+
+  update(state: GameState): void {
+
   }
 }

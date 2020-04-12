@@ -3,6 +3,7 @@ import { Game } from "./game";
 import { GameState } from "../library/state";
 import { GameMap } from "./map";
 import { DialogBox } from "./dialog";
+import { Vector2 } from "../library/vector2";
 
 export class Player extends Entity {
   speed = 7;
@@ -13,8 +14,7 @@ export class Player extends Entity {
       texture: Game.Instance.assets.getResource("miranda.png").texture,
     });
 
-    this.width = 200;
-    this.height = 200;
+    this.scale = new Vector2({ x: 0.25, y: 0.25 });
   }
 
   audio: HTMLAudioElement | null = null;
