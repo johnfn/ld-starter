@@ -12,7 +12,7 @@ export const ResourcesToLoad = {
   "map.json"   : ResourceType.TileMap,
   "music.json" : ResourceType.TileMap,
   "tileset.png": ResourceType.Image,
-  "dialog.png" : ResourceType.Image,
+  "dialog_box.png" : ResourceType.Image,
   "bookshelf.png": ResourceType.Image,
 };
 

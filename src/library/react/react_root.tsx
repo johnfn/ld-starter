@@ -54,12 +54,13 @@ export class GameReactWrapper extends React.Component<ReactWrapperProps, ReactWr
       }}>
         <div style={{
           overflow: "auto",
-          height: "100vh",
+          height: "90vh",
         }}>
           { this.props.game && this.props.game.stage && this.state.debug && 
             <div>
               <div style={{ fontWeight: 600, fontFamily: 'arial', paddingBottom: '8px', paddingLeft: '8px' }}>Debug Hierarchy</div>
               <Hierarchy root={this.props.game.stage} />
+              <Hierarchy root={this.props.game.fixedCameraStage} />
             </div> 
           }
 

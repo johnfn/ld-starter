@@ -2,6 +2,7 @@ import { Entity } from "../library/entity";
 import { Game } from "./game";
 import { GameState } from "../library/state";
 import { GameMap } from "./map";
+import { DialogBox } from "./dialog";
 
 export class Player extends Entity {
   speed = 7;
@@ -16,6 +17,10 @@ export class Player extends Entity {
   audio: HTMLAudioElement | null = null;
 
   update(state: GameState): void {
+    if (DialogBox.DialogVisible()) {
+      return;
+    }
+
     if (state.keys.down.W) {
       this.y -= this.speed;
     }

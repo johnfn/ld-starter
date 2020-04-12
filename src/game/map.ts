@@ -3,6 +3,8 @@ import { TiledTilemap } from "../library/tilemap/tilemap";
 import { Rect } from "../library/rect";
 import { Entity } from "../library/entity";
 import { TilemapRegion } from "../library/tilemap/tilemap_data";
+import { Bookshelf } from "./bookshelf";
+import { Texture } from "pixi.js";
 
 export class GameMap extends Entity {
   artMap         : TiledTilemap;
@@ -23,7 +25,16 @@ export class GameMap extends Entity {
       pathToTilemap: "",
       json         : Game.Instance.assets.getResource("map.json").data,
       renderer     : Game.Instance.renderer,
-      customObjects: [],
+      customObjects: [{
+        type     : "single",
+        name     : "fridge",
+        getInstanceType: (tex: Texture, tileProperties: { [key: string]: unknown }, layerName: string) => {
+          const result = new Bookshelf(tex);
+
+          result.x = 50;
+          return result;
+        }
+      }],
       game         : Game.Instance,
     });
 
