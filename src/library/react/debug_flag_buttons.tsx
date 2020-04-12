@@ -1,5 +1,5 @@
 import React from 'react';
-import { IsDevelopment } from '../environment';
+import { IS_DEBUG } from '../environment';
 
 export type DebugFlagsType = {
   [key: string]: { on: boolean; description: string }
@@ -8,7 +8,7 @@ export type DebugFlagsType = {
 const LOCAL_STORAGE_KEY = "debug flags";
 
 export const ReadDebugFlagsFromLocalStorage = <T extends DebugFlagsType>(defaultFlags: T): T => {
-  if (IsDevelopment) {
+  if (IS_DEBUG) {
     const prevStoredFlags = JSON.parse((window.localStorage.getItem(LOCAL_STORAGE_KEY) || "{}")) as DebugFlagsType;
 
     return {

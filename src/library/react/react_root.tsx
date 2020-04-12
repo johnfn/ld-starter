@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import { BaseGame } from '../base_game';
 import { Hierarchy } from './hierarchy';
 import { DebugFlagButtons, DebugFlagsType } from './debug_flag_buttons';
-import { IsDevelopment } from '../environment';
+import { IS_DEBUG } from '../environment';
 
 type ReactWrapperProps = {
   game      : BaseGame<unknown>;
@@ -12,7 +12,6 @@ type ReactWrapperProps = {
 };
 
 type ReactWrapperState = {
-  debug: boolean;
 };
 
 export class GameReactWrapper extends React.Component<ReactWrapperProps, ReactWrapperState> {
@@ -23,7 +22,6 @@ export class GameReactWrapper extends React.Component<ReactWrapperProps, ReactWr
     super(props);
 
     this.state = { 
-      debug: window.location.href.includes("debug=true"),
     };
 
     setInterval(() => this.monitorHierarchyUpdates(), 50);
@@ -59,10 +57,10 @@ export class GameReactWrapper extends React.Component<ReactWrapperProps, ReactWr
           fontFamily: 'arial',
           fontSize: '14px',
         }}>
-          { this.props.game && this.props.game.stage && (IsDevelopment || this.state.debug) &&
+          { this.props.game && this.props.game.stage && IS_DEBUG &&
             <div style={{ paddingLeft: '8px'}}>
               <div style={{ fontFamily: "arial", marginBottom: '8px', fontSize: '14px', backgroundColor: '#eee', padding: '8px' }}>
-                Note: This debugging panel is only shown in development.
+                Note: This debugging panel is only shown in development, or production with ?debug=true.
               </div>
               <div style={{ fontWeight: 600, fontFamily: 'arial', paddingBottom: '8px', fontSize: '18px' }}>Debug Options</div>
               <DebugFlagButtons flags={ this.props.debugFlags } />
