@@ -153,7 +153,7 @@ export class Entity {
   public get position(): Vector2 { return new Vector2({ x: this.x, y: this.y }); }
 
   public get zIndex(): number { return this.sprite.zIndex; }
-  public set zIndex(value: number) { this.sprite.zIndex = value; }
+  public set zIndex(value: number) { this.sprite.zIndex = value; this.sprite.parent && this.sprite.parent.sortChildren(); }
 
   public get visible(): boolean { return this.sprite.visible; }
   public set visible(value: boolean) { this.sprite.visible = value; }

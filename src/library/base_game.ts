@@ -92,6 +92,9 @@ export class BaseGame<Resources> {
     });
 
     ReactMountGame(this);
+
+    this.stage.sprite.sortableChildren = true;
+    this.fixedCameraStage.sprite.sortableChildren = true;
   }
 
   /**

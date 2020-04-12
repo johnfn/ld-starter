@@ -24,11 +24,13 @@ export class GenericItem extends VanishingEntity {
     });
 
     this.addChild(this.graphic);
-    this.graphic.y = -50;
+    this.graphic.y = -250;
     this.graphic.alpha = 0.5;
+    this.graphic.zIndex = 499;
 
     this.floatingText = new TextEntity(description);
-    this.floatingText.y = -50;
+    this.floatingText.y = -250;
+    this.floatingText.zIndex = 500;
 
     this.addChild(this.floatingText);
   }

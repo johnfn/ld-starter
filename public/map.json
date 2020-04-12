@@ -34,6 +34,11 @@
                  "name":"",
                  "properties":[
                         {
+                         "name":"description",
+                         "type":"string",
+                         "value":"It\u2019s a fridge\/freezer combo. The fridge part is full of lemon custard. The freezer part is also full of lemon custard."
+                        }, 
+                        {
                          "name":"type",
                          "type":"string",
                          "value":"fridge"
@@ -51,6 +56,11 @@
                  "id":9,
                  "name":"",
                  "properties":[
+                        {
+                         "name":"description",
+                         "type":"string",
+                         "value":"It\u2019s a\u2026 toilet? It doesn\u2019t seem to be connected to anything, and yet somehow, it\u2019s still making that faint gurgling toilet noise."
+                        }, 
                         {
                          "name":"type",
                          "type":"string",

@@ -31,7 +31,7 @@ export class GameMap extends Entity {
           name     : "fridge",
           getInstanceType: (tex: Texture, tileProperties: { [key: string]: unknown }, layerName: string) => {
             return new GenericItem(tex,
-              "It’s a bookshelf. Surprisingly, it’s filled with books."
+              tileProperties["description"] as string
             );
           }
         },
@@ -40,7 +40,9 @@ export class GameMap extends Entity {
           type     : "single",
           name     : "toilet",
           getInstanceType: (tex: Texture, tileProperties: { [key: string]: unknown }, layerName: string) => {
-            return new GenericItem(tex, "It’s a… toilet? It doesn’t seem to be connected to anything, and yet somehow, it’s still making that faint gurgling toilet noise.");
+            return new GenericItem(tex, 
+              tileProperties["description"] as string
+            );
           }
         },
     ],
