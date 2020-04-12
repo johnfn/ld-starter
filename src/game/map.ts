@@ -45,6 +45,79 @@ export class GameMap extends Entity {
             );
           }
         },
+
+        {
+          type     : "single",
+          name     : "tv",
+          getInstanceType: (tex: Texture, tileProperties: { [key: string]: unknown }, layerName: string) => {
+            return new GenericItem(tex, 
+              tileProperties["description"] as string
+            );
+          }
+        },
+        {
+          type     : "single",
+          name     : "bookshelf",
+          getInstanceType: (tex: Texture, tileProperties: { [key: string]: unknown }, layerName: string) => {
+            return new GenericItem(tex, 
+              tileProperties["description"] as string
+            );
+          }
+        },
+        {
+          type     : "single",
+          name     : "photo frame",
+          getInstanceType: (tex: Texture, tileProperties: { [key: string]: unknown }, layerName: string) => {
+            return new GenericItem(tex, 
+              tileProperties["description"] as string
+            );
+          }
+        },
+        {
+          type     : "single",
+          name     : "sofa",
+          getInstanceType: (tex: Texture, tileProperties: { [key: string]: unknown }, layerName: string) => {
+            return new GenericItem(tex, 
+              tileProperties["description"] as string
+            );
+          }
+        },
+        {
+          type     : "single",
+          name     : "table",
+          getInstanceType: (tex: Texture, tileProperties: { [key: string]: unknown }, layerName: string) => {
+            return new GenericItem(tex, 
+              tileProperties["description"] as string
+            );
+          }
+        },
+        {
+          type     : "single",
+          name     : "bed",
+          getInstanceType: (tex: Texture, tileProperties: { [key: string]: unknown }, layerName: string) => {
+            return new GenericItem(tex, 
+              tileProperties["description"] as string
+            );
+          }
+        },
+        {
+          type     : "single",
+          name     : "lamp",
+          getInstanceType: (tex: Texture, tileProperties: { [key: string]: unknown }, layerName: string) => {
+            return new GenericItem(tex, 
+              tileProperties["description"] as string
+            );
+          }
+        },
+        {
+          type     : "single",
+          name     : "laptop",
+          getInstanceType: (tex: Texture, tileProperties: { [key: string]: unknown }, layerName: string) => {
+            return new GenericItem(tex, 
+              tileProperties["description"] as string
+            );
+          }
+        },
     ],
       game         : Game.Instance,
     });
