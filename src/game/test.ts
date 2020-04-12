@@ -12,6 +12,7 @@ export class Test extends Entity {
 
     const bookshelf = new Entity({
       texture: Game.Instance.assets.getResource("tileset.png").texture,
+      name: "BookshelfTestGraphics",
     });
 
     bookshelf.x      = 0;

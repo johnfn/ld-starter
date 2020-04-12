@@ -28,6 +28,7 @@ export class DialogBox extends Entity {
 
     const graphic = new Entity({ 
       texture: Game.Instance.assets.getResource("dialog_box.png").texture,
+      name: "Dialog Graphic",
     });
 
     this.addChild(graphic);

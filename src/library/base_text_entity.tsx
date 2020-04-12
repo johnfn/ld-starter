@@ -32,6 +32,7 @@ export class BaseTextEntity extends Entity {
     super({
       texture   : Texture.WHITE,
       collidable: false,
+      name      : "BaseTextEntity"
     });
 
     this.sprite.width  = width;

@@ -18,6 +18,7 @@ export class MovingEntity extends Entity {
   }) {
     super({
       ...props,
+      name: "MovingEntity",
     });
 
     this._collideable = props.collidable;

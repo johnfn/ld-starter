@@ -141,10 +141,10 @@ export class GameMap extends Entity {
 
   loadMap() {
     const layers = this.artMap.loadLayersInRect(new Rect({
-      x     : 0,
-      y     : 0,
-      width : 5000,
-      height: 5000,
+      x     : -(256 * 10),
+      y     : -(256 * 10),
+      width :  6000,
+      height:  6000,
     }));
 
     for (const layer of layers) {

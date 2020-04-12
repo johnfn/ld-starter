@@ -75,6 +75,13 @@ export class TiledTilemap {
       const tileWidth  = this._tileWidth;
       const tileHeight = this._tileHeight;
 
+      const iStart = region.x / tileWidth;
+      const jStart = region.y / tileHeight;
+
+      if (iStart !== Math.floor(iStart) || jStart !== Math.floor(jStart)) {
+        throw new Error("x and y of passed in region aren't divisible by tileWidth/height")
+      }
+
       for (let i = region.x / tileWidth; i < region.right / tileWidth; i++) {
         for (let j = region.y / tileHeight; j < region.bottom / tileHeight; j++) {
           const tile = layer.grid.get(i, j);

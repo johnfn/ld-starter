@@ -10,6 +10,7 @@ export abstract class InteractableEntity extends Entity {
     super({
       ...props,
       interactable: true,
+      name: "Interactable Entity"
     });
 
     this.startUpdating();

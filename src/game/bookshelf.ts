@@ -21,6 +21,7 @@ export class GenericItem extends VanishingEntity {
 
     this.graphic = new Entity({ 
       texture: Game.Instance.assets.getResource("dialog_box.png").texture,
+      name: "Graphic",
     });
 
     this.addChild(this.graphic);

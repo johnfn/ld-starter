@@ -39,13 +39,13 @@ export class Entity {
 
   constructor(props: {
     collidable  ?: boolean;
-    name        ?: string;
+    name         : string;
     texture     ?: Texture;
     transparent ?: boolean;
     interactable?: boolean;
   }) {
-    this.sprite        = new AugmentedSprite(props.texture);
-    this.name          = props.name ?? "Unnamed entity"
+    this.sprite        = new AugmentedSprite(props.texture);;
+    this.name          = props.name;
     Entity.SpriteToEntity[this.sprite.id] = this;
 
     this._collideable  = props.collidable ?? false;
