@@ -5,7 +5,7 @@ import { GameMap } from "./map";
 import { Test } from "./test";
 import { MyName } from "./whos_there";
 import { DialogBox } from "./dialog";
-import { Bookshelf } from "./bookshelf";
+import { GenericItem } from "./bookshelf";
 
 export class Game extends BaseGame<typeof ResourcesToLoad> {
   public static Instance: Game;
@@ -27,10 +27,6 @@ export class Game extends BaseGame<typeof ResourcesToLoad> {
     this.stage.addChild(new Test());
 
     this.fixedCameraStage.addChild(new DialogBox());
-    let bookshelf = new Bookshelf(Game.Instance.assets.getResource("bookshelf.png").texture)
-    bookshelf.width = 20;
-    bookshelf.height = 50;
-    this.stage.addChild(bookshelf);
 
     if (MyName === "Grant") {
       // DialogBox.StartDialog(DialogTexts.IntroText);

@@ -44,6 +44,24 @@
                  "width":256,
                  "x":768,
                  "y":512
+                }, 
+                {
+                 "gid":28,
+                 "height":256,
+                 "id":9,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"type",
+                         "type":"string",
+                         "value":"toilet"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":256,
+                 "x":512,
+                 "y":768
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -52,7 +70,7 @@
          "y":0
         }],
  "nextlayerid":3,
- "nextobjectid":9,
+ "nextobjectid":10,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.2.3",

@@ -6,6 +6,8 @@ import { DialogBox } from "./dialog";
 import { Vector2 } from "../library/vector2";
 
 export class Player extends Entity {
+  public static Instance: Player;
+
   speed = 7;
 
   constructor() {
@@ -14,6 +16,8 @@ export class Player extends Entity {
       texture: Game.Instance.assets.getResource("miranda.png").texture,
     });
 
+
+    Player.Instance = this;
     this.scale = new Vector2({ x: 0.25, y: 0.25 });
   }
 

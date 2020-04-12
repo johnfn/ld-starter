@@ -3,7 +3,7 @@ import { TiledTilemap } from "../library/tilemap/tilemap";
 import { Rect } from "../library/rect";
 import { Entity } from "../library/entity";
 import { TilemapRegion } from "../library/tilemap/tilemap_data";
-import { Bookshelf } from "./bookshelf";
+import { GenericItem } from "./bookshelf";
 import { Texture } from "pixi.js";
 
 export class GameMap extends Entity {
@@ -25,16 +25,25 @@ export class GameMap extends Entity {
       pathToTilemap: "",
       json         : Game.Instance.assets.getResource("map.json").data,
       renderer     : Game.Instance.renderer,
-      customObjects: [{
-        type     : "single",
-        name     : "fridge",
-        getInstanceType: (tex: Texture, tileProperties: { [key: string]: unknown }, layerName: string) => {
-          const result = new Bookshelf(tex);
+      customObjects: [
+        {
+          type     : "single",
+          name     : "fridge",
+          getInstanceType: (tex: Texture, tileProperties: { [key: string]: unknown }, layerName: string) => {
+            return new GenericItem(tex,
+              "It’s a bookshelf. Surprisingly, it’s filled with books."
+            );
+          }
+        },
 
-          result.x = 50;
-          return result;
-        }
-      }],
+        {
+          type     : "single",
+          name     : "toilet",
+          getInstanceType: (tex: Texture, tileProperties: { [key: string]: unknown }, layerName: string) => {
+            return new GenericItem(tex, "It’s a… toilet? It doesn’t seem to be connected to anything, and yet somehow, it’s still making that faint gurgling toilet noise.");
+          }
+        },
+    ],
       game         : Game.Instance,
     });
 
