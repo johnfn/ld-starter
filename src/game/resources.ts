@@ -13,6 +13,7 @@ export const ResourcesToLoad = {
   "music.json" : ResourceType.TileMap,
   "tileset.png": ResourceType.Image,
   "dialog.png" : ResourceType.Image,
+  "bookshelf.png": ResourceType.Image,
 };
 
 export type ResourceName = keyof typeof ResourcesToLoad;
