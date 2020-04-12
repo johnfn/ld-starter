@@ -5,7 +5,6 @@ import { GameMap } from "./map";
 import { Test } from "./test";
 import { MyName } from "./whos_there";
 import { DialogBox } from "./dialog";
-import { GenericItem } from "./bookshelf";
 
 export class Game extends BaseGame<typeof ResourcesToLoad> {
   public static Instance: Game;

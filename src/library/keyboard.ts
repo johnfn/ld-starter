@@ -7,7 +7,8 @@ class KeyInfo {
     .concat("Up")
     .concat("Down")
     .concat("Left")
-    .concat("Right");
+    .concat("Right")
+    .concat("Shift");
 
   Q        = false;
   W        = false;
@@ -40,6 +41,7 @@ class KeyInfo {
   Down     = false;
   Left     = false;
   Right    = false;
+  Shift    = false;
   Spacebar = false;
 }
 
@@ -51,12 +53,19 @@ interface QueuedKeyboardEvent {
 export class KeyboardState {
   public down     = new KeyInfo();
   public justDown = new KeyInfo();
+  public justUp   = new KeyInfo();
 
   private _queuedEvents: QueuedKeyboardEvent[] = [];
 
   constructor() {
     document.addEventListener("keydown", e => this.keyDown(e), false);
-    document.addEventListener("keyup",   e => this.keyUp(e),   false);
+    document.addEventListener("keyup"  , e => this.keyUp(e),   false);
+    window.addEventListener("blur"   , () => { 
+      this.down          = new KeyInfo(); 
+      this.justDown      = new KeyInfo(); 
+      this.justUp        = new KeyInfo(); 
+      this._queuedEvents = [];
+    }, false);
   }
 
   private keyUp(e: KeyboardEvent) {
@@ -75,6 +84,7 @@ export class KeyboardState {
     let str: string;
 
     switch (number) {
+      case 16: str = "Shift"; break;
       case 37: str = "Left" ; break;
       case 38: str = "Up"   ; break;
       case 39: str = "Right"; break;
@@ -98,6 +108,7 @@ export class KeyboardState {
   update(): void {
     for (const key of KeyInfo.Keys) {
       this.justDown[key] = false;
+      this.justUp[key] = false;
     }
 
     for (const queuedEvent of this._queuedEvents) {
@@ -110,6 +121,10 @@ export class KeyboardState {
 
         this.down[key] = true;
       } else {
+        if (this.down[key]) {
+          this.justUp[key] = true;
+        }
+        
         this.down[key] = false;
       }
     }

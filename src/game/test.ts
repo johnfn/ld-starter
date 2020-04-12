@@ -1,7 +1,6 @@
 import { Entity } from "../library/entity";
 import { Game } from "./game";
 import { GameState } from "../library/state";
-import { TextEntity } from "../library/text_entity";
 
 export class Test extends Entity {
 
