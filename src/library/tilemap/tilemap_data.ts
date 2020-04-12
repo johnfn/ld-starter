@@ -3,13 +3,18 @@ import { Grid } from "../grid";
 import { Rect } from "../rect";
 import { RectGroup } from "../rect_group";
 
+export type TilemapRegion = {
+  rect      : Rect;
+  properties: { [key: string]: string };
+}
+
 export type TilemapLayer = 
-  {
+  | {
     type: "tiles";
     grid: Grid<Tile>;
   } | {
     type : "rects";
-    rects: Rect[];
+    rects: TilemapRegion[];
   }
 
 export class TilemapData {
@@ -171,16 +176,19 @@ export class TilemapData {
 
   loadRectLayer(layer: TiledObjectLayerJSON): TilemapLayer {
     const objects = layer.objects;
-    const rects: Rect[] = [];
+    const rects: TilemapRegion[] = [];
 
     for (const obj of objects) {
       if (!obj.gid) {
-        rects.push(new Rect({
-          x: obj.x,
-          y: obj.y,
-          width: obj.width,
-          height: obj.height,
-        }));
+        rects.push({
+          rect: new Rect({
+            x: obj.x,
+            y: obj.y,
+            width: obj.width,
+            height: obj.height,
+          }),
+          properties: obj.properties || {},
+        });
       }
     }
 

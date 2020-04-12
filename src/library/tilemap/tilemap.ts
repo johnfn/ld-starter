@@ -4,7 +4,7 @@ import { TiledJSON } from './tilemap_types';
 import { TextureCache } from '../texture_cache';
 import { Entity } from '../entity';
 import { TiledTilemapObjects, TilemapCustomObjects, ObjectInfo } from './tilemap_objects'
-import { TilemapData } from './tilemap_data';
+import { TilemapData, TilemapRegion } from './tilemap_data';
 import { BaseGame } from '../base_game';
 
 export type MapLayer = {
@@ -49,7 +49,7 @@ export class TiledTilemap {
   /**
    * Load all the regions on a specified layer.
    */
-  loadRegionLayer(layerName: string): Rect[] {
+  loadRegionLayer(layerName: string): TilemapRegion[] {
     const layer = this._data.getLayer(layerName);
 
     if (layer.type === "rects") {

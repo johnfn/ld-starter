@@ -10,6 +10,12 @@
                  "height":1024,
                  "id":2,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"file",
+                         "type":"string",
+                         "value":"loop1.mp3"
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
@@ -21,23 +27,18 @@
                  "height":960,
                  "id":3,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"file",
+                         "type":"string",
+                         "value":"loop2.mp3"
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":1664,
                  "x":0,
                  "y":1024
-                }, 
-                {
-                 "height":0,
-                 "id":4,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":0,
-                 "x":-295.109612141653,
-                 "y":236.087689713322
                 }],
          "opacity":1,
          "type":"objectgroup",

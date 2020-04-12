@@ -6,6 +6,7 @@ import { Grid } from "../grid";
 import { Texture } from "pixi.js";
 import { TiledTilemap, MapLayer } from "./tilemap";
 import { BaseGame } from "../base_game";
+import { TilemapRegion } from "./tilemap_data";
 
 type TilemapCustomObjectSingle = {
   type            : "single";
@@ -23,7 +24,7 @@ type TilemapCustomObjectGroup = {
 type TilemapCustomObjectRect = {
   type     : "rect";
   layerName: string;
-  process  : (rect: Rect) => void;
+  process  : (rect: TilemapRegion) => void;
 };
 
 export type TilemapCustomObjects = 
@@ -118,14 +119,15 @@ export class TiledTilemapObjects {
 
         for (const customObject of this._customObjects) {
           if (customObject.type === "rect" && customObject.layerName === layer.name) {
-            customObject.process(
-              new Rect({
-                x: obj.x,
-                y: obj.y,
-                width: obj.width,
-                height: obj.height,
-              })
-            );
+            customObject.process({
+              rect: new Rect({
+                  x: obj.x,
+                  y: obj.y,
+                  width: obj.width,
+                  height: obj.height,
+                }),
+              properties: obj.properties || {},
+            });
 
             continue processNextObject;
           }
