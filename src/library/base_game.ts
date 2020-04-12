@@ -6,6 +6,7 @@ import { GameState } from "./state";
 import { TypesafeLoader } from "./typesafe_loader";
 import { CreateGame as ReactMountGame } from "./react/react_root";
 import { Camera } from "./camera";
+import { DebugFlagsType } from "./react/debug_flag_buttons";
 
 export let GameReference: BaseGame<any>;
 
@@ -13,6 +14,7 @@ export type GameArgs<T> = {
   scale       : number;
   canvasWidth : number;
   canvasHeight: number;
+  debugFlags  : DebugFlagsType;
   resources   : T;
 }
 
@@ -91,7 +93,7 @@ export class BaseGame<Resources> {
       canvasHeight: props.canvasHeight,
     });
 
-    ReactMountGame(this);
+    ReactMountGame(this, props.debugFlags);
 
     this.stage.sprite.sortableChildren = true;
     this.fixedCameraStage.sprite.sortableChildren = true;

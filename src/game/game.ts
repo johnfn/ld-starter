@@ -6,6 +6,7 @@ import { Test } from "./test";
 import { MyName } from "./whos_there";
 import { DialogBox } from "./dialog";
 import { DialogTexts } from "./dialog_text";
+import { DebugFlags } from "./debug";
 
 export class Game extends BaseGame<typeof ResourcesToLoad> {
   public static Instance: Game;
@@ -16,6 +17,7 @@ export class Game extends BaseGame<typeof ResourcesToLoad> {
       canvasHeight: 600,
       scale       : 0.5,
       resources   : ResourcesToLoad,
+      debugFlags  : DebugFlags,
     });
 
     Game.Instance = this;
@@ -28,11 +30,12 @@ export class Game extends BaseGame<typeof ResourcesToLoad> {
 
     this.fixedCameraStage.addChild(new DialogBox());
 
-    const audio = new Audio('music/mystery loop 1.mp3');
+    if (DebugFlags["Play Music"]) {
+      const audio = new Audio('music/mystery loop 1.mp3');
+      audio.play();
+    }
 
-    audio.play();
-
-    if (MyName === "Grant") {
+    if (DebugFlags["Show Initial Dialog"].on) {
       DialogBox.StartDialog(DialogTexts.IntroText);
     }
   };

@@ -3,9 +3,12 @@ import ReactDOM from 'react-dom';
 
 import { BaseGame } from '../base_game';
 import { Hierarchy } from './hierarchy';
+import { DebugFlagButtons, DebugFlagsType } from './debug_flag_buttons';
+import { IsDevelopment } from '../environment';
 
 type ReactWrapperProps = {
-  game: BaseGame<unknown>;
+  game      : BaseGame<unknown>;
+  debugFlags: DebugFlagsType;
 };
 
 type ReactWrapperState = {
@@ -23,14 +26,12 @@ export class GameReactWrapper extends React.Component<ReactWrapperProps, ReactWr
       debug: window.location.href.includes("debug=true"),
     };
 
-    setInterval(() => this.monitorHierarchyUpdates());
+    setInterval(() => this.monitorHierarchyUpdates(), 50);
   }
 
   componentDidMount() {
     this.mounted = true;
     GameReactWrapper.Instance = this;
-
-    setTimeout(this.monitorHierarchyUpdates, 1000);
   }
 
   componentWillUnmount() {
@@ -55,20 +56,20 @@ export class GameReactWrapper extends React.Component<ReactWrapperProps, ReactWr
         <div style={{
           overflow: "auto",
           height: "90vh",
+          fontFamily: 'arial',
+          fontSize: '14px',
         }}>
-          { this.props.game && this.props.game.stage && this.state.debug && 
-            <div>
-              <div style={{ fontWeight: 600, fontFamily: 'arial', paddingBottom: '8px', paddingLeft: '8px' }}>Debug Hierarchy</div>
+          { this.props.game && this.props.game.stage && (IsDevelopment || this.state.debug) &&
+            <div style={{ paddingLeft: '8px'}}>
+              <div style={{ fontFamily: "arial", marginBottom: '8px', fontSize: '14px', backgroundColor: '#eee', padding: '8px' }}>
+                Note: This debugging panel is only shown in development.
+              </div>
+              <div style={{ fontWeight: 600, fontFamily: 'arial', paddingBottom: '8px', fontSize: '18px' }}>Debug Options</div>
+              <DebugFlagButtons flags={ this.props.debugFlags } />
+              <div style={{ fontWeight: 600, fontFamily: 'arial', paddingTop: '8px', paddingBottom: '8px', fontSize: '18px' }}>Debug Hierarchy</div>
               <Hierarchy root={this.props.game.stage} />
               <Hierarchy root={this.props.game.fixedCameraStage} />
             </div> 
-          }
-
-          {
-            !this.state.debug && window.location.href.includes("localhost") &&
-            <div>
-              Go <a href={ window.location.href + "?debug=true"}>here</a> to see the debug view.
-            </div>
           }
         </div>
       </div>
@@ -76,11 +77,12 @@ export class GameReactWrapper extends React.Component<ReactWrapperProps, ReactWr
   }
 }
 
-export const CreateGame = (game: BaseGame<any>) => {
+export const CreateGame = (game: BaseGame<any>, debugFlags: DebugFlagsType) => {
   ReactDOM.render(
     <React.StrictMode>
       <GameReactWrapper
         game={ game }
+        debugFlags={ debugFlags }
       />
     </React.StrictMode>,
     document.getElementById('root')
