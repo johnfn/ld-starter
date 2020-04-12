@@ -92,7 +92,7 @@ export class Debug {
 
     line.drawOnto(graphics, color);
 
-    GameReference.stage.sprite.addChild(graphics);
+    GameReference.fixedCameraStage.sprite.addChild(graphics);
 
     if (persistent) {
       this.DebugGraphicStack.push(graphics);
@@ -136,19 +136,11 @@ export class Debug {
    */
   public static DrawBounds(entity: Entity | Sprite | Graphics | RectGroup | Container, color = 0xff0000, persistent = false): Graphics[] {
     if (entity instanceof Entity) {
-      const group = entity.collisionBounds();
-      const results: Graphics[] = [];
+      const group = entity.boundsAbsolute();
 
-      for (const rect of group.getRects()) {
-        const lines = Debug.DrawRect(rect, color);
+      console.log(group);
 
-        for (const line of lines) {
-          results.push(line);
-        }
-      }
-
-      return results;
-
+      return Debug.DrawRect(group, color);
     } else if (entity instanceof RectGroup) {
       const results: Graphics[] = [];
 

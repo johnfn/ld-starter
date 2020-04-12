@@ -29,34 +29,31 @@ export class Entity {
 
   id         = getUniqueID();
   entityType = EntityType.NormalEntity;
+
+  /**
+   * The PIXI Sprite that this Entity wraps.
+   */
   sprite     : AugmentedSprite;
-  transparent: boolean;
 
   static SpriteToEntity: { [key: number]: Entity } = {};
 
   protected _collideable: boolean;
-  protected _interactable: boolean;
 
   constructor(props: {
     collidable  ?: boolean;
     name         : string;
     texture     ?: Texture;
-    transparent ?: boolean;
-    interactable?: boolean;
   }) {
     this.sprite        = new AugmentedSprite(props.texture);;
     this.name          = props.name;
     Entity.SpriteToEntity[this.sprite.id] = this;
 
     this._collideable  = props.collidable ?? false;
-    this._interactable = props.interactable ?? false;
 
     this.startUpdating();
 
     this.sprite.sortableChildren = true;
     this.sprite.anchor.set(0);
-
-    this.transparent = props.transparent || false;
   }
 
   addChild(child: Entity) {
@@ -88,12 +85,33 @@ export class Entity {
   public collisionBounds(): RectGroup {
     return new RectGroup([
       new Rect({
-        x: this.x,
-        y: this.y,
-        width: this.width,
+        x     : this.x,
+        y     : this.y,
+        width : this.width,
         height: this.height
       })
     ]);
+  }
+
+  public boundsAbsolute(): Rect {
+    debugger;
+
+    const position = this.positionAbsolute();
+
+    return new Rect({
+      x     : position.x,
+      y     : position.y,
+      width : this.width,
+      height: this.height
+    })
+  }
+
+  /** 
+   * Returns the position of this Entity relative to the stage (rather than its
+   * parent, like position would).
+   */
+  public positionAbsolute(): Vector2 {
+    return this.position.add(this.parent?.positionAbsolute() ?? new Vector2());
   }
 
   public get center(): Vector2 {
@@ -129,11 +147,21 @@ export class Entity {
     return this._collideable;
   }
 
-  isInteractable(): boolean {
-    return this._interactable;
-  }
-
   // Sprite wrapper stuff
+
+  public get parent(): Entity | null { 
+    const parent = this.sprite.parent;
+
+    if (parent instanceof AugmentedSprite) {
+      const entityParent = Entity.SpriteToEntity[parent.id];
+
+      if (entityParent) {
+        return entityParent;
+      }
+    }
+
+    return null;
+  }
 
   public get x(): number { return this.sprite.x; }
   public set x(value: number) { this.sprite.x = value; }

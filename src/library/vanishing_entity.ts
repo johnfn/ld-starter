@@ -8,7 +8,6 @@ export abstract class VanishingEntity extends Entity {
   }) {
     super({
       ...props,
-      interactable: true,
     });
 
     const content = new Entity({

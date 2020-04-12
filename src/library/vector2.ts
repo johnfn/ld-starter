@@ -22,7 +22,7 @@ export class Vector2 {
     return x instanceof Vector2;
   }
 
-  constructor(props: { x: number, y: number }) {
+  constructor(props: { x: number, y: number } = { x: 0, y: 0 }) {
     this._x = props.x;
     this._y = props.y;
   }
