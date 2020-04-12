@@ -20,7 +20,7 @@ export class GameReactWrapper extends React.Component<ReactWrapperProps, ReactWr
     super(props);
 
     this.state = { 
-      debug: window.location.href.endsWith("?debug=true"),
+      debug: window.location.href.includes("debug=true"),
     };
 
     setInterval(() => this.monitorHierarchyUpdates());
