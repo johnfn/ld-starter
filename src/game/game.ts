@@ -3,8 +3,9 @@ import { ResourcesToLoad } from "./resources";
 import { Player } from "./player";
 import { GameMap } from "./map";
 import { Test } from "./test";
-import { DialogBox } from "./dialog";
 import { Bookshelf } from "./bookshelf";
+import { MyName } from "./whos_there";
+import { DialogBox } from "./dialog";
 
 export class Game extends BaseGame<typeof ResourcesToLoad> {
   public static Instance: Game;
@@ -24,7 +25,10 @@ export class Game extends BaseGame<typeof ResourcesToLoad> {
     this.stage.addChild(new Player());
     this.stage.addChild(new Test());
 
-    this.fixedCameraStage.addChild(new DialogBox());
+    if (MyName === "Grant") {
+      this.fixedCameraStage.addChild(new DialogBox());
+    }
+
     let bookshelf = new Bookshelf();
     bookshelf.width = 20;
     bookshelf.height = 20;
