@@ -25,8 +25,12 @@ export class Game extends BaseGame<typeof ResourcesToLoad> {
     this.stage.addChild(new Player());
     this.stage.addChild(new Test());
 
+    this.fixedCameraStage.addChild(new DialogBox());
+
     if (MyName === "Grant") {
-      this.fixedCameraStage.addChild(new DialogBox());
+      DialogBox.StartDialog([
+        { speaker: "Grant", text: "Sup" }
+      ]);
     }
 
     let bookshelf = new Bookshelf();
