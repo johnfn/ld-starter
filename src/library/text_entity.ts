@@ -90,7 +90,7 @@ export class TextEntity extends BaseTextEntity {
     const segments: TextSegment[] = [{
       text: "",
       style: {
-        color   : "black",
+        color   : "white",
         fontSize: 18
       },
     }];

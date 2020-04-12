@@ -1,40 +1,26 @@
 import { Entity } from "./entity";
 import { Texture } from "pixi.js";
-import { GameState } from "./state";
 
 export abstract class VanishingEntity extends Entity {
   constructor(props: {
-    name: string,
-    texture   ?: Texture;
-    collidable : boolean;
+    name     : string,
+    texture ?: Texture;
   }) {
     super({
       ...props,
       interactable: true,
     });
 
-    let sprite = this.sprite;
+    const content = new Entity({
+      name   : "Bookshelf",
+      texture: props.texture,
+    })
 
-    sprite.on('click', function() {
-        sprite.parent.removeChild(sprite);
+    content.sprite.interactive = true;
+    this.addChild(content);
+
+    content.sprite.on('click', () => {
+      this.sprite.parent.removeChild(this.sprite);
     });
-    this.startUpdating();
-  }
-
-  startUpdating() {
-    super.startUpdating();
-  }
-
-  stopUpdating() {
-    super.stopUpdating();
-  }
-
-  abstract interact(other: Entity, gameState: GameState): void;
-  abstract interactRange: number;
-  abstract interactText(state: GameState): string;
-  abstract canInteract: (state: GameState) => boolean;
-
-  hash(): string {
-    return `[VanishingEntity ${ this.id }]`;
   }
 }

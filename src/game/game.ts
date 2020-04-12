@@ -3,7 +3,6 @@ import { ResourcesToLoad } from "./resources";
 import { Player } from "./player";
 import { GameMap } from "./map";
 import { Test } from "./test";
-import { Bookshelf } from "./bookshelf";
 import { MyName } from "./whos_there";
 import { DialogBox } from "./dialog";
 
@@ -25,10 +24,10 @@ export class Game extends BaseGame<typeof ResourcesToLoad> {
     this.stage.addChild(new Player());
     this.stage.addChild(new Test());
 
+    this.fixedCameraStage.addChild(new DialogBox());
+
     if (MyName === "Grant") {
-      this.fixedCameraStage.addChild(new DialogBox());
+      // DialogBox.StartDialog(DialogTexts.IntroText);
     }
-    let bookshelf = new Bookshelf();
-    this.stage.addChild();
   };
 }
