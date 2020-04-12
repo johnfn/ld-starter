@@ -5,6 +5,7 @@ import { GameMap } from "./map";
 import { Test } from "./test";
 import { MyName } from "./whos_there";
 import { DialogBox } from "./dialog";
+import { DialogTexts } from "./dialog_text";
 
 export class Game extends BaseGame<typeof ResourcesToLoad> {
   public static Instance: Game;
@@ -12,7 +13,7 @@ export class Game extends BaseGame<typeof ResourcesToLoad> {
   constructor() {
     super({
       canvasWidth : 800,
-      canvasHeight: 800,
+      canvasHeight: 600,
       scale       : 0.5,
       resources   : ResourcesToLoad,
     });
@@ -32,7 +33,7 @@ export class Game extends BaseGame<typeof ResourcesToLoad> {
     audio.play();
 
     if (MyName === "Grant") {
-      // DialogBox.StartDialog(DialogTexts.IntroText);
+      DialogBox.StartDialog(DialogTexts.IntroText);
     }
   };
 }

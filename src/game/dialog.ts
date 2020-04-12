@@ -15,6 +15,7 @@ export class DialogBox extends Entity {
   private activeDialogText: DialogText = [];
   private dialogText: TextEntity;
   private speakerText: TextEntity;
+  private profilePic: Entity;
 
   constructor() {
     super({
@@ -31,24 +32,37 @@ export class DialogBox extends Entity {
       name: "Dialog Graphic",
     });
 
+    graphic.width = 800;
+    graphic.height = 500;
     this.addChild(graphic);
 
     DialogBox.Instance = this;
 
-    this.speakerText = new TextEntity("This is a test of a text");
+    this.speakerText = new TextEntity({ text: "This is a test of a text", width: 800, height: 400 });
     this.speakerText.y = 0;
+    this.speakerText.x = 50;
 
     this.addChild(this.speakerText);
 
-    this.dialogText = new TextEntity("This is a test of a text");
+    this.dialogText = new TextEntity({ text: "This is a test of a text", width: 400, height: 400 });
     this.dialogText.y = 50;
+    this.dialogText.x = 350;
 
     this.addChild(this.dialogText);
+
+    this.profilePic = new Entity({ name: "profile pic" });
+    this.profilePic.x      = 0;
+    this.profilePic.y      = 50;
+    this.profilePic.width  = 300;
+    this.profilePic.height = 300;
+    this.addChild(this.profilePic);
   }
 
   startDialog(dialog: DialogText) {
     this.visible = true;
     this.activeDialogText = dialog;
+
+    this.displayDialogContents();
   }
 
   public static StartDialog(dialog: DialogText): void {
@@ -59,6 +73,21 @@ export class DialogBox extends Entity {
     this.visible = false;
   }
 
+  displayDialogContents() {
+    const speaker = this.activeDialogText[0].speaker;
+
+    this.dialogText.setText(this.activeDialogText[0].text);
+    this.speakerText.setText(speaker);
+
+    if (speaker === "Chief Oberon Nabisco") {
+      this.profilePic.texture = Game.Instance.assets.getResource("oberon.png").texture;
+    } else if (speaker === "Detective Pringle") {
+      this.profilePic.texture = Game.Instance.assets.getResource("miranda.png").texture;
+    } else if (speaker === "Tasukete") {
+      this.profilePic.texture = Game.Instance.assets.getResource("tasukete.png").texture;
+    }
+  }
+
   update(state: GameState): void {
     if (this.activeDialogText.length === 0) {
       this.stopDialog();
@@ -66,8 +95,7 @@ export class DialogBox extends Entity {
       return;
     }
 
-    this.dialogText.setText(this.activeDialogText[0].text);
-    this.speakerText.setText(this.activeDialogText[0].speaker);
+    this.displayDialogContents();
 
     if (state.keys.justDown.Spacebar) {
       this.activeDialogText.shift();

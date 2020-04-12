@@ -8,13 +8,16 @@ export enum ResourceType {
 }
 
 export const ResourcesToLoad = {
-  "owo.png"    : ResourceType.Image,
-  "miranda.png": ResourceType.Image,
-  "map.json"   : ResourceType.TileMap,
-  "music.json" : ResourceType.TileMap,
-  "tileset.png": ResourceType.Image,
-  "dialog_box.png" : ResourceType.Image,
-  "bookshelf.png": ResourceType.Image,
+  "owo.png"       : ResourceType.Image,
+  "miranda.png"   : ResourceType.Image,
+  "map.json"      : ResourceType.TileMap,
+  "music.json"    : ResourceType.TileMap,
+  "tileset.png"   : ResourceType.Image,
+  "dialog_box.png": ResourceType.Image,
+  "bookshelf.png" : ResourceType.Image,
+  "tasukete.png"  : ResourceType.Image,
+  "miranda_portrait.png" : ResourceType.Image,
+  "oberon.png"    : ResourceType.Image,
 };
 
 export type ResourceName = keyof typeof ResourcesToLoad;

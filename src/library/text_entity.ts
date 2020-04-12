@@ -1,9 +1,11 @@
 import { BaseTextEntity } from "./base_text_entity";
 
+export type TextAlignType = "left" | "right" | "center";
+
 export type TextEntityStyle = {
   color   : string;
   fontSize: number;
-  align  ?: "left" | "right" | "center";
+  align  ?: TextAlignType;
 }
 
 export type TextStyles = {
@@ -39,7 +41,8 @@ export const AdvanceState = (currentState: TextSegmentState): TextSegmentState =
  * "%1%This is some red text% normal text %2%blue text!%".
  */
 export class TextEntity extends BaseTextEntity {
-  styles: TextStyles;
+  customStyles: TextStyles;
+  defaultStyle: TextEntityStyle;
 
   public static StandardStyles: TextStyles = {
     1: { color: "white", fontSize: 18, align: "left" },
@@ -51,10 +54,19 @@ export class TextEntity extends BaseTextEntity {
    * 
    * "%1%This is some red text% normal text %2%blue text!%".
    */
-  constructor(text: string, styles: TextStyles = TextEntity.StandardStyles, width = 500, height = 300) {
+  constructor({ 
+    text, 
+    styles   = TextEntity.StandardStyles, 
+    width    = 500, 
+    height   = 300,
+    color    = "white",
+    fontSize = 18,
+    align    = "left",
+  }: { text: string; styles?: TextStyles; width?: number; height?: number; color?: string; fontSize?: number; align ?: TextAlignType }) {
     super("" , width, height);
 
-    this.styles = styles;
+    this.defaultStyle = { color, fontSize, align };
+    this.customStyles = styles;
     this.setText(text);
   }
 
@@ -106,7 +118,7 @@ export class TextEntity extends BaseTextEntity {
         } else if (state === TextSegmentState.IdText) {
           segments.push({
             text: "",
-            style: this.styles[id],
+            style: this.customStyles[id],
           });
         } else if (state === TextSegmentState.StyledText) {
           segments.push({

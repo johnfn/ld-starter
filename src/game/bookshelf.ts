@@ -29,7 +29,7 @@ export class GenericItem extends VanishingEntity {
     this.graphic.alpha = 0.5;
     this.graphic.zIndex = 499;
 
-    this.floatingText = new TextEntity(description);
+    this.floatingText = new TextEntity({ text: description });
     this.floatingText.y = -250;
     this.floatingText.zIndex = 500;
 
