@@ -34,8 +34,12 @@ export class Game extends BaseGame<typeof ResourcesToLoad> {
     }
 
     let bookshelf = new Bookshelf();
-    bookshelf.width = 20;
-    bookshelf.height = 20;
+    bookshelf.width = 50;
+    bookshelf.height = 90;
+    bookshelf.sprite.interactive = true;
+    bookshelf.sprite.on('click', function() {
+      bookshelf.sprite.parent.removeChild(bookshelf.sprite);
+    });
     this.stage.addChild(bookshelf);
   };
 }
