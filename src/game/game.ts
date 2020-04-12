@@ -28,6 +28,10 @@ export class Game extends BaseGame<typeof ResourcesToLoad> {
 
     this.fixedCameraStage.addChild(new DialogBox());
 
+    const audio = new Audio('music/mystery loop 1.mp3');
+
+    audio.play();
+
     if (MyName === "Grant") {
       // DialogBox.StartDialog(DialogTexts.IntroText);
     }
