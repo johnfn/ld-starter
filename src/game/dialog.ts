@@ -2,6 +2,7 @@ import { Entity } from "../library/entity";
 import { GameState } from "../library/state";
 import { TextEntity } from "../library/text_entity";
 import { Game } from "./game";
+import { CoroutineResult, GameCoroutine } from "../library/coroutine_manager";
 
 export type DialogText = {
   speaker: string;
@@ -58,19 +59,29 @@ export class DialogBox extends Entity {
     this.addChild(this.profilePic);
   }
 
-  startDialog(dialog: DialogText) {
+  *startDialog(dialog: DialogText): GameCoroutine {
     this.visible = true;
     this.activeDialogText = dialog;
 
     this.displayDialogContents();
-  }
 
-  public static StartDialog(dialog: DialogText): void {
-    DialogBox.Instance.startDialog(dialog);
-  }
+    let state: GameState;
 
-  stopDialog() {
+    while (this.activeDialogText.length > 0) {
+      this.displayDialogContents();
+
+      state = yield "next";
+
+      if (state.keys.justDown.Spacebar) {
+        this.activeDialogText.shift();
+      }
+    }
+
     this.visible = false;
+  }
+
+  public static *StartDialog(dialog: DialogText): GameCoroutine {
+    yield* DialogBox.Instance.startDialog(dialog.slice(0));
   }
 
   displayDialogContents() {
@@ -88,17 +99,5 @@ export class DialogBox extends Entity {
     }
   }
 
-  update(state: GameState): void {
-    if (this.activeDialogText.length === 0) {
-      this.stopDialog();
-
-      return;
-    }
-
-    this.displayDialogContents();
-
-    if (state.keys.justDown.Spacebar) {
-      this.activeDialogText.shift();
-    }
-  }
+  update(state: GameState): void { }
 }

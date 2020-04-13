@@ -45,12 +45,6 @@ export class CollisionHandler {
       }
     }
 
-    // const mapColliders = state.map.collisionBounds(state);
-    
-    // for (const mapCollider of mapColliders.getRects()) {
-    //   grid.add(mapCollider, state.map);
-    // }
-
     return grid;
   };
 

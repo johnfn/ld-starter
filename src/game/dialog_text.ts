@@ -18,4 +18,12 @@ export class DialogTexts {
     { speaker: "Detective Pringle", text : "Cool. If we wanna investigate something, we should click on it.", },
     { speaker: "Tasukete", text : "What are you talking about???~ XD ", },
   ];
+
+  public static FirstTouchTextBefore: DialogText = [
+    { speaker: "Detective Pringle", text : "You try to investigate it. As you reach out your hand to touch it… Huh?", },
+  ];
+
+  public static FirstTouchTextAfter: DialogText = [
+    { speaker: "Detective Pringle", text : "What? It… disappeared? How did that happen?", },
+  ];
 }

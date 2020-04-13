@@ -38,7 +38,9 @@ export class Game extends BaseGame<typeof ResourcesToLoad> {
     }
 
     if (DebugFlags["Show Initial Dialog"].on) {
-      DialogBox.StartDialog(DialogTexts.IntroText);
+      this.coroutineManager.startCoroutine(
+        DialogBox.StartDialog(DialogTexts.IntroText)
+      );
     }
   };
 }

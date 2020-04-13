@@ -5,6 +5,7 @@ import { getUniqueID } from "./util";
 import { RectGroup } from "./geometry/rect_group";
 import { GameState } from "./state";
 import { GameReference } from "./base_game";
+import { CoroutineResult, CoroutineId, GameCoroutine } from "./coroutine_manager";
 
 export enum EntityType {
   NormalEntity,
@@ -63,6 +64,14 @@ export class Entity {
 
   removeChild(child: Entity) {
     this.sprite.removeChild(child.sprite);
+  }
+
+  startCoroutine(coroutine: GameCoroutine): CoroutineId {
+    return GameReference.coroutineManager.startCoroutine(coroutine);
+  }
+
+  stopCoroutine(id: CoroutineId): void {
+    GameReference.coroutineManager.stopCoroutine(id);
   }
 
   startUpdating() {

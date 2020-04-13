@@ -9,6 +9,7 @@ import { Camera } from "./camera";
 import { DebugFlagsType } from "./react/debug_flag_buttons";
 import { CollisionHandler } from "./collision_handler";
 import { Rect } from "./geometry/rect";
+import { CoroutineManager } from "./coroutine_manager";
 
 export let GameReference: BaseGame<any>;
 
@@ -44,11 +45,15 @@ export class BaseGame<Resources> {
   renderer: Renderer;
 
   camera: Camera;
+
   collisionHandler: CollisionHandler;
+
+  coroutineManager: CoroutineManager;
 
   constructor(props: GameArgs<Resources>) {
     GameReference = this;
 
+    this.coroutineManager = new CoroutineManager();
     this.state = new GameState();
 
     const view = document.getElementById('canvas');
@@ -154,6 +159,8 @@ export class BaseGame<Resources> {
     });
 
     this.camera.update(this.state);
+
+    this.coroutineManager.updateCoroutines(this.state);
 
     Debug.ResetDrawCount();
   };

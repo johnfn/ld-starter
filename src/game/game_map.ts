@@ -5,7 +5,6 @@ import { Entity } from "../library/entity";
 import { TilemapRegion } from "../library/tilemap/tilemap_data";
 import { GenericItem } from "./generic_item";
 import { Texture } from "pixi.js";
-import { GameState } from "../library/state";
 import { RectGroup } from "../library/geometry/rect_group";
 
 export class GameMap extends Entity {
