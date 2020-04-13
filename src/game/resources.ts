@@ -15,9 +15,9 @@ export const ResourcesToLoad = {
   "tileset.png"   : ResourceType.Image,
   "dialog_box.png": ResourceType.Image,
   "bookshelf.png" : ResourceType.Image,
-  "tasukete.png"  : ResourceType.Image,
+  "tasukete_portrait.png"  : ResourceType.Image,
   "miranda_portrait.png" : ResourceType.Image,
-  "oberon.png"    : ResourceType.Image,
+  "oberon_portrait.png"    : ResourceType.Image,
 };
 
 export type ResourceName = keyof typeof ResourcesToLoad;
