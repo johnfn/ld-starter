@@ -5,6 +5,8 @@ import { Entity } from "../library/entity";
 import { TilemapRegion } from "../library/tilemap/tilemap_data";
 import { GenericItem } from "./generic_item";
 import { Texture } from "pixi.js";
+import { GameState } from "../library/state";
+import { RectGroup } from "../library/geometry/rect_group";
 
 export class GameMap extends Entity {
   artMap         : TiledTilemap;
@@ -16,6 +18,7 @@ export class GameMap extends Entity {
 
   constructor() {
     super({ 
+      collidable: true,
       name: "Map",
     });
 
@@ -150,7 +153,18 @@ export class GameMap extends Entity {
 
     for (const layer of layers) {
       this.addChild(layer.entity);
+
     }
+  }
+
+  bounds(): RectGroup {
+    const bounds = new Rect({ x: -1000, y: -1000, width: 5000, height: 5000 });
+    const rects = this.artMap._data.getCollidersInRegionForLayer(
+      bounds,
+      "Tile Layer 1"
+    );
+
+    return rects;
   }
 
   loadMusicRegions() {

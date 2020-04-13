@@ -1,7 +1,7 @@
 import { Entity } from "../library/entity";
 import { Game } from "./game";
 import { GameState } from "../library/state";
-import { GameMap } from "./map";
+import { GameMap } from "./game_map";
 import { DialogBox } from "./dialog";
 import { Vector2 } from "../library/geometry/vector2";
 

@@ -1,7 +1,7 @@
 import { BaseGame } from "../library/base_game";
 import { ResourcesToLoad } from "./resources";
 import { Player } from "./player";
-import { GameMap } from "./map";
+import { GameMap } from "./game_map";
 import { Test } from "./test";
 import { DialogBox } from "./dialog";
 import { DialogTexts } from "./dialog_text";
