@@ -3,7 +3,6 @@ import { ResourcesToLoad } from "./resources";
 import { Player } from "./player";
 import { GameMap } from "./map";
 import { Test } from "./test";
-import { MyName } from "./whos_there";
 import { DialogBox } from "./dialog";
 import { DialogTexts } from "./dialog_text";
 import { DebugFlags } from "./debug";
@@ -15,6 +14,8 @@ export class Game extends BaseGame<typeof ResourcesToLoad> {
     super({
       canvasWidth : 800,
       canvasHeight: 600,
+      tileWidth   : 256,
+      tileHeight  : 256,
       scale       : 0.5,
       resources   : ResourcesToLoad,
       debugFlags  : DebugFlags,
@@ -32,6 +33,7 @@ export class Game extends BaseGame<typeof ResourcesToLoad> {
 
     if (DebugFlags["Play Music"]) {
       const audio = new Audio('music/mystery loop 1.mp3');
+
       audio.play();
     }
 

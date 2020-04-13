@@ -1,4 +1,4 @@
-/* 2D array that allows for negative indices */
+// 2D array that allows for negative indices
 export class Grid<T> {
   private _data: { [key: number]: { [key: number]: T} } = {};
 

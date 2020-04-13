@@ -82,7 +82,7 @@ export class DialogBox extends Entity {
     if (speaker === "Chief Oberon Nabisco") {
       this.profilePic.texture = Game.Instance.assets.getResource("oberon.png").texture;
     } else if (speaker === "Detective Pringle") {
-      this.profilePic.texture = Game.Instance.assets.getResource("miranda.png").texture;
+      this.profilePic.texture = Game.Instance.assets.getResource("miranda_portrait.png").texture;
     } else if (speaker === "Tasukete") {
       this.profilePic.texture = Game.Instance.assets.getResource("tasukete.png").texture;
     }

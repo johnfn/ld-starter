@@ -1,4 +1,4 @@
-import { VanishingEntity } from "../library/vanishing_entity";
+import { VanishingEntity } from "./vanishing_entity";
 import { TextEntity } from "../library/text_entity";
 import { Texture } from "pixi.js";
 import { GameState } from "../library/state";
@@ -10,12 +10,9 @@ export class GenericItem extends VanishingEntity {
   floatingText: TextEntity;
   graphic: Entity;
 
-  constructor(
-    tex: Texture,
-    description: string
-    ) {
+  constructor(tex: Texture, description: string) {
     super({
-      name: "bookshelfRoot",
+      name   : "bookshelfRoot",
       texture: tex,
     });
 

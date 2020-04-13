@@ -1,6 +1,6 @@
 import { Vector2 } from "./vector2"
 import { Graphics } from "pixi.js";
-import { epsGreaterThan, epsLessThan } from "./epsilon_math";
+import { epsGreaterThan, epsLessThan } from "../epsilon_math";
 
 export class Line {
   private _x1: number;

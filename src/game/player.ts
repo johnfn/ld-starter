@@ -3,19 +3,18 @@ import { Game } from "./game";
 import { GameState } from "../library/state";
 import { GameMap } from "./map";
 import { DialogBox } from "./dialog";
-import { Vector2 } from "../library/vector2";
+import { Vector2 } from "../library/geometry/vector2";
 
 export class Player extends Entity {
   public static Instance: Player;
 
-  speed = 7;
+  speed = 15;
 
   constructor() {
     super({
       name   : "Player!",
       texture: Game.Instance.assets.getResource("miranda.png").texture,
     });
-
 
     Player.Instance = this;
     this.scale = new Vector2({ x: 0.25, y: 0.25 });
@@ -28,20 +27,22 @@ export class Player extends Entity {
       return;
     }
 
+    this.velocity = Vector2.Zero;
+
     if (state.keys.down.W) {
-      this.y -= this.speed;
+      this.velocity = this.velocity.addY(-this.speed);
     }
 
     if (state.keys.down.S) {
-      this.y += this.speed;
+      this.velocity = this.velocity.addY(this.speed);
     }
 
     if (state.keys.down.A) {
-      this.x -= this.speed;
+      this.velocity = this.velocity.addX(-this.speed);
     }
 
     if (state.keys.down.D) {
-      this.x += this.speed;
+      this.velocity = this.velocity.addX(this.speed);
     }
 
     Game.Instance.camera.centerOn(this.position);

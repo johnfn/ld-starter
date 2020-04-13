@@ -1,5 +1,5 @@
 import { Sprite, Renderer, RenderTexture } from 'pixi.js'
-import { Rect } from '../rect'
+import { Rect } from '../geometry/rect'
 import { TiledJSON } from './tilemap_types';
 import { TextureCache } from '../texture_cache';
 import { Entity } from '../entity';

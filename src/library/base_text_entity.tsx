@@ -30,9 +30,8 @@ export class BaseTextEntity extends Entity {
 
   constructor(html: string, width: number, height: number) {
     super({
-      texture   : Texture.WHITE,
-      collidable: false,
-      name      : "BaseTextEntity"
+      texture: Texture.WHITE,
+      name   : "BaseTextEntity"
     });
 
     this.sprite.width  = width;

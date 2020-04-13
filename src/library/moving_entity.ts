@@ -1,7 +1,7 @@
 import { Entity, EntityType } from "./entity";
-import { Vector2 } from "./vector2";
+import { Vector2 } from "./geometry/vector2";
 import { Texture } from "pixi.js";
-import { Rect } from "./rect";
+import { Rect } from "./geometry/rect";
 import { BaseGame } from "./base_game";
 import { GameState } from "./state";
 
@@ -21,7 +21,7 @@ export class MovingEntity extends Entity {
       name: "MovingEntity",
     });
 
-    this._collideable = props.collidable;
+    this._collidable = props.collidable;
   }
 
   public get velocity(): Vector2 {

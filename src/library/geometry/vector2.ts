@@ -1,4 +1,4 @@
-import { EPSILON } from "./epsilon_math";
+import { EPSILON } from "../epsilon_math";
 
 export interface IVector2 {
   x: number;
@@ -89,6 +89,20 @@ export class Vector2 {
     return new Vector2({
       x: this.x + p.x,
       y: this.y + p.y,
+    });
+  }
+
+  addX(x: number): Vector2 {
+    return new Vector2({
+      x: this.x + x,
+      y: this.y,
+    });
+  }
+
+  addY(y: number): Vector2 {
+    return new Vector2({
+      x: this.x,
+      y: this.y + y,
     });
   }
 

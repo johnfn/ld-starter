@@ -1,12 +1,14 @@
 import { Application, Renderer, Point } from "pixi.js";
 import { Entity } from "./entity";
 import { Debug } from "./debug";
-import { HashSet } from "./hash";
+import { HashSet } from "./data_structures/hash";
 import { GameState } from "./state";
 import { TypesafeLoader } from "./typesafe_loader";
 import { CreateGame as ReactMountGame } from "./react/react_root";
 import { Camera } from "./camera";
 import { DebugFlagsType } from "./react/debug_flag_buttons";
+import { CollisionHandler } from "./collision_handler";
+import { Rect } from "./geometry/rect";
 
 export let GameReference: BaseGame<any>;
 
@@ -14,6 +16,8 @@ export type GameArgs<T> = {
   scale       : number;
   canvasWidth : number;
   canvasHeight: number;
+  tileHeight  : number;
+  tileWidth   : number;
   debugFlags  : DebugFlagsType;
   resources   : T;
 }
@@ -40,6 +44,7 @@ export class BaseGame<Resources> {
   renderer: Renderer;
 
   camera: Camera;
+  collisionHandler: CollisionHandler;
 
   constructor(props: GameArgs<Resources>) {
     GameReference = this;
@@ -51,6 +56,13 @@ export class BaseGame<Resources> {
     if (!view) {
       throw new Error("I couldn't find an element named #canvas on initialization. Giving up!")
     }
+
+    this.collisionHandler = new CollisionHandler({
+      canvasWidth : props.canvasWidth,
+      canvasHeight: props.canvasHeight,
+      tileHeight  : props.tileHeight,
+      tileWidth   : props.tileWidth,
+    });
 
     this.app = new Application({
       width          : props.canvasWidth,
@@ -117,19 +129,29 @@ export class BaseGame<Resources> {
 
     this.state.keys.update();
 
-    const activeEntities = entities.values();
-
-    for (const entity of activeEntities) {
+    for (const entity of entities.values()) {
       entity.update(this.state);
     }
 
     this.state.entities = new HashSet(entities.values().filter(ent => !this.state.toBeDestroyed.includes(ent)));
 
+    for (const entity of this.state.toBeDestroyed) {
+      if (entity.sprite.parent) {
+        entity.sprite.parent.removeChild(entity.sprite);
+      }
+    }
+
     this.state.toBeDestroyed = [];
 
-    // const grid = this.collisionHandler.buildCollisionGrid(this.state);
+    const grid = this.collisionHandler.buildCollisionGrid({
+      bounds  : new Rect({ x: 0, y: 0, width: 5000, height: 5000 }),
+      entities: this.state.entities,
+    });
 
-    // this.collisionHandler.resolveCollisions(this.state, grid);
+    this.collisionHandler.resolveCollisions({
+      entities: this.state.entities,
+      grid    : grid,
+    });
 
     this.camera.update(this.state);
 

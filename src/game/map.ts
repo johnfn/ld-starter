@@ -1,9 +1,9 @@
 import { Game } from "./game";
 import { TiledTilemap } from "../library/tilemap/tilemap";
-import { Rect } from "../library/rect";
+import { Rect } from "../library/geometry/rect";
 import { Entity } from "../library/entity";
 import { TilemapRegion } from "../library/tilemap/tilemap_data";
-import { GenericItem } from "./bookshelf";
+import { GenericItem } from "./generic_item";
 import { Texture } from "pixi.js";
 
 export class GameMap extends Entity {
@@ -82,6 +82,7 @@ export class GameMap extends Entity {
             );
           }
         },
+
         {
           type     : "single",
           name     : "table",

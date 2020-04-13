@@ -1,4 +1,4 @@
-import { maxBy, minBy } from './util';
+import { maxBy, minBy } from '../util';
 import { Line } from './line';
 import { Rect } from './rect';
 import { Vector2 } from './vector2';

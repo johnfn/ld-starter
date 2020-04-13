@@ -1,8 +1,8 @@
 import { Entity } from "../entity";
-import { Rect } from "../rect";
+import { Rect } from "../geometry/rect";
 import { TiledObjectLayerJSON, Tile } from "./tilemap_types";
 import { TextureCache } from "../texture_cache";
-import { Grid } from "../grid";
+import { Grid } from "../data_structures/grid";
 import { Texture } from "pixi.js";
 import { TiledTilemap, MapLayer } from "./tilemap";
 import { BaseGame } from "../base_game";

@@ -1,8 +1,8 @@
-import { Vector2 } from "./vector2";
-import { Rect } from "./rect";
+import { Vector2 } from "./geometry/vector2";
+import { Rect } from "./geometry/rect";
 import { Sprite, Texture, MaskData, Container } from "pixi.js";
 import { getUniqueID } from "./util";
-import { RectGroup } from "./rect_group";
+import { RectGroup } from "./geometry/rect_group";
 import { GameState } from "./state";
 import { GameReference } from "./base_game";
 
@@ -23,32 +23,33 @@ class AugmentedSprite extends Sprite {
 // TODO: probably make less of these methods abstract?
 export class Entity {
   /**
-   * Only use is to be displayed in the hierarchy
+   * This is the name that is displayed in the hierarchy.
    */
-  name       : string;
+  public name     : string;
 
-  id         = getUniqueID();
-  entityType = EntityType.NormalEntity;
+  public id       = getUniqueID();
+
+  public velocity = Vector2.Zero;
 
   /**
    * The PIXI Sprite that this Entity wraps.
    */
-  sprite     : AugmentedSprite;
+  public sprite     : AugmentedSprite;
 
   static SpriteToEntity: { [key: number]: Entity } = {};
 
-  protected _collideable: boolean;
+  protected _collidable: boolean;
 
   constructor(props: {
-    collidable  ?: boolean;
-    name         : string;
-    texture     ?: Texture;
+    name        : string;
+    collidable ?: boolean;
+    texture    ?: Texture;
   }) {
     this.sprite        = new AugmentedSprite(props.texture);;
     this.name          = props.name;
     Entity.SpriteToEntity[this.sprite.id] = this;
 
-    this._collideable  = props.collidable ?? false;
+    this._collidable  = props.collidable ?? false;
 
     this.startUpdating();
 
@@ -75,14 +76,17 @@ export class Entity {
   update(state: GameState): void {}
 
   setCollideable(isCollideable: boolean) {
-    this._collideable = isCollideable;
+    this._collidable = isCollideable;
   }
 
   setTexture(newTexture: Texture) {
     this.sprite.texture = newTexture;
   }
 
-  public collisionBounds(): RectGroup {
+  /**
+   * Used for collision detection.
+   */
+  public bounds(): RectGroup {
     return new RectGroup([
       new Rect({
         x     : this.x,
@@ -94,8 +98,6 @@ export class Entity {
   }
 
   public boundsAbsolute(): Rect {
-    debugger;
-
     const position = this.positionAbsolute();
 
     return new Rect({
@@ -134,7 +136,6 @@ export class Entity {
     return result;
   }
 
-  // Use this instead of destroy
   destroy(state: GameState) {
     state.toBeDestroyed.push(this);
   }
@@ -144,7 +145,7 @@ export class Entity {
   }
 
   isCollideable(): boolean {
-    return this._collideable;
+    return this._collidable;
   }
 
   // Sprite wrapper stuff

@@ -43,7 +43,7 @@ export class DebugFlagButtons extends React.Component<DebugFlagButtonsProps, {}>
                 <input 
                   type="checkbox" 
                   checked={ flag.on } 
-                  onClick={ () => { 
+                  onChange={ () => { 
                     // NOTE: This is TERRIBLE React code. DO NOT LEARN FROM
                     // THIS. DO NOT IMITATE THIS. IN FACT, RUN FAR AWAY FROM
                     // THIS!!!

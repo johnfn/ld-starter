@@ -1,9 +1,9 @@
-import { Vector2 } from "./vector2";
+import { Vector2 } from "./geometry/vector2";
 import { Graphics, Sprite, Container } from "pixi.js";
-import { Line } from "./line";
+import { Line } from "./geometry/line";
 import { Entity } from "./entity";
-import { Rect } from "./rect";
-import { RectGroup } from "./rect_group";
+import { Rect } from "./geometry/rect";
+import { RectGroup } from "./geometry/rect_group";
 import { GameReference } from "./base_game";
 import { GameState } from "./state";
 
@@ -137,8 +137,6 @@ export class Debug {
   public static DrawBounds(entity: Entity | Sprite | Graphics | RectGroup | Container, color = 0xff0000, persistent = false): Graphics[] {
     if (entity instanceof Entity) {
       const group = entity.boundsAbsolute();
-
-      console.log(group);
 
       return Debug.DrawRect(group, color);
     } else if (entity instanceof RectGroup) {

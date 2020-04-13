@@ -1,7 +1,7 @@
 import { TiledJSON, Tileset, Tile, TiledLayerTypes, TiledTileLayerJSON, TiledObjectLayerJSON, SpritesheetTile } from "./tilemap_types";
-import { Grid } from "../grid";
-import { Rect } from "../rect";
-import { RectGroup } from "../rect_group";
+import { Grid } from "../data_structures/grid";
+import { Rect } from "../geometry/rect";
+import { RectGroup } from "../geometry/rect_group";
 
 export type TilemapRegion = {
   rect      : Rect;

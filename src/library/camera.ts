@@ -1,7 +1,7 @@
-import { Vector2 } from "./vector2";
+import { Vector2 } from "./geometry/vector2";
 import { Entity } from "./entity";
 import { GameState } from "./state";
-import { Rect } from "./rect";
+import { Rect } from "./geometry/rect";
 import { Debug } from "./debug";
 
 export class Camera {
