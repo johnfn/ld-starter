@@ -108,6 +108,7 @@ export class BaseGame<Resources> {
       state       : this.state,
       canvasWidth : props.canvasWidth,
       canvasHeight: props.canvasHeight,
+      bounds      : new Rect({ x: -1000, y: -1000, width: 6000, height: 6000 })
     });
 
     ReactMountGame(this, props.debugFlags);

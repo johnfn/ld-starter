@@ -12,20 +12,22 @@ export class Camera {
    */
   private _position        = Vector2.Zero;
   private _desiredPosition = Vector2.Zero;
-  private _stage       : Entity;
-  private _canvasWidth : number;
-  private _canvasHeight: number;
+  private _stage           : Entity;
+  private _canvasWidth     : number;
+  private _canvasHeight    : number;
+  private _currentBounds   : Rect;
 
   constructor(props: { 
     stage       : Entity;
     state       : GameState;
-
     canvasWidth : number; 
     canvasHeight: number;
+    bounds      : Rect;
   }) {
-    this._stage  = props.stage;
-    this._canvasWidth  = props.canvasWidth;
-    this._canvasHeight = props.canvasHeight;
+    this._stage         = props.stage;
+    this._canvasWidth   = props.canvasWidth;
+    this._canvasHeight  = props.canvasHeight;
+    this._currentBounds = props.bounds;
 
     this._immediatelyCenterOn(new Vector2({ x: props.canvasWidth / 2, y: props.canvasHeight / 2 }));
 
@@ -72,34 +74,34 @@ export class Camera {
   calculateDesiredPosition = (): Vector2 => {
     let desiredPosition = this._desiredPosition;
 
-    const currentRegion = new Rect({ x: 0, y: 0, width: 2000, height: 2000 });
+    const currentBounds = this._currentBounds;
 
-    if (!currentRegion) {
+    if (!currentBounds) {
       console.error("no region for camera!");
 
       return desiredPosition;
     }
 
-    if (currentRegion.w < this._canvasWidth || currentRegion.h < this._canvasHeight) {
+    if (currentBounds.w < this._canvasWidth || currentBounds.h < this._canvasHeight) {
       throw new Error("There is a region on the map which is too small for the camera.");
     }
 
     // fit the camera rect into the regions rect
 
-    if (desiredPosition.x < currentRegion.left) {
-      desiredPosition = desiredPosition.withX(currentRegion.left);
+    if (desiredPosition.x < currentBounds.left) {
+      desiredPosition = desiredPosition.withX(currentBounds.left);
     }
 
-    if (desiredPosition.x + this.bounds().w > currentRegion.right) {
-      desiredPosition = desiredPosition.withX(currentRegion.right - this._canvasWidth);
+    if (desiredPosition.x + this.bounds().w > currentBounds.right) {
+      desiredPosition = desiredPosition.withX(currentBounds.right - this._canvasWidth);
     }
 
-    if (desiredPosition.y < currentRegion.top) {
-      desiredPosition = desiredPosition.withY(currentRegion.top);
+    if (desiredPosition.y < currentBounds.top) {
+      desiredPosition = desiredPosition.withY(currentBounds.top);
     }
 
-    if (desiredPosition.y + this.bounds().h > currentRegion.bottom) {
-      desiredPosition = desiredPosition.withY(currentRegion.bottom - this._canvasHeight);
+    if (desiredPosition.y + this.bounds().h > currentBounds.bottom) {
+      desiredPosition = desiredPosition.withY(currentBounds.bottom - this._canvasHeight);
     }
 
     return desiredPosition;
