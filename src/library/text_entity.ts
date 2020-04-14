@@ -46,7 +46,7 @@ export class TextEntity extends BaseTextEntity {
 
   public static StandardStyles: TextStyles = {
     1: { color: "white", fontSize: 18, align: "left" },
-    2: { color: "red"  , fontSize: 18, align: "left" },
+    2: { color: "cyan"  , fontSize: 40, align: "left" },
   };
 
   /**
@@ -101,10 +101,7 @@ export class TextEntity extends BaseTextEntity {
 
     const segments: TextSegment[] = [{
       text: "",
-      style: {
-        color   : "white",
-        fontSize: 40,
-      },
+      style: this.defaultStyle,
     }];
 
     let id = "";
@@ -123,10 +120,7 @@ export class TextEntity extends BaseTextEntity {
         } else if (state === TextSegmentState.StyledText) {
           segments.push({
             text: "",
-            style: {
-              color   : "black",
-              fontSize: 18
-            },
+            style: this.defaultStyle,
           });
         }
 
