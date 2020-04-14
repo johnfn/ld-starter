@@ -157,6 +157,10 @@ export class Entity {
     return this._collidable;
   }
 
+  dimensions(): Vector2 {
+    return new Vector2(this.width, this.height);
+  }
+
   // Sprite wrapper stuff
 
   public get parent(): Entity | null { 
@@ -172,6 +176,25 @@ export class Entity {
 
     return null;
   }
+
+  addOnClick(listener: () => void) {
+    this.sprite.interactive = true;
+
+    this.sprite.on('click', listener);
+  }
+
+  addOnMouseOver(listener: () => void) {
+    this.sprite.interactive = true;
+
+    this.sprite.on('mouseover', listener);
+  }
+
+  addOnMouseOut(listener: () => void) {
+    this.sprite.interactive = true;
+
+    this.sprite.on('mouseout', listener);
+  }
+
 
   public get x(): number { return this.sprite.x; }
   public set x(value: number) { this.sprite.x = value; }
@@ -189,6 +212,7 @@ export class Entity {
   public set alpha(value: number) { this.sprite.alpha = value; }
 
   public get position(): Vector2 { return new Vector2({ x: this.x, y: this.y }); }
+  public set position(value: Vector2) { this.x = value.x; this.y = value.y; }
 
   public get zIndex(): number { return this.sprite.zIndex; }
   public set zIndex(value: number) { this.sprite.zIndex = value; this.sprite.parent && this.sprite.parent.sortChildren(); }

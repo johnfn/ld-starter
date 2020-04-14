@@ -1,4 +1,4 @@
-import { maxBy, minBy } from '../util';
+import { Util } from '../util';
 import { Line } from './line';
 import { Rect } from './rect';
 import { Vector2 } from './vector2';
@@ -17,27 +17,27 @@ export class ArbitrarySelection {
   public get x(): number {
     if (this.cover.length === 0) { return 0; }
 
-    return minBy(this.cover, r => r.x)!.x;
+    return Util.MinBy(this.cover, r => r.x)!.x;
   }
 
   public get y(): number {
     if (this.cover.length === 0) { return 0; }
 
-    return minBy(this.cover, r => r.y)!.y;
+    return Util.MinBy(this.cover, r => r.y)!.y;
   }
 
   public get w(): number {
     if (this.cover.length === 0) { return 0; }
 
-    return maxBy(this.cover, r => r.right)!.right -
-           minBy(this.cover, r => r.x)!.x;
+    return Util.MaxBy(this.cover, r => r.right)!.right -
+           Util.MinBy(this.cover, r => r.x)!.x;
   }
 
   public get h(): number {
     if (this.cover.length === 0) { return 0; }
 
-    return maxBy(this.cover, r => r.bottom)!.bottom -
-           minBy(this.cover, r => r.y)!.y;
+    return Util.MaxBy(this.cover, r => r.bottom)!.bottom -
+           Util.MinBy(this.cover, r => r.y)!.y;
   }
 
   public get pos(): Vector2 {

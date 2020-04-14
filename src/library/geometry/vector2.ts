@@ -1,4 +1,5 @@
 import { EPSILON } from "../epsilon_math";
+import { Util } from "../util";
 
 export interface IVector2 {
   x: number;
@@ -11,20 +12,35 @@ export class Vector2 {
 
   public get x(): number { return this._x; }
   public get y(): number { return this._y; }
+  
+  constructor();
+  constructor(x: number, y: number);
+  constructor(props: { x: number, y: number });
+  constructor(propsOrX: { x: number, y: number } | number = { x: 0, y: 0 }, y?: number) {
+    if (typeof propsOrX === "number") {
+      this._x = propsOrX;
+      this._y = y!;
+    } else {
+      this._x = propsOrX.x;
+      this._y = propsOrX.y;
+    }
+  }
 
   public get half(): Vector2 {
     return new Vector2({ x: this.x / 2, y: this.y / 2 });
   }
 
-  public static Zero: Vector2 = new Vector2({ x: 0, y: 0 });
+  public static Zero: Vector2 = new Vector2(0, 0);
 
-  static isPoint(x: any): x is Vector2 {
+  static IsVector2(x: any): x is Vector2 {
     return x instanceof Vector2;
   }
 
-  constructor(props: { x: number, y: number } = { x: 0, y: 0 }) {
-    this._x = props.x;
-    this._y = props.y;
+  static Random(highX: number, highY: number, lowX = 0, lowY = 0) {
+    return new Vector2({
+      x: Util.RandRange(lowX, highX),
+      y: Util.RandRange(lowY, highY),
+    });
   }
 
   hash(): string {

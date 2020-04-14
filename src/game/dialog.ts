@@ -2,7 +2,7 @@ import { Entity } from "../library/entity";
 import { GameState } from "../library/state";
 import { TextEntity } from "../library/text_entity";
 import { Game } from "./game";
-import { CoroutineResult, GameCoroutine } from "../library/coroutine_manager";
+import { GameCoroutine } from "../library/coroutine_manager";
 
 export type DialogText = {
   speaker: string;
