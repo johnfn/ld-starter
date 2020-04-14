@@ -24,16 +24,16 @@ export class DialogBox extends Entity {
     });
 
     this.visible = false;
-
+    
     this.x = 100;
-    this.y = 100;
+    this.y = 550;
 
     const graphic = new Entity({ 
       texture: Game.Instance.assets.getResource("dialog_box.png").texture,
       name: "Dialog Graphic",
     });
 
-    graphic.width = 800;
+    graphic.width = 1400;
     graphic.height = 500;
     this.addChild(graphic);
 
@@ -52,10 +52,10 @@ export class DialogBox extends Entity {
     this.addChild(this.dialogText);
 
     this.profilePic = new Entity({ name: "profile pic" });
-    this.profilePic.x      = 0;
-    this.profilePic.y      = 50;
-    this.profilePic.width  = 300;
-    this.profilePic.height = 300;
+    this.profilePic.x      = -110;
+    this.profilePic.y      = 90;
+    this.profilePic.width  = 530;
+    this.profilePic.height = 530;
     this.addChild(this.profilePic);
   }
 
@@ -90,7 +90,7 @@ export class DialogBox extends Entity {
     this.dialogText.setText(this.activeDialogText[0].text);
     this.speakerText.setText(speaker);
 
-    if (speaker === "Chief Oberon Nabisco") {
+    if (speaker === "Chief Nabisco") {
       this.profilePic.texture = Game.Instance.assets.getResource("oberon_portrait.png").texture;
     } else if (speaker === "Detective Pringle") {
       this.profilePic.texture = Game.Instance.assets.getResource("miranda_portrait.png").texture;
