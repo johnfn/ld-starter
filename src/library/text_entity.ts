@@ -81,13 +81,13 @@ export class TextEntity extends BaseTextEntity {
 
     const html = textSegments.map(segment => {
       return (
-        `<div 
+        `<span 
           style="
             color: ${ segment.style.color }; 
             font-family: FreePixel; 
             text-align: ${ segment.style.align || "left" };
             font-size: ${ segment.style.fontSize }px;"
-        >${ segment.text }</div>`
+        >${ segment.text }</span>`
       );
     }).join("").replace(/\n/g, "");
 
