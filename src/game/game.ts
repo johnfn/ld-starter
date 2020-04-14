@@ -31,10 +31,11 @@ export class Game extends BaseGame<typeof ResourcesToLoad> {
 
     this.fixedCameraStage.addChild(new DialogBox());
 
-    if (DebugFlags["Play Music"]) {
+    if (DebugFlags["Play Music"].on) {
       const audio = new Audio('music/mystery loop 1.mp3');
 
       audio.play();
+      audio.loop = true;
     }
 
     if (DebugFlags["Show Initial Dialog"].on) {
