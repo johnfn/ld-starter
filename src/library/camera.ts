@@ -10,7 +10,8 @@ export class Camera {
   /**
    * Top left coordinate of the camera.
    */
-  private _position    = Vector2.Zero;
+  private _position        = Vector2.Zero;
+  private _desiredPosition = Vector2.Zero;
   private _stage       : Entity;
   private _canvasWidth : number;
   private _canvasHeight: number;
@@ -26,7 +27,9 @@ export class Camera {
     this._canvasWidth  = props.canvasWidth;
     this._canvasHeight = props.canvasHeight;
 
-    this.centerOn(new Vector2({ x: props.canvasWidth / 2, y: props.canvasHeight / 2 }));
+    this._immediatelyCenterOn(new Vector2({ x: props.canvasWidth / 2, y: props.canvasHeight / 2 }));
+
+    this._desiredPosition = this._position;
   }
 
   public get center(): Vector2 {
@@ -52,8 +55,12 @@ export class Camera {
     });
   }
 
-  centerOn = (position: Vector2) => {
+  private _immediatelyCenterOn = (position: Vector2) => {
     this._position = position.subtract(this.halfDimensions());
+  };
+
+  centerOn = (position: Vector2) => {
+    this._desiredPosition = position.subtract(this.halfDimensions());
   };
 
   // currentRegion(): Rect | undefined {
@@ -62,8 +69,8 @@ export class Camera {
   //   return mapRegions.find(region => region.contains(this._target.positionVector()));
   // }
 
-  calculateDesiredPosition = (state: GameState): Vector2 => {
-    let desiredPosition = Vector2.Zero;
+  calculateDesiredPosition = (): Vector2 => {
+    let desiredPosition = this._desiredPosition;
 
     const currentRegion = new Rect({ x: 0, y: 0, width: 2000, height: 2000 });
 
@@ -73,7 +80,7 @@ export class Camera {
       return desiredPosition;
     }
 
-    if (currentRegion.w < this._canvasWidth|| currentRegion.h < this._canvasHeight) {
+    if (currentRegion.w < this._canvasWidth || currentRegion.h < this._canvasHeight) {
       throw new Error("There is a region on the map which is too small for the camera.");
     }
 
@@ -103,7 +110,7 @@ export class Camera {
       return;
     }
 
-    const desiredPosition = this.calculateDesiredPosition(state);
+    const desiredPosition = this.calculateDesiredPosition();
 
     this._position = this._position.lerp(desiredPosition, Camera.LERP_SPEED);
 
