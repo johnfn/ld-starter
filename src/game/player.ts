@@ -8,7 +8,7 @@ import { Vector2 } from "../library/geometry/vector2";
 export class Player extends Entity {
   public static Instance: Player;
 
-  speed = 15;
+  speed = 8;
 
   constructor() {
     super({
