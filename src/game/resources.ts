@@ -5,6 +5,7 @@
 export enum ResourceType {
   Image,
   TileMap,
+  TileWorld,
   Audio,
   Spritesheet,
 }
@@ -19,7 +20,6 @@ export const ResourcesToLoad = {
   "interactions.json"         : ResourceType.TileMap,
   "loop1.mp3"                 : ResourceType.Audio,
   "loop2.mp3"                 : ResourceType.Audio,
-  "manifest.json"             : ResourceType.TileMap,
   "map.json"                  : ResourceType.TileMap,
   "miranda.png"               : ResourceType.Image,
   "miranda_portrait.png"      : ResourceType.Image,
@@ -58,5 +58,5 @@ export const ResourcesToLoad = {
   "tasukete/tasukete_0018.png": ResourceType.Image,
   "tasukete_portrait.png"     : ResourceType.Image,
   "tileset.png"               : ResourceType.Image,
-  "world.json"                : ResourceType.TileMap,
+  "world.json"                : ResourceType.TileWorld,
 };
