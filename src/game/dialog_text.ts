@@ -3,7 +3,7 @@ import { DialogText } from "./dialog";
 export class DialogTexts {
   public static IntroText: DialogText = [
     { speaker: "Chief Oberon Nabisco", text : "Detective Pringle. It’s me. Do you come in?", },
-    { speaker: "Detective Pringle", text : "Loud and clear, Chief Nabisco. And my partner Tasukete is here too.", },
+    { speaker: "Detective Pringle", text : "Loud and clear, %2%Chief Nabisco%. And my partner Tasukete is here too.", },
     { speaker: "Tasukete", text : "Howdy~~ ◔ω◔", },
     { speaker: "Chief Oberon Nabisco", text : "Good. Now listen. This house. Urban legend. They say it’s haunted.", },
     { speaker: "Detective Pringle", text : "Hmm, that sounds like the kind of description that a lazy game writer would tack on at the last minute to give it a bit more drama.", },
