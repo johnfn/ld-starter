@@ -9,8 +9,9 @@ export type GameCoroutine = Generator<CoroutineResult, void, GameState>
 export type CoroutineResult = "next" | { frames: number };
 
 type ActiveCoroutine = {
-  fn: GameCoroutine;
+  fn              : GameCoroutine;
   framesLeftToWait: number;
+  name            : string;
 };
 
 export type CoroutineId = number;
@@ -19,10 +20,17 @@ export class CoroutineManager {
   private lastCoroutineId: CoroutineId = -1;
   private activeCoroutines: { [key: number]: ActiveCoroutine } = [];
 
-  startCoroutine(co: GameCoroutine): CoroutineId {
+  startCoroutine(name: string, co: GameCoroutine): CoroutineId {
+    for (const activeCo of Object.values(this.activeCoroutines)) {
+      if (activeCo.name === name) {
+        throw new Error(`Two coroutines with the name ${ name }. Tell grant about this!!!`);
+      }
+    }
+
     this.activeCoroutines[++this.lastCoroutineId] = {
-      fn: co,
+      fn              : co,
       framesLeftToWait: 0,
+      name            : name,
     };
 
     return this.lastCoroutineId;

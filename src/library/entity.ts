@@ -66,8 +66,8 @@ export class Entity {
     this.sprite.removeChild(child.sprite);
   }
 
-  startCoroutine(coroutine: GameCoroutine): CoroutineId {
-    return GameReference.coroutineManager.startCoroutine(coroutine);
+  startCoroutine(name: string, coroutine: GameCoroutine): CoroutineId {
+    return GameReference.coroutineManager.startCoroutine(name, coroutine);
   }
 
   stopCoroutine(id: CoroutineId): void {

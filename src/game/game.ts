@@ -40,6 +40,7 @@ export class Game extends BaseGame<typeof ResourcesToLoad> {
 
     if (DebugFlags["Show Initial Dialog"].on) {
       this.coroutineManager.startCoroutine(
+        "Initial Dialog",
         DialogBox.StartDialog(DialogTexts.IntroText)
       );
     }

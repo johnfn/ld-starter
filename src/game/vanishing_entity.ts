@@ -23,7 +23,7 @@ export abstract class VanishingEntity extends Entity {
     this.addChild(content);
 
     content.sprite.on('click', () => {
-      this.startCoroutine(this.removeEntity())
+      this.startCoroutine("Remove Entity", this.removeEntity());
     });
   }
 
