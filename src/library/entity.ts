@@ -5,7 +5,7 @@ import { getUniqueID } from "./util";
 import { RectGroup } from "./geometry/rect_group";
 import { GameState } from "./state";
 import { GameReference } from "./base_game";
-import { CoroutineResult, CoroutineId, GameCoroutine } from "./coroutine_manager";
+import { CoroutineId, GameCoroutine } from "./coroutine_manager";
 
 export enum EntityType {
   NormalEntity,
