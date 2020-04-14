@@ -45,8 +45,8 @@ export class TextEntity extends BaseTextEntity {
   defaultStyle: TextEntityStyle;
 
   public static StandardStyles: TextStyles = {
-    1: { color: "white", fontSize: 18, align: "left" },
-    2: { color: "red"  , fontSize: 18, align: "left" },
+    1: { color: "white", fontSize: 32, align: "left" },
+    2: { color: "cyan"  , fontSize: 40, align: "left" },
   };
 
   /**
@@ -60,7 +60,7 @@ export class TextEntity extends BaseTextEntity {
     width    = 500, 
     height   = 300,
     color    = "white",
-    fontSize = 18,
+    fontSize = 32,
     align    = "left",
   }: { text: string; styles?: TextStyles; width?: number; height?: number; color?: string; fontSize?: number; align ?: TextAlignType }) {
     super("" , width, height);
@@ -81,13 +81,13 @@ export class TextEntity extends BaseTextEntity {
 
     const html = textSegments.map(segment => {
       return (
-        `<div 
+        `<span 
           style="
             color: ${ segment.style.color }; 
             font-family: FreePixel; 
             text-align: ${ segment.style.align || "left" };
             font-size: ${ segment.style.fontSize }px;"
-        >${ segment.text }</div>`
+        >${ segment.text }</span>`
       );
     }).join("").replace(/\n/g, "");
 
@@ -101,10 +101,7 @@ export class TextEntity extends BaseTextEntity {
 
     const segments: TextSegment[] = [{
       text: "",
-      style: {
-        color   : "white",
-        fontSize: 28,
-      },
+      style: this.defaultStyle,
     }];
 
     let id = "";
@@ -123,10 +120,7 @@ export class TextEntity extends BaseTextEntity {
         } else if (state === TextSegmentState.StyledText) {
           segments.push({
             text: "",
-            style: {
-              color   : "black",
-              fontSize: 18
-            },
+            style: this.defaultStyle,
           });
         }
 

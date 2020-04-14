@@ -39,15 +39,15 @@ export class DialogBox extends Entity {
 
     DialogBox.Instance = this;
 
-    this.speakerText = new TextEntity({ text: "This is a test of a text", width: 800, height: 400 });
-    this.speakerText.y = 0;
-    this.speakerText.x = 50;
+    this.speakerText = new TextEntity({ text: "Name test", width: 900, height: 400, fontSize: 60, color: "orange"});
+    this.speakerText.y = 30;
+    this.speakerText.x = 90;
 
     this.addChild(this.speakerText);
 
-    this.dialogText = new TextEntity({ text: "This is a test of a text", width: 400, height: 400 });
-    this.dialogText.y = 50;
-    this.dialogText.x = 350;
+    this.dialogText = new TextEntity({ text: "Line test", width: 900, height: 400, fontSize: 40});
+    this.dialogText.y = 120;
+    this.dialogText.x = 380;
 
     this.addChild(this.dialogText);
 
