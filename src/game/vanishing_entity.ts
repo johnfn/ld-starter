@@ -72,5 +72,7 @@ export abstract class VanishingEntity extends Entity {
     // yield { frames: 20 };
 
     yield* DialogBox.StartDialog(after);
+
+    this.setCollideable(false);
   }
 }

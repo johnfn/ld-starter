@@ -1,5 +1,4 @@
 import { Entity } from "../library/entity";
-import { Game } from "./game";
 import { GameCoroutine } from "../library/coroutine_manager";
 import { Player } from "./player";
 import { Vector2 } from "../library/geometry/vector2";
