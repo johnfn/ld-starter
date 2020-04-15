@@ -64,18 +64,35 @@ export class DialogBox extends Entity {
     this.visible = true;
     this.activeDialogText = dialog;
 
-    this.displayDialogContents();
-
     let state: GameState;
 
+    state = yield "next";
+
     while (this.activeDialogText.length > 0) {
-      this.displayDialogContents();
+      const fullText = this.activeDialogText[0];
+      let textToShow = "";
 
-      state = yield "next";
+      while (textToShow.length < fullText.text.length) {
+        textToShow += fullText.text[textToShow.length];
+        this.displayDialogContents(textToShow);
 
-      if (state.keys.justDown.Spacebar) {
-        this.activeDialogText.shift();
+        if (state.keys.justDown.Spacebar) {
+          textToShow = fullText.text;
+          this.displayDialogContents(textToShow);
+
+          state = yield "next";
+      
+          break;
+        }
+
+        state = yield "next";
       }
+
+      while (!state.keys.justDown.Spacebar) {
+        state = yield "next";
+      }
+
+      this.activeDialogText.shift();
     }
 
     this.visible = false;
@@ -85,10 +102,10 @@ export class DialogBox extends Entity {
     yield* DialogBox.Instance.startDialog(dialog.slice(0));
   }
 
-  displayDialogContents() {
+  displayDialogContents(textToShow: string) {
     const speaker = this.activeDialogText[0].speaker;
 
-    this.dialogText.setText(this.activeDialogText[0].text);
+    this.dialogText.setText(textToShow);
     this.speakerText.setText(speaker);
 
     if (speaker === "Chief Nabisco") {
