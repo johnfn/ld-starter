@@ -11,7 +11,6 @@ import { Assets } from "./assets";
 export class GameMap extends Entity {
   artMap         : TiledTilemap;
   musicRegionsMap: TiledTilemap;
-
   musicRegions   : TilemapRegion[] = [];
 
   public static Instance: GameMap;

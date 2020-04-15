@@ -1,17 +1,20 @@
 import { GameState } from "./state";
+import { KeyInfoType } from "./keyboard";
 
 /**
  * const state: GameState = yield CoroutineResult;
- * 
  */
 export type GameCoroutine = Generator<CoroutineResult, void, GameState>
 
-export type CoroutineResult = "next" | { frames: number };
+export type CoroutineResult = "next" | { frames: number } | { untilKeyPress: keyof KeyInfoType };
 
 type ActiveCoroutine = {
-  fn              : GameCoroutine;
-  framesLeftToWait: number;
-  name            : string;
+  fn    : GameCoroutine;
+  status: 
+    | { waiting: false }
+    | { waiting: true; type: "frames"  ; frames: number }
+    | { waiting: true; type: "untilKey"; untilKey: keyof KeyInfoType }
+  name  : string;
 };
 
 export type CoroutineId = number;
@@ -28,9 +31,9 @@ export class CoroutineManager {
     }
 
     this.activeCoroutines[++this.lastCoroutineId] = {
-      fn              : co,
-      framesLeftToWait: 0,
-      name            : name,
+      fn    : co,
+      status: { waiting: false },
+      name  : name,
     };
 
     return this.lastCoroutineId;
@@ -44,10 +47,20 @@ export class CoroutineManager {
     for (const key of Object.keys(this.activeCoroutines)) {
       const co = this.activeCoroutines[Number(key)];
 
-      if (co.framesLeftToWait > 0) {
-        co.framesLeftToWait--;
-
-        continue;
+      if (co.status.waiting) {
+        if (co.status.type === "frames") {
+          if (co.status.frames-- < 0) {
+            co.status = { waiting: false };
+          } else {
+            continue;
+          }
+        } else if (co.status.type === "untilKey") {
+          if (state.keys.justDown[co.status.untilKey]) {
+            co.status = { waiting: false };
+          } else {
+            continue;
+          }
+        }
       }
 
       const { value, done } = co.fn.next(state);
@@ -58,10 +71,20 @@ export class CoroutineManager {
         continue;
       }
 
-      if (typeof value === "object") {
-        co.framesLeftToWait = value.frames;
-
+      if (value === "next") {
         continue;
+      } 
+
+      if (typeof value === "object") {
+        if ("frames" in value) {
+          co.status = { waiting: true, type: 'frames', frames: value.frames };
+
+          continue;
+        } else if ("untilKeyPress" in value) {
+          co.status = { waiting: true, type: 'untilKey', untilKey: value.untilKeyPress };
+
+          continue;
+        }
       }
     }
   }
