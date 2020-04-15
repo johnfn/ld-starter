@@ -7,6 +7,7 @@ import { DialogBox } from "./dialog";
 import { DialogTexts } from "./dialog_text";
 import { DebugFlags } from "./debug";
 import { TasuketeHead } from "./tasukete_head";
+import { GameState } from "./state";
 
 export class Game extends BaseGame<typeof AssetsToLoad> {
   public static Instance: Game;
@@ -18,8 +19,9 @@ export class Game extends BaseGame<typeof AssetsToLoad> {
       tileWidth   : 256,
       tileHeight  : 256,
       scale       : 0.5,
-      assets   : Assets,
+      assets      : Assets,
       debugFlags  : DebugFlags,
+      state       : new GameState()
     });
 
     Game.Instance = this;

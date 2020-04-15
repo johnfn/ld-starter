@@ -1,23 +1,26 @@
 import { Entity } from "../library/entity";
-import { GameState } from "../library/state";
+import { BaseGameState } from "../library/base_state";
 import { TextEntity } from "../library/text_entity";
-import { Game } from "./game";
 import { GameCoroutine } from "../library/coroutine_manager";
 import { Assets } from "./assets";
+import { GameState } from "./state";
+import { ModeEntity, Mode } from "./modes";
 
 export type DialogText = {
   speaker: string;
   text   : string;
 }[];
 
-export class DialogBox extends Entity {
+export class DialogBox extends ModeEntity {
+  activeModes: Mode[] = ["Normal", "Dialog"] ;
+
   public static Instance: DialogBox;
   public static DialogVisible = () => DialogBox.Instance.visible;
 
   private activeDialogText: DialogText = [];
-  private dialogText: TextEntity;
-  private speakerText: TextEntity;
-  private profilePic: Entity;
+  private dialogText: TextEntity<GameState>;
+  private speakerText: TextEntity<GameState>;
+  private profilePic: Entity<GameState>;
 
   constructor() {
     super({
@@ -29,7 +32,7 @@ export class DialogBox extends Entity {
     this.x = 100;
     this.y = 550;
 
-    const graphic = new Entity({ 
+    const graphic = new Entity<GameState>({ 
       texture: Assets.getResource("dialog_box"),
       name: "Dialog Graphic",
     });
@@ -60,13 +63,15 @@ export class DialogBox extends Entity {
     this.addChild(this.profilePic);
   }
 
-  *startDialog(dialog: DialogText): GameCoroutine {
+  *startDialog(dialog: DialogText): GameCoroutine<GameState> {
     this.visible = true;
     this.activeDialogText = dialog;
 
     let state: GameState;
 
     state = yield "next";
+
+    state.mode = "Dialog";
 
     while (this.activeDialogText.length > 0) {
       const fullText = this.activeDialogText[0];
@@ -90,13 +95,15 @@ export class DialogBox extends Entity {
 
       state = yield { untilKeyPress: "Spacebar" };
 
+      state.mode = "Normal";
+
       this.activeDialogText.shift();
     }
 
     this.visible = false;
   }
 
-  public static *StartDialog(dialog: DialogText): GameCoroutine {
+  public static *StartDialog(dialog: DialogText): GameCoroutine<GameState> {
     yield* DialogBox.Instance.startDialog(dialog.slice(0));
   }
 
@@ -115,5 +122,5 @@ export class DialogBox extends Entity {
     }
   }
 
-  update(state: GameState): void { }
+  update(state: BaseGameState): void { }
 }

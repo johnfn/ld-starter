@@ -3,8 +3,9 @@ import { Vector2 } from "./geometry/vector2";
 import { CollisionGrid } from "./collision_grid";
 import { HashSet } from "./data_structures/hash";
 import { Rect } from "./geometry/rect";
+import { BaseGameState } from "./base_state";
 
-export class CollisionHandler {
+export class CollisionHandler<TState extends BaseGameState> {
   private _canvasWidth : number;
   private _canvasHeight: number;
   private _tileSize     : number;
@@ -25,12 +26,12 @@ export class CollisionHandler {
   }
 
   buildCollisionGrid = (props: {
-    entities: HashSet<Entity>;
+    entities: HashSet<Entity<TState>>;
     bounds             : Rect;
-  }): CollisionGrid => {
+  }): CollisionGrid<TState> => {
     const { entities, bounds } = props;
 
-    const grid = new CollisionGrid({
+    const grid = new CollisionGrid<TState>({
       width   : 2 * this._canvasWidth,
       height  : 2 * this._canvasHeight,
       cellSize: 8 * this._tileSize,
@@ -49,8 +50,8 @@ export class CollisionHandler {
   };
 
   resolveCollisions = (props: {
-    entities: HashSet<Entity>;
-    grid    : CollisionGrid;
+    entities: HashSet<Entity<TState>>;
+    grid    : CollisionGrid<TState>;
   }) => {
     const { entities, grid } = props;
 

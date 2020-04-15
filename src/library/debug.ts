@@ -5,12 +5,12 @@ import { Entity } from "./entity";
 import { Rect } from "./geometry/rect";
 import { RectGroup } from "./geometry/rect_group";
 import { GameReference } from "./base_game";
-import { GameState } from "./state";
+import { BaseGameState } from "./base_state";
 
 const MAX_DEBUGGING_GRAPHICS_COUNT = 500;
 
 export class Debug {
-  public static stageReference: Entity;
+  public static stageReference: Entity<any>;
 
   public static DebugMode = false;
 
@@ -134,7 +134,7 @@ export class Debug {
    * 
    * If that's not what you want, pass persistent = true.
    */
-  public static DrawBounds(entity: Entity | Sprite | Graphics | RectGroup | Container, color = 0xff0000, persistent = false): Graphics[] {
+  public static DrawBounds(entity: Entity<any> | Sprite | Graphics | RectGroup | Container, color = 0xff0000, persistent = false): Graphics[] {
     if (entity instanceof Entity) {
       const group = entity.boundsAbsolute();
 
@@ -199,7 +199,7 @@ export class Debug {
     );
   }
 
-  public static DebugStuff(state: GameState) {
+  public static DebugStuff(state: BaseGameState) {
     if (state.keys.justDown.Z) {
       Debug.DebugMode = true;
 
@@ -232,7 +232,7 @@ export class Debug {
     }
   }
 
-  public static DebugShowRect(state: GameState, rect: Rect) {
+  public static DebugShowRect(state: BaseGameState, rect: Rect) {
     state.stage.scale = new Vector2({ x: 0.2, y: 0.2 });
     state.stage.x = -rect.x * 0.2;
     state.stage.y = -rect.y * 0.2;

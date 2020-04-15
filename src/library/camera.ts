@@ -1,10 +1,10 @@
 import { Vector2 } from "./geometry/vector2";
 import { Entity } from "./entity";
-import { GameState } from "./state";
+import { BaseGameState } from "./base_state";
 import { Rect } from "./geometry/rect";
 import { Debug } from "./debug";
 
-export class Camera {
+export class Camera<TState extends BaseGameState> {
   private static LERP_SPEED = 0.09;
 
   /**
@@ -12,14 +12,14 @@ export class Camera {
    */
   private _position        = Vector2.Zero;
   private _desiredPosition = Vector2.Zero;
-  private _stage           : Entity;
+  private _stage           : Entity<TState>;
   private _canvasWidth     : number;
   private _canvasHeight    : number;
   private _currentBounds   : Rect;
 
   constructor(props: { 
-    stage       : Entity;
-    state       : GameState;
+    stage       : Entity<TState>;
+    state       : BaseGameState;
     canvasWidth : number; 
     canvasHeight: number;
     bounds      : Rect;
@@ -107,7 +107,7 @@ export class Camera {
     return desiredPosition;
   };
 
-  update = (state: GameState) => {
+  update = (state: BaseGameState) => {
     if (Debug.DebugMode) {
       return;
     }

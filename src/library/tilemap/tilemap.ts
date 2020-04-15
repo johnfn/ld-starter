@@ -7,20 +7,21 @@ import { TiledTilemapObjects, TilemapCustomObjects, ObjectInfo } from './tilemap
 import { TilemapData, TilemapRegion } from './tilemap_data';
 import { Assets } from '../../game/assets';
 import { TypesafeLoader } from '../typesafe_loader';
+import { BaseGameState } from '../base_state';
 
-export type MapLayer = {
+export type MapLayer<TState extends BaseGameState> = {
   layerName  : string;
-  entity     : Entity;
+  entity     : Entity<TState>;
   objectLayer: boolean;
 };
 
 // TODO: Handle the weird new file format where tilesets link to ANOTHER json file
 
-export class TiledTilemap {
+export class TiledTilemap<TState extends BaseGameState> {
   private _tileWidth  : number;
   private _tileHeight : number;
   private _renderer   : Renderer;
-  private _objects    : TiledTilemapObjects;
+  private _objects    : TiledTilemapObjects<TState>;
   private _assets     : TypesafeLoader<any>;
 
   _data : TilemapData;
@@ -30,7 +31,7 @@ export class TiledTilemap {
     json         : TiledJSON; 
     renderer     : Renderer; 
     pathToTilemap: string;
-    customObjects: TilemapCustomObjects[];
+    customObjects: TilemapCustomObjects<TState>[];
     assets       : TypesafeLoader<any>;
   }) {
     this._data       = new TilemapData({ data, pathToTilemap });
@@ -60,8 +61,8 @@ export class TiledTilemap {
     throw new Error("Not a rect layer");
   }
 
-  public loadLayersInRect(region: Rect): MapLayer[] {
-    let tileLayers: MapLayer[] = [];
+  public loadLayersInRect(region: Rect): MapLayer<TState>[] {
+    let tileLayers: MapLayer<TState>[] = [];
 
     // Load tile layers
 
@@ -102,7 +103,7 @@ export class TiledTilemap {
         }
       }
 
-      const layerEntity = new Entity({ 
+      const layerEntity = new Entity<TState>({ 
         texture: renderTexture, 
         name   : layerName,
       });
@@ -139,7 +140,7 @@ export class TiledTilemap {
     this._objects.turnOffAllObjects();
   }
 
-  getAllObjects(): ObjectInfo[] {
+  getAllObjects(): ObjectInfo<TState>[] {
     return this._objects.getAllObjects();
   }
 }

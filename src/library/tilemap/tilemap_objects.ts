@@ -7,18 +7,19 @@ import { Texture } from "pixi.js";
 import { TiledTilemap, MapLayer } from "./tilemap";
 import { TilemapRegion } from "./tilemap_data";
 import { TypesafeLoader } from "../typesafe_loader";
+import { BaseGameState } from "../base_state";
 
-type TilemapCustomObjectSingle = {
+type TilemapCustomObjectSingle<TState extends BaseGameState> = {
   type            : "single";
   name            : string;
-  getInstanceType : (tex: Texture, tileProperties: { [key: string]: unknown }, layerName: string) => Entity;
+  getInstanceType : (tex: Texture, tileProperties: { [key: string]: unknown }, layerName: string) => Entity<TState>;
 };
 
-type TilemapCustomObjectGroup = {
+type TilemapCustomObjectGroup<TState extends BaseGameState> = {
   type                 : "group";
   names                : string[];
-  getInstanceType      : (tex: Texture) => Entity;
-  getGroupInstanceType : () => Entity;
+  getInstanceType      : (tex: Texture) => Entity<TState>;
+  getGroupInstanceType : () => Entity<TState>;
 };
 
 type TilemapCustomObjectRect = {
@@ -27,30 +28,30 @@ type TilemapCustomObjectRect = {
   process  : (rect: TilemapRegion) => void;
 };
 
-export type TilemapCustomObjects = 
-  | TilemapCustomObjectGroup
-  | TilemapCustomObjectSingle
+export type TilemapCustomObjects<TState extends BaseGameState> = 
+  | TilemapCustomObjectGroup<TState>
+  | TilemapCustomObjectSingle<TState>
   | TilemapCustomObjectRect
 
-export type ObjectInfo = { entity: Entity; layerName: string };
+export type ObjectInfo<TState extends BaseGameState> = { entity: Entity<TState>; layerName: string };
 
-export class TiledTilemapObjects {
+export class TiledTilemapObjects<TState extends BaseGameState> {
   private _layers: TiledObjectLayerJSON[];
-  private _customObjects: TilemapCustomObjects[];
-  private _map: TiledTilemap;
+  private _customObjects: TilemapCustomObjects<TState>[];
+  private _map: TiledTilemap<TState>;
 
   /**
    * Every custom object in the game.
    */
-  private _allObjects: ObjectInfo[] = [];
+  private _allObjects: ObjectInfo<TState>[] = [];
 
   private _assets: TypesafeLoader<any>;
 
   constructor(props: {
     assets       : TypesafeLoader<any>;
     layers       : TiledObjectLayerJSON[];
-    customObjects: TilemapCustomObjects[];
-    map          : TiledTilemap;
+    customObjects: TilemapCustomObjects<TState>[];
+    map          : TiledTilemap<TState>;
   }) {
     const { layers, customObjects, map } = props;
 
@@ -74,10 +75,10 @@ export class TiledTilemapObjects {
     }
   }
 
-  loadObjectLayers(): MapLayer[] {
+  loadObjectLayers(): MapLayer<TState>[] {
     this.turnOffAllObjects();
 
-    let result: MapLayer[] = [];
+    let result: MapLayer<TState>[] = [];
 
     for (const layer of this._layers) {
       result.push({
@@ -97,8 +98,8 @@ export class TiledTilemapObjects {
     return result;
   }
 
-  private loadLayer(layer: TiledObjectLayerJSON): ObjectInfo[] {
-    const results: ObjectInfo[] = [];
+  private loadLayer(layer: TiledObjectLayerJSON): ObjectInfo<TState>[] {
+    const results: ObjectInfo<TState>[] = [];
 
     type ObjectInGroup = {
       name : string;
@@ -148,7 +149,7 @@ export class TiledTilemapObjects {
         ...objProperties,
       };
 
-      let newObj: Entity | null = null;
+      let newObj: Entity<TState> | null = null;
       const tile = {
         x             : obj.x,
 
@@ -242,7 +243,7 @@ export class TiledTilemapObjects {
 
       // Step 2a: Find all names of objects in that group
 
-      let customObject: TilemapCustomObjectGroup | null = null;
+      let customObject: TilemapCustomObjectGroup<TState> | null = null;
 
       for (const candidate of this._customObjects) {
         if (candidate.type === "group") {
@@ -328,7 +329,7 @@ export class TiledTilemapObjects {
     return results;
   }
 
-  getAllObjects(): ObjectInfo[] {
+  getAllObjects(): ObjectInfo<TState>[] {
     return this._allObjects;
   }
 }

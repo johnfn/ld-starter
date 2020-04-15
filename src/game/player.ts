@@ -1,12 +1,12 @@
-import { Entity } from "../library/entity";
 import { Game } from "./game";
-import { GameState } from "../library/state";
 import { GameMap } from "./game_map";
 import { DialogBox } from "./dialog";
 import { Vector2 } from "../library/geometry/vector2";
 import { Assets } from "./assets";
+import { GameState } from "./state";
+import { ModeEntity } from "./modes";
 
-export class Player extends Entity {
+export class Player extends ModeEntity {
   public static Instance: Player;
 
   speed = 8;
@@ -28,10 +28,6 @@ export class Player extends Entity {
   audio: HTMLAudioElement | null = null;
 
   update(state: GameState): void {
-    if (DialogBox.DialogVisible()) {
-      return;
-    }
-
     this.velocity = Vector2.Zero;
 
     if (state.keys.down.W) {

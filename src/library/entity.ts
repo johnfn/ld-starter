@@ -3,7 +3,7 @@ import { Rect } from "./geometry/rect";
 import { Sprite, Texture, MaskData, Container } from "pixi.js";
 import { getUniqueID } from "./util";
 import { RectGroup } from "./geometry/rect_group";
-import { GameState } from "./state";
+import { BaseGameState } from "./base_state";
 import { GameReference } from "./base_game";
 import { CoroutineId, GameCoroutine } from "./coroutine_manager";
 
@@ -17,12 +17,12 @@ export enum EntityType {
   MovingEntity,
 }
 
-class AugmentedSprite extends Sprite {
-  id = getUniqueID();
+class AugmentedSprite<TState extends BaseGameState> extends Sprite {
+  entity!: Entity<TState>;
 }
 
 // TODO: probably make less of these methods abstract?
-export class Entity {
+export class Entity<TState extends BaseGameState> {
   /**
    * This is the name that is displayed in the hierarchy.
    */
@@ -35,9 +35,7 @@ export class Entity {
   /**
    * The PIXI Sprite that this Entity wraps.
    */
-  public sprite     : AugmentedSprite;
-
-  static SpriteToEntity: { [key: number]: Entity } = {};
+  public sprite     : AugmentedSprite<TState>;
 
   protected _collidable: boolean;
 
@@ -48,7 +46,7 @@ export class Entity {
   }) {
     this.sprite        = new AugmentedSprite(props.texture);;
     this.name          = props.name;
-    Entity.SpriteToEntity[this.sprite.id] = this;
+    this.sprite.entity = this;
 
     this._collidable  = props.collidable ?? false;
 
@@ -58,15 +56,15 @@ export class Entity {
     this.sprite.anchor.set(0);
   }
 
-  addChild(child: Entity) {
+  addChild(child: Entity<TState>) {
     this.sprite.addChild(child.sprite);
   }
 
-  removeChild(child: Entity) {
+  removeChild(child: Entity<TState>) {
     this.sprite.removeChild(child.sprite);
   }
 
-  startCoroutine(name: string, coroutine: GameCoroutine): CoroutineId {
+  startCoroutine(name: string, coroutine: GameCoroutine<TState>): CoroutineId {
     return GameReference.coroutineManager.startCoroutine(name, coroutine);
   }
 
@@ -82,7 +80,11 @@ export class Entity {
     GameReference.state.entities.remove(this);
   }
 
-  update(state: GameState): void {}
+  shouldUpdate(state: TState): boolean {
+    return true;
+  }
+
+  update(state: TState): void {}
 
   setCollideable(isCollideable: boolean) {
     this._collidable = isCollideable;
@@ -132,20 +134,20 @@ export class Entity {
     });
   }
 
-  children(): Entity[] {
+  children(): Entity<TState>[] {
     const children = this.sprite.children;
-    const result: Entity[] = [];
+    const result: Entity<TState>[] = [];
 
     for (const child of children) {
       if (child instanceof AugmentedSprite) {
-        result.push(Entity.SpriteToEntity[child.id]);
+        result.push(child.entity);
       }
     }
 
     return result;
   }
 
-  destroy(state: GameState) {
+  destroy(state: TState) {
     state.toBeDestroyed.push(this);
   }
 
@@ -163,11 +165,11 @@ export class Entity {
 
   // Sprite wrapper stuff
 
-  public get parent(): Entity | null { 
+  public get parent(): Entity<TState> | null { 
     const parent = this.sprite.parent;
 
     if (parent instanceof AugmentedSprite) {
-      const entityParent = Entity.SpriteToEntity[parent.id];
+      const entityParent = parent.entity;
 
       if (entityParent) {
         return entityParent;
@@ -177,24 +179,41 @@ export class Entity {
     return null;
   }
 
-  addOnClick(listener: () => void) {
-    this.sprite.interactive = true;
+  queuedUpdates: ((state: TState) => void)[] = [];
 
-    this.sprite.on('click', listener);
+  baseUpdate(state: TState): void {
+    for (const cb of this.queuedUpdates) {
+      cb(state);
+    }
+
+    this.queuedUpdates = [];
+
+    this.update(state);
   }
 
-  addOnMouseOver(listener: () => void) {
+  addOnClick(listener: (state: TState) => void) {
     this.sprite.interactive = true;
 
-    this.sprite.on('mouseover', listener);
+    this.sprite.on('click', () => {
+      this.queuedUpdates.push(listener);
+    });
   }
 
-  addOnMouseOut(listener: () => void) {
+  addOnMouseOver(listener: (state: TState) => void) {
     this.sprite.interactive = true;
 
-    this.sprite.on('mouseout', listener);
+    this.sprite.on('mouseover', () => {
+      this.queuedUpdates.push(listener);
+    });
   }
 
+  addOnMouseOut(listener: (state: TState) => void) {
+    this.sprite.interactive = true;
+
+    this.sprite.on('mouseout', () => {
+      this.queuedUpdates.push(listener);
+    });
+  }
 
   public get x(): number { return this.sprite.x; }
   public set x(value: number) { this.sprite.x = value; }

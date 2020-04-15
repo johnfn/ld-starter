@@ -1,4 +1,5 @@
 import { BaseTextEntity } from "./base_text_entity";
+import { BaseGameState } from "./base_state";
 
 export type TextAlignType = "left" | "right" | "center";
 
@@ -40,7 +41,7 @@ export const AdvanceState = (currentState: TextSegmentState): TextSegmentState =
  * 
  * "%1%This is some red text% normal text %2%blue text!%".
  */
-export class TextEntity extends BaseTextEntity {
+export class TextEntity<T extends BaseGameState> extends BaseTextEntity<BaseGameState> {
   customStyles: TextStyles;
   defaultStyle: TextEntityStyle;
 

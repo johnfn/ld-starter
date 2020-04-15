@@ -1,4 +1,3 @@
-import { Entity } from "../library/entity";
 import { GameCoroutine } from "../library/coroutine_manager";
 import { Player } from "./player";
 import { Vector2 } from "../library/geometry/vector2";
@@ -6,8 +5,10 @@ import { DialogTexts } from "./dialog_text";
 import { DialogBox, DialogText } from "./dialog";
 import { Texture } from "pixi.js";
 import { Assets } from "./assets";
+import { GameState } from "./state";
+import { ModeEntity } from "./modes";
 
-export class TasuketeHead extends Entity {
+export class TasuketeHead extends ModeEntity {
   frames: Texture[];
 
   constructor() {
@@ -23,20 +24,20 @@ export class TasuketeHead extends Entity {
     this.startCoroutine("TasuketeMove", this.tasuketeMove());
     this.startCoroutine("TasuketeAnimation", this.tasuketeAnimation());
 
-    this.addOnMouseOver(() => { 
+    this.addOnMouseOver(state => { 
       this.scale = new Vector2(1.1, 1.1);
     });
 
-    this.addOnMouseOut(() => { 
+    this.addOnMouseOut(state => { 
       this.scale = new Vector2(1, 1);
     });
 
-    this.addOnClick(() => {
+    this.addOnClick(state => {
       this.startDialog();
-    })
+    });
   }
 
-  *tasuketeAnimation(): GameCoroutine {
+  *tasuketeAnimation(): GameCoroutine<GameState> {
     let index = 0;
 
     while (true) {
@@ -65,12 +66,12 @@ export class TasuketeHead extends Entity {
     this.startCoroutine("TasuketeDialog", this.annoying(nextDialog));
   }
 
-  *annoying(nextDialog: DialogText): GameCoroutine {
+  *annoying(nextDialog: DialogText): GameCoroutine<GameState> {
     yield* DialogBox.StartDialog(nextDialog);
     this.talking = false;
   }
 
-  *tasuketeMove(): GameCoroutine {
+  *tasuketeMove(): GameCoroutine<GameState> {
     const player = Player.Instance;
     const speed = 1.4;
 
