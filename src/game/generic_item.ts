@@ -4,7 +4,7 @@ import { Texture } from "pixi.js";
 import { GameState } from "../library/state";
 import { Player } from "./player";
 import { Entity } from "../library/entity";
-import { Assets } from "./resources";
+import { Assets } from "./assets";
 
 export class GenericItem extends VanishingEntity {
   floatingText: TextEntity;

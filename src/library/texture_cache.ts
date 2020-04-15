@@ -1,5 +1,5 @@
 import { Rectangle, Texture } from 'pixi.js'
-import { ResourceName } from '../game/resources';
+import { AssetName } from '../game/assets';
 import { Tile } from './tilemap/tilemap_types';
 import { TypesafeLoader } from './typesafe_loader';
 
@@ -7,7 +7,7 @@ export class TextureCache {
   static Cache: { [key: string]: Texture } = {};
 
   public static GetTextureFromSpritesheet({ resourceName: textureName, x, y, tilewidth, tileheight, assets }: { 
-    resourceName: ResourceName; 
+    resourceName: AssetName; 
     x          : number;
     y          : number;
     tilewidth  : number;
@@ -39,7 +39,7 @@ export class TextureCache {
     return TextureCache.GetTextureFromSpritesheet({ 
       // TODO: Is there any way to improve this cast?
       // Once I add a loader for tilemaps, probably yes!
-      resourceName: imageUrlRelativeToGame.slice(0, imageUrlRelativeToGame.lastIndexOf(".")) as ResourceName,
+      resourceName: imageUrlRelativeToGame.slice(0, imageUrlRelativeToGame.lastIndexOf(".")) as AssetName,
       x          : spritesheetx, 
       y          : spritesheety, 
       tilewidth  : tile.tile.tilewidth, 

@@ -20,7 +20,7 @@ export type GameArgs = {
   tileHeight  : number;
   tileWidth   : number;
   debugFlags  : DebugFlagsType;
-  resources   : TypesafeLoader<any>;
+  assets   : TypesafeLoader<any>;
 };
 
 export class BaseGame<Resources extends AllResourcesType = {}> {
@@ -40,7 +40,7 @@ export class BaseGame<Resources extends AllResourcesType = {}> {
    */
   fixedCameraStage: Entity;
 
-  private resources: TypesafeLoader<Resources>;
+  private assets: TypesafeLoader<Resources>;
 
   renderer: Renderer;
 
@@ -97,9 +97,9 @@ export class BaseGame<Resources extends AllResourcesType = {}> {
     this.state.renderer = this.app.renderer;
     this.state.stage = this.stage;
 
-    this.resources = props.resources;
-    this.resources.onLoadComplete(() => this.startGameLoop());
-    this.resources.onLoadComplete(() => this.initialize());
+    this.assets = props.assets;
+    this.assets.onLoadComplete(() => this.startGameLoop());
+    this.assets.onLoadComplete(() => this.initialize());
 
     this.renderer = this.app.renderer;
 

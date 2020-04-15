@@ -1,5 +1,5 @@
 import { Loader, Texture } from 'pixi.js'
-import { ResourcesToLoad } from '../game/resources';
+import { AssetsToLoad, Assets } from '../game/assets';
 import { TilemapData } from './tilemap/tilemap_data';
 import { TiledJSON } from './tilemap/tilemap_types';
 
@@ -64,11 +64,11 @@ export class TypesafeLoader<Resources extends AllResourcesType> {
   private startStageTwoLoading = () => {
     let allTilemapDependencyPaths: string[] = [];
 
-    for (const resource of Object.keys(ResourcesToLoad)) {
-      const castedResource = resource as keyof typeof ResourcesToLoad;
+    for (const resource of Object.keys(AssetsToLoad)) {
+      const castedResource = resource as keyof typeof AssetsToLoad;
       const pathToTilemap = resource.substring(0, resource.lastIndexOf("/"))
 
-      if (ResourcesToLoad[castedResource].type === "TileMap") {
+      if (AssetsToLoad[castedResource].type === "TileMap") {
         const tilemapData = new TilemapData({ data: this.getResource(castedResource) as TiledJSON, pathToTilemap });
 
         allTilemapDependencyPaths = allTilemapDependencyPaths.concat(
@@ -86,8 +86,8 @@ export class TypesafeLoader<Resources extends AllResourcesType> {
     this.loader.load(this.finishLoading);
   }
 
-  getResource<T extends keyof typeof ResourcesToLoad>(resourceName: T): ResourceReturn<(typeof ResourcesToLoad)[T]['type']> {
-    const resource = ResourcesToLoad[resourceName] as IndividualResourceObj;
+  getResource<T extends keyof typeof AssetsToLoad>(resourceName: T): ResourceReturn<(typeof AssetsToLoad)[T]['type']> {
+    const resource = AssetsToLoad[resourceName] as IndividualResourceObj;
 
     if (resource.type === "Audio") {
       throw new Error("Unhandled");

@@ -1,5 +1,5 @@
 import { BaseGame } from "../library/base_game";
-import { ResourcesToLoad, Assets } from "./resources";
+import { AssetsToLoad, Assets } from "./assets";
 import { Player } from "./player";
 import { GameMap } from "./game_map";
 import { Test } from "./test";
@@ -8,7 +8,7 @@ import { DialogTexts } from "./dialog_text";
 import { DebugFlags } from "./debug";
 import { TasuketeHead } from "./tasukete_head";
 
-export class Game extends BaseGame<typeof ResourcesToLoad> {
+export class Game extends BaseGame<typeof AssetsToLoad> {
   public static Instance: Game;
 
   constructor() {
@@ -18,7 +18,7 @@ export class Game extends BaseGame<typeof ResourcesToLoad> {
       tileWidth   : 256,
       tileHeight  : 256,
       scale       : 0.5,
-      resources   : Assets,
+      assets   : Assets,
       debugFlags  : DebugFlags,
     });
 

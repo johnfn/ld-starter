@@ -3,7 +3,7 @@ import { GameState } from "../library/state";
 import { TextEntity } from "../library/text_entity";
 import { Game } from "./game";
 import { GameCoroutine } from "../library/coroutine_manager";
-import { Assets } from "./resources";
+import { Assets } from "./assets";
 
 export type DialogText = {
   speaker: string;

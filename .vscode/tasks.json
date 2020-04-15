@@ -4,12 +4,12 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Build Resources",
+      "label": "Build Assets",
       "type": "shell",
       "runOptions": {
         "runOn": "folderOpen"
       },
-      "command": "ts-node --project /Users/johnfn/code/ld-starter/src/library/scripts/tsconfig.json /Users/johnfn/code/ld-starter/src/library/scripts/resource_builder.ts /Users/johnfn/code/ld-starter/src/game/config.json"
+      "command": "ts-node --project /Users/johnfn/code/ld-starter/src/library/scripts/tsconfig.json /Users/johnfn/code/ld-starter/src/library/scripts/assets_builder.ts /Users/johnfn/code/ld-starter/src/game/config.json"
     },
 
     {

@@ -6,7 +6,7 @@ import { TilemapRegion } from "../library/tilemap/tilemap_data";
 import { GenericItem } from "./generic_item";
 import { Texture } from "pixi.js";
 import { RectGroup } from "../library/geometry/rect_group";
-import { Assets } from "./resources";
+import { Assets } from "./assets";
 
 export class GameMap extends Entity {
   artMap         : TiledTilemap;

@@ -6,7 +6,7 @@ import { Vector2 } from "../library/geometry/vector2";
 import { DialogTexts } from "./dialog_text";
 import { DialogBox, DialogText } from "./dialog";
 import { Texture } from "pixi.js";
-import { Assets } from "./resources";
+import { Assets } from "./assets";
 
 export class TasuketeHead extends Entity {
   frames: Texture[];

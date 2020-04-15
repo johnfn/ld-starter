@@ -4,7 +4,7 @@ import { GameState } from "../library/state";
 import { GameMap } from "./game_map";
 import { DialogBox } from "./dialog";
 import { Vector2 } from "../library/geometry/vector2";
-import { Assets } from "./resources";
+import { Assets } from "./assets";
 
 export class Player extends Entity {
   public static Instance: Player;

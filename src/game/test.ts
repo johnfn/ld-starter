@@ -1,7 +1,7 @@
 import { Entity } from "../library/entity";
 import { Game } from "./game";
 import { GameState } from "../library/state";
-import { Assets } from "./resources";
+import { Assets } from "./assets";
 
 export class Test extends Entity {
 
