@@ -3,7 +3,7 @@ import { Entity } from "./entity";
 import { Debug } from "./debug";
 import { HashSet } from "./data_structures/hash";
 import { GameState } from "./state";
-import { TypesafeLoader } from "./typesafe_loader";
+import { TypesafeLoader, AllResourcesType } from "./typesafe_loader";
 import { CreateGame as ReactMountGame } from "./react/react_root";
 import { Camera } from "./camera";
 import { DebugFlagsType } from "./react/debug_flag_buttons";
@@ -13,17 +13,17 @@ import { CoroutineManager } from "./coroutine_manager";
 
 export let GameReference: BaseGame<any>;
 
-export type GameArgs<T> = {
+export type GameArgs = {
   scale       : number;
   canvasWidth : number;
   canvasHeight: number;
   tileHeight  : number;
   tileWidth   : number;
   debugFlags  : DebugFlagsType;
-  resources   : T;
-}
+  resources   : TypesafeLoader<any>;
+};
 
-export class BaseGame<Resources> {
+export class BaseGame<Resources extends AllResourcesType = {}> {
   app   : PIXI.Application;
 
   state : GameState;
@@ -40,7 +40,7 @@ export class BaseGame<Resources> {
    */
   fixedCameraStage: Entity;
 
-  assets: TypesafeLoader<Resources>;
+  private resources: TypesafeLoader<Resources>;
 
   renderer: Renderer;
 
@@ -50,7 +50,7 @@ export class BaseGame<Resources> {
 
   coroutineManager: CoroutineManager;
 
-  constructor(props: GameArgs<Resources>) {
+  constructor(props: GameArgs) {
     GameReference = this;
 
     this.coroutineManager = new CoroutineManager();
@@ -97,9 +97,9 @@ export class BaseGame<Resources> {
     this.state.renderer = this.app.renderer;
     this.state.stage = this.stage;
 
-    this.assets = new TypesafeLoader(props.resources)
-    this.assets.onLoadComplete(() => this.startGameLoop());
-    this.assets.onLoadComplete(() => this.initialize());
+    this.resources = props.resources;
+    this.resources.onLoadComplete(() => this.startGameLoop());
+    this.resources.onLoadComplete(() => this.initialize());
 
     this.renderer = this.app.renderer;
 

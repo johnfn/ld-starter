@@ -1,23 +1,23 @@
 import { Rectangle, Texture } from 'pixi.js'
 import { ResourceName } from '../game/resources';
 import { Tile } from './tilemap/tilemap_types';
-import { BaseGame } from './base_game';
+import { TypesafeLoader } from './typesafe_loader';
 
 export class TextureCache {
   static Cache: { [key: string]: Texture } = {};
 
-  public static GetTextureFromSpritesheet<T>({ textureName, x, y, tilewidth, tileheight, game }: { 
-    textureName: ResourceName; 
+  public static GetTextureFromSpritesheet({ resourceName: textureName, x, y, tilewidth, tileheight, assets }: { 
+    resourceName: ResourceName; 
     x          : number;
     y          : number;
     tilewidth  : number;
     tileheight : number;
-    game       : BaseGame<T>
+    assets     : TypesafeLoader<{}>;
   }): Texture {
     const key = `${ textureName }-${ x }-${ y }`;
 
     if (!TextureCache.Cache[key]) {
-      const texture = game.assets.getResource(textureName).texture.clone();
+      const texture = (assets.getResource(textureName) as Texture).clone();
 
       texture.frame = new Rectangle(x * tilewidth, y * tileheight, tilewidth, tileheight);
 
@@ -27,7 +27,7 @@ export class TextureCache {
     return this.Cache[key];
   }
 
-  public static GetTextureForTile<T>({ game, tile }: { game: BaseGame<T>; tile: Tile; }): Texture {
+  public static GetTextureForTile({ assets, tile }: { assets: TypesafeLoader<{}>; tile: Tile; }): Texture {
     const {
       tile: {
         imageUrlRelativeToGame,
@@ -37,12 +37,14 @@ export class TextureCache {
     } = tile;
 
     return TextureCache.GetTextureFromSpritesheet({ 
-      textureName: imageUrlRelativeToGame as ResourceName, // TODO: Is there any way to improve this cast?
+      // TODO: Is there any way to improve this cast?
+      // Once I add a loader for tilemaps, probably yes!
+      resourceName: imageUrlRelativeToGame.slice(0, imageUrlRelativeToGame.lastIndexOf(".")) as ResourceName,
       x          : spritesheetx, 
       y          : spritesheety, 
       tilewidth  : tile.tile.tilewidth, 
-      tileheight : tile.tile.tileheight ,
-      game       : game,
+      tileheight : tile.tile.tileheight,
+      assets     : assets,
     });
   }
 }

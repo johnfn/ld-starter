@@ -12,7 +12,7 @@ export class MovingEntity extends Entity {
   protected _maxSpeed = 50;
 
   constructor(props: {
-    game: BaseGame<unknown>;
+    game: BaseGame<{}>;
     texture: Texture;
     collidable: boolean;
   }) {

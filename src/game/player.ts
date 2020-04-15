@@ -4,17 +4,22 @@ import { GameState } from "../library/state";
 import { GameMap } from "./game_map";
 import { DialogBox } from "./dialog";
 import { Vector2 } from "../library/geometry/vector2";
+import { Assets } from "./resources";
 
 export class Player extends Entity {
   public static Instance: Player;
 
   speed = 8;
+  index = 0;
+  frames: PIXI.Texture[];
 
   constructor() {
     super({
       name   : "Player!",
-      texture: Game.Instance.assets.getResource("miranda.png").texture,
+      texture: Assets.getResource("miranda"),
     });
+
+    this.frames = Assets.getResource("miranda_walk");
 
     Player.Instance = this;
     this.scale = new Vector2({ x: 0.25, y: 0.25 });
@@ -43,6 +48,12 @@ export class Player extends Entity {
 
     if (state.keys.down.D) {
       this.velocity = this.velocity.addX(this.speed);
+    }
+
+    if (!this.velocity.equals(Vector2.Zero)) {
+      this.index += 1;
+
+      this.texture = this.frames[Math.floor(this.index / 8) % this.frames.length]
     }
 
     Game.Instance.camera.centerOn(this.position);

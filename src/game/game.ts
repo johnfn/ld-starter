@@ -1,5 +1,5 @@
 import { BaseGame } from "../library/base_game";
-import { ResourcesToLoad } from "./resources";
+import { ResourcesToLoad, Assets } from "./resources";
 import { Player } from "./player";
 import { GameMap } from "./game_map";
 import { Test } from "./test";
@@ -18,7 +18,7 @@ export class Game extends BaseGame<typeof ResourcesToLoad> {
       tileWidth   : 256,
       tileHeight  : 256,
       scale       : 0.5,
-      resources   : ResourcesToLoad,
+      resources   : Assets,
       debugFlags  : DebugFlags,
     });
 

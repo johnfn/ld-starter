@@ -3,6 +3,7 @@ import { GameState } from "../library/state";
 import { TextEntity } from "../library/text_entity";
 import { Game } from "./game";
 import { GameCoroutine } from "../library/coroutine_manager";
+import { Assets } from "./resources";
 
 export type DialogText = {
   speaker: string;
@@ -29,7 +30,7 @@ export class DialogBox extends Entity {
     this.y = 550;
 
     const graphic = new Entity({ 
-      texture: Game.Instance.assets.getResource("dialog_box.png").texture,
+      texture: Assets.getResource("dialog_box"),
       name: "Dialog Graphic",
     });
 
@@ -91,11 +92,11 @@ export class DialogBox extends Entity {
     this.speakerText.setText(speaker);
 
     if (speaker === "Chief Nabisco") {
-      this.profilePic.texture = Game.Instance.assets.getResource("oberon_portrait.png").texture;
+      this.profilePic.texture = Assets.getResource("oberon_portrait");
     } else if (speaker === "Detective Pringle") {
-      this.profilePic.texture = Game.Instance.assets.getResource("miranda_portrait.png").texture;
+      this.profilePic.texture = Assets.getResource("miranda_portrait");
     } else if (speaker === "Tasukete") {
-      this.profilePic.texture = Game.Instance.assets.getResource("tasukete_portrait.png").texture;
+      this.profilePic.texture = Assets.getResource("tasukete_portrait");
     }
   }
 

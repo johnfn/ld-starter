@@ -3,8 +3,8 @@ import { TextEntity } from "../library/text_entity";
 import { Texture } from "pixi.js";
 import { GameState } from "../library/state";
 import { Player } from "./player";
-import { Game } from "./game";
 import { Entity } from "../library/entity";
+import { Assets } from "./resources";
 
 export class GenericItem extends VanishingEntity {
   floatingText: TextEntity;
@@ -17,8 +17,8 @@ export class GenericItem extends VanishingEntity {
     });
 
     this.graphic = new Entity({ 
-      texture: Game.Instance.assets.getResource("dialog_box.png").texture,
-      name: "Graphic",
+      texture: Assets.getResource("dialog_box"),
+      name   : "Graphic",
     });
 
     this.addChild(this.graphic);

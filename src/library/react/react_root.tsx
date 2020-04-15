@@ -7,7 +7,7 @@ import { DebugFlagButtons, DebugFlagsType } from './debug_flag_buttons';
 import { IS_DEBUG } from '../environment';
 
 type ReactWrapperProps = {
-  game      : BaseGame<unknown>;
+  game      : BaseGame<{}>;
   debugFlags: DebugFlagsType;
 };
 

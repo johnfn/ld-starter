@@ -121,4 +121,8 @@ export class Util {
 
     return result
   }
+
+  public static PadString(string: string, length: number, intersperse = "", character = " ") {
+    return string + intersperse + character.repeat(length - string.length);
+  }
 }

@@ -5,7 +5,8 @@ import { TextureCache } from '../texture_cache';
 import { Entity } from '../entity';
 import { TiledTilemapObjects, TilemapCustomObjects, ObjectInfo } from './tilemap_objects'
 import { TilemapData, TilemapRegion } from './tilemap_data';
-import { BaseGame } from '../base_game';
+import { Assets } from '../../game/resources';
+import { TypesafeLoader } from '../typesafe_loader';
 
 export type MapLayer = {
   layerName  : string;
@@ -20,29 +21,29 @@ export class TiledTilemap {
   private _tileHeight : number;
   private _renderer   : Renderer;
   private _objects    : TiledTilemapObjects;
-  private _game       : BaseGame<unknown>;
+  private _assets     : TypesafeLoader<any>;
 
   _data : TilemapData;
 
-  constructor({ json: data, renderer, pathToTilemap, customObjects, game }: { 
+  constructor({ json: data, renderer, pathToTilemap, customObjects, assets }: { 
     // this is required to calculate the relative paths of the tileset images.
     json         : TiledJSON; 
     renderer     : Renderer; 
     pathToTilemap: string;
     customObjects: TilemapCustomObjects[];
-    game         : BaseGame<any>;
+    assets       : TypesafeLoader<any>;
   }) {
     this._data       = new TilemapData({ data, pathToTilemap });
     this._renderer   = renderer;
     this._tileWidth  = this._data.getTileWidth();
     this._tileHeight = this._data.getTileHeight();
-    this._game       = game;
+    this._assets     = assets;
 
     this._objects    = new TiledTilemapObjects({
       layers       : this._data.getAllObjectLayers(),
       customObjects: customObjects,
       map          : this,
-      game         : game,
+      assets       : Assets,
     });
   }
 
@@ -88,7 +89,7 @@ export class TiledTilemap {
 
           if (!tile) { continue; }
 
-          const tex = TextureCache.GetTextureForTile({ game: this._game, tile });
+          const tex = TextureCache.GetTextureForTile({ assets: this._assets, tile });
           const sprite = new Sprite(tex);
 
           // We have to offset here because we'd be drawing outside of the

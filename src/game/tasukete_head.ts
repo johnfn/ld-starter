@@ -5,13 +5,19 @@ import { Player } from "./player";
 import { Vector2 } from "../library/geometry/vector2";
 import { DialogTexts } from "./dialog_text";
 import { DialogBox, DialogText } from "./dialog";
+import { Texture } from "pixi.js";
+import { Assets } from "./resources";
 
 export class TasuketeHead extends Entity {
+  frames: Texture[];
+
   constructor() {
     super({
-      texture: Game.Instance.assets.getResource("tasukete/tasukete_0000.png").texture,
+      texture: Assets.getResource("tasukete/tasukete")[0],
       name   : "TasuketeHead",
     });
+
+    this.frames = Assets.getResource("tasukete/tasukete");
 
     this.sprite.anchor.set(0.5, 0.5);
 
@@ -32,34 +38,12 @@ export class TasuketeHead extends Entity {
   }
 
   *tasuketeAnimation(): GameCoroutine {
-    const frames = [
-      Game.Instance.assets.getResource("tasukete/tasukete_0000.png").texture,
-      Game.Instance.assets.getResource("tasukete/tasukete_0001.png").texture,
-      Game.Instance.assets.getResource("tasukete/tasukete_0002.png").texture,
-      Game.Instance.assets.getResource("tasukete/tasukete_0003.png").texture,
-      Game.Instance.assets.getResource("tasukete/tasukete_0004.png").texture,
-      Game.Instance.assets.getResource("tasukete/tasukete_0005.png").texture,
-      Game.Instance.assets.getResource("tasukete/tasukete_0006.png").texture,
-      Game.Instance.assets.getResource("tasukete/tasukete_0007.png").texture,
-      Game.Instance.assets.getResource("tasukete/tasukete_0008.png").texture,
-      Game.Instance.assets.getResource("tasukete/tasukete_0009.png").texture,
-      Game.Instance.assets.getResource("tasukete/tasukete_0010.png").texture,
-      Game.Instance.assets.getResource("tasukete/tasukete_0011.png").texture,
-      Game.Instance.assets.getResource("tasukete/tasukete_0012.png").texture,
-      Game.Instance.assets.getResource("tasukete/tasukete_0013.png").texture,
-      Game.Instance.assets.getResource("tasukete/tasukete_0014.png").texture,
-      Game.Instance.assets.getResource("tasukete/tasukete_0015.png").texture,
-      Game.Instance.assets.getResource("tasukete/tasukete_0016.png").texture,
-      Game.Instance.assets.getResource("tasukete/tasukete_0017.png").texture,
-      Game.Instance.assets.getResource("tasukete/tasukete_0018.png").texture,
-    ];
-
     let index = 0;
 
     while (true) {
       yield { frames: 5 };
 
-      this.texture = frames[++index % frames.length];
+      this.texture = this.frames[++index % this.frames.length];
     }
   }
 

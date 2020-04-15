@@ -1,6 +1,7 @@
 import { Entity } from "../library/entity";
 import { Game } from "./game";
 import { GameState } from "../library/state";
+import { Assets } from "./resources";
 
 export class Test extends Entity {
 
@@ -10,7 +11,7 @@ export class Test extends Entity {
     });
 
     const bookshelf = new Entity({
-      texture: Game.Instance.assets.getResource("tileset.png").texture,
+      texture: Assets.getResource("tileset"),
       name: "BookshelfTestGraphics",
     });
 

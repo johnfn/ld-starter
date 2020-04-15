@@ -6,6 +6,7 @@ import { TilemapRegion } from "../library/tilemap/tilemap_data";
 import { GenericItem } from "./generic_item";
 import { Texture } from "pixi.js";
 import { RectGroup } from "../library/geometry/rect_group";
+import { Assets } from "./resources";
 
 export class GameMap extends Entity {
   artMap         : TiledTilemap;
@@ -25,7 +26,7 @@ export class GameMap extends Entity {
 
     this.artMap = new TiledTilemap({
       pathToTilemap: "",
-      json         : Game.Instance.assets.getResource("map.json").data,
+      json         : Assets.getResource("map"),
       renderer     : Game.Instance.renderer,
       customObjects: [
         {
@@ -122,12 +123,12 @@ export class GameMap extends Entity {
           }
         },
     ],
-      game         : Game.Instance,
+      assets: Assets
     });
 
     this.musicRegionsMap = new TiledTilemap({
       pathToTilemap: "",
-      json         : Game.Instance.assets.getResource("music.json").data,
+      json         : Assets.getResource("music"),
       renderer     : Game.Instance.renderer,
       customObjects: [{
         type     : "rect",
@@ -136,7 +137,7 @@ export class GameMap extends Entity {
           this.musicRegions.push(rect);
         }
       }],
-      game         : Game.Instance,
+      assets: Assets,
     });
 
     this.loadMap();

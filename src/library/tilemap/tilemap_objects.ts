@@ -5,8 +5,8 @@ import { TextureCache } from "../texture_cache";
 import { Grid } from "../data_structures/grid";
 import { Texture } from "pixi.js";
 import { TiledTilemap, MapLayer } from "./tilemap";
-import { BaseGame } from "../base_game";
 import { TilemapRegion } from "./tilemap_data";
+import { TypesafeLoader } from "../typesafe_loader";
 
 type TilemapCustomObjectSingle = {
   type            : "single";
@@ -44,17 +44,17 @@ export class TiledTilemapObjects {
    */
   private _allObjects: ObjectInfo[] = [];
 
-  private _game: BaseGame<unknown>;
+  private _assets: TypesafeLoader<any>;
 
   constructor(props: {
-    game         : BaseGame<unknown>;
+    assets       : TypesafeLoader<any>;
     layers       : TiledObjectLayerJSON[];
     customObjects: TilemapCustomObjects[];
     map          : TiledTilemap;
   }) {
     const { layers, customObjects, map } = props;
 
-    this._game          = props.game;
+    this._assets        = props.assets;
     this._layers        = layers;
     this._customObjects = customObjects;
     this._map           = map;
@@ -184,7 +184,7 @@ export class TiledTilemapObjects {
 
       if (associatedObject.type === "single") {
         if (associatedObject.name === tileType) {
-          const spriteTex = TextureCache.GetTextureForTile({ game: this._game, tile }); 
+          const spriteTex = TextureCache.GetTextureForTile({ assets: this._assets, tile }); 
 
           newObj = associatedObject.getInstanceType(spriteTex, allProperties, layer.name);
         }
@@ -310,7 +310,7 @@ export class TiledTilemapObjects {
       groupEntity.y = minTileY;
 
       for (const obj of group) {
-        const spriteTex = TextureCache.GetTextureForTile({ game: this._game, tile: obj.tile });
+        const spriteTex = TextureCache.GetTextureForTile({ assets: this._assets, tile: obj.tile });
         const objEntity = customObject.getInstanceType(spriteTex);
 
         groupEntity.addChild(objEntity);
