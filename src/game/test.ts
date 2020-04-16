@@ -1,5 +1,6 @@
 import { Assets } from "./assets";
 import { Entity } from "../library/entity";
+import { IGameState } from "Library";
 
 export class Test extends Entity {
   constructor() {
@@ -24,7 +25,7 @@ export class Test extends Entity {
     // this.addChild(text);
   }
 
-  update(state: Library.IGameState): void {
+  update(state: IGameState): void {
 
   }
 }

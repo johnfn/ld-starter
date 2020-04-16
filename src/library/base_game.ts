@@ -9,6 +9,7 @@ import { DebugFlagsType } from "./react/debug_flag_buttons";
 import { CollisionHandler } from "./collision_handler";
 import { Rect } from "./geometry/rect";
 import { CoroutineManager } from "./coroutine_manager";
+import { IGameState } from "Library";
 
 export let GameReference: BaseGame<any>;
 
@@ -19,14 +20,14 @@ export type GameArgs = {
   tileHeight  : number;
   tileWidth   : number;
   debugFlags  : DebugFlagsType;
-  state       : Library.IGameState;
+  state       : IGameState;
   assets      : TypesafeLoader<any>;
 };
 
 export class BaseGame<TResources extends AllResourcesType = {}> {
   app   : PIXI.Application;
 
-  state : Library.IGameState;
+  state : IGameState;
 
   /** 
    * The root of the display hierarchy for the game. Everything that exists in

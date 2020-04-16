@@ -3,6 +3,7 @@ import { TextEntity } from "../library/text_entity";
 import { Texture } from "pixi.js";
 import { Entity } from "../library/entity";
 import { Assets } from "./assets";
+import { IGameState } from "Library";
 
 export class GenericItem extends VanishingEntity {
   floatingText: TextEntity;
@@ -34,7 +35,7 @@ export class GenericItem extends VanishingEntity {
     this.graphic.visible = false;
   }
 
-  update(state: Library.IGameState): void {
+  update(state: IGameState): void {
     this.floatingText.visible = state.player.position.distance(this.position) < 200;
     this.graphic.visible = state.player.position.distance(this.position) < 200;
   }

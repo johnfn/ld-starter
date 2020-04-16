@@ -1,9 +1,10 @@
 import { KeyInfoType } from "./keyboard";
+import { IGameState } from "Library";
 
 /**
  * const state: GameState = yield CoroutineResult;
  */
-export type GameCoroutine = Generator<CoroutineResult, void, Library.IGameState>
+export type GameCoroutine = Generator<CoroutineResult, void, IGameState>
 
 export type CoroutineResult = "next" | { frames: number } | { untilKeyPress: keyof KeyInfoType };
 
@@ -42,7 +43,7 @@ export class CoroutineManager {
     delete this.activeCoroutines[id];
   }
 
-  public updateCoroutines(state: Library.IGameState): void {
+  public updateCoroutines(state: IGameState): void {
     for (const key of Object.keys(this.activeCoroutines)) {
       const co = this.activeCoroutines[Number(key)];
 

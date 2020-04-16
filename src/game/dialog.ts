@@ -3,6 +3,7 @@ import { TextEntity } from "../library/text_entity";
 import { GameCoroutine } from "../library/coroutine_manager";
 import { Assets } from "./assets";
 import { Entity } from "../library/entity";
+import { Mode, IGameState } from "Library";
 
 export type DialogText = {
   speaker: string;
@@ -10,7 +11,7 @@ export type DialogText = {
 }[];
 
 export class DialogBox extends Entity {
-  activeModes: Library.Mode[] = [0, 1] ;
+  activeModes: (keyof Mode)[] = ["Dialog", "Normal"] ;
 
   public static Instance: DialogBox;
   public static DialogVisible = () => DialogBox.Instance.visible;
@@ -65,11 +66,11 @@ export class DialogBox extends Entity {
     this.visible = true;
     this.activeDialogText = dialog;
 
-    let state: Library.IGameState;
+    let state: IGameState;
 
     state = yield "next";
 
-    state.mode = 1;
+    state.mode = "Dialog";
 
     while (this.activeDialogText.length > 0) {
       const fullText = this.activeDialogText[0];
@@ -93,7 +94,7 @@ export class DialogBox extends Entity {
 
       state = yield { untilKeyPress: "Spacebar" };
 
-      state.mode = 0;
+      state.mode = "Normal";
 
       this.activeDialogText.shift();
     }

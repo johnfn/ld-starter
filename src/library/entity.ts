@@ -6,6 +6,7 @@ import { RectGroup } from "./geometry/rect_group";
 import { BaseGameState } from "./base_state";
 import { GameReference } from "./base_game";
 import { CoroutineId, GameCoroutine } from "./coroutine_manager";
+import { Mode, IGameState } from "Library";
 
 export enum EntityType {
   NormalEntity,
@@ -21,6 +22,14 @@ class AugmentedSprite extends Sprite {
   entity!: Entity;
 }
 
+
+// export class ModeEntity extends Entity<GameState> {
+//   shouldUpdate(state: GameState) {
+//     return this.activeModes.includes(state.mode);
+//   }
+
+// }
+
 // TODO: probably make less of these methods abstract?
 export class Entity {
   /**
@@ -28,7 +37,7 @@ export class Entity {
    */
   public name     : string;
 
-  public activeModes = [0];
+  public activeModes: (keyof Mode)[] = [];
 
   public id       = getUniqueID();
 
@@ -82,11 +91,11 @@ export class Entity {
     GameReference.state.entities.remove(this);
   }
 
-  shouldUpdate(state: Library.IGameState): boolean {
-    return true;
+  shouldUpdate(state: IGameState): boolean {
+    return this.activeModes.includes(state.mode);
   }
 
-  update(state: Library.IGameState): void {}
+  update(state: IGameState): void {}
 
   setCollideable(isCollideable: boolean) {
     this._collidable = isCollideable;
@@ -181,11 +190,15 @@ export class Entity {
     return null;
   }
 
-  private queuedUpdates: ((state: Library.IGameState) => void)[] = [];
+  private queuedUpdates: ((state: IGameState) => void)[] = [];
 
-  baseUpdate(state: Library.IGameState): void {
-    for (const cb of this.queuedUpdates) {
-      cb(state);
+  baseUpdate(state: IGameState): void {
+    if (this.shouldUpdate(state)) {
+      for (const cb of this.queuedUpdates) {
+        cb(state);
+      }
+
+      this.update(state);
     }
 
     this.queuedUpdates = [];
@@ -193,7 +206,7 @@ export class Entity {
     this.update(state);
   }
 
-  addOnClick(listener: (state: Library.IGameState) => void) {
+  addOnClick(listener: (state: IGameState) => void) {
     this.sprite.interactive = true;
 
     this.sprite.on('click', () => {
@@ -201,7 +214,7 @@ export class Entity {
     });
   }
 
-  addOnMouseOver(listener: (state: Library.IGameState) => void) {
+  addOnMouseOver(listener: (state: IGameState) => void) {
     this.sprite.interactive = true;
 
     this.sprite.on('mouseover', () => {
@@ -209,7 +222,7 @@ export class Entity {
     });
   }
 
-  addOnMouseOut(listener: (state: Library.IGameState) => void) {
+  addOnMouseOut(listener: (state: IGameState) => void) {
     this.sprite.interactive = true;
 
     this.sprite.on('mouseout', () => {

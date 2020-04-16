@@ -2,6 +2,7 @@ import { Vector2 } from "./geometry/vector2";
 import { Entity } from "./entity";
 import { Rect } from "./geometry/rect";
 import { Debug } from "./debug";
+import { IGameState } from "Library";
 
 export class Camera {
   private static LERP_SPEED = 0.09;
@@ -18,7 +19,7 @@ export class Camera {
 
   constructor(props: { 
     stage       : Entity;
-    state       : Library.IGameState;
+    state       : IGameState;
     canvasWidth : number; 
     canvasHeight: number;
     bounds      : Rect;
@@ -106,7 +107,7 @@ export class Camera {
     return desiredPosition;
   };
 
-  update = (state: Library.IGameState) => {
+  update = (state: IGameState) => {
     if (Debug.DebugMode) {
       return;
     }

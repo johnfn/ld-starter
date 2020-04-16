@@ -1,13 +1,6 @@
-// import { KeyboardState } from "./keyboard";
-// import { HashSet } from "./data_structures/hash";
-// import { Mode } from "mode";
-
-// export = Library;
-// export as namespace Library;
-
-declare namespace Library {
-  export enum Mode { 
-    Normal,
+declare module "Library" {
+  export interface Mode { 
+    Normal: never;
   }
 
   type HashSet<T>    = import("./data_structures/hash").HashSet<T>;
@@ -20,16 +13,7 @@ declare namespace Library {
     entities      : HashSet<Entity>;
     toBeDestroyed : Entity[];
     stage         : Entity;
-    mode          : Mode;
+    mode          : keyof Mode;
     spriteToEntity: { [key: number]: Entity };
-    player        : Player;
-  }
-}
-
-declare module "Test" {
-  export enum TestEnum {
-    A,
-    B,
-    C,
   }
 }
