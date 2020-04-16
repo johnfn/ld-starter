@@ -4,9 +4,8 @@ import { Texture } from "pixi.js";
 import { Rect } from "./geometry/rect";
 import { BaseGame } from "./base_game";
 import { BaseGameState } from "./base_state";
-import { ModeEntity } from "../game/modes";
 
-export class MovingEntity<TState extends BaseGameState> extends ModeEntity {
+export class MovingEntity extends Entity {
   entityType  = EntityType.MovingEntity;
 
   private _velocity   = Vector2.Zero;
@@ -42,14 +41,14 @@ export class MovingEntity<TState extends BaseGameState> extends ModeEntity {
   }
 
   // Currently just stops moving.
-  collide = (other: Entity<TState>, intersection: Rect) => {
+  collide = (other: Entity, intersection: Rect) => {
     // if (!this._collidable) return;
 
     // this.velocity = Vector2.Zero;
   };
 
   // It's just shy
-  interact = (other: Entity<TState>) => {
+  interact = (other: Entity) => {
     return;
   };
 }

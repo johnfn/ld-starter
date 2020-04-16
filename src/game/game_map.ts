@@ -7,12 +7,10 @@ import { GenericItem } from "./generic_item";
 import { Texture } from "pixi.js";
 import { RectGroup } from "../library/geometry/rect_group";
 import { Assets } from "./assets";
-import { GameState } from "./state";
-import { ModeEntity } from "./modes";
 
-export class GameMap extends ModeEntity {
-  artMap         : TiledTilemap<GameState>;
-  musicRegionsMap: TiledTilemap<GameState>;
+export class GameMap extends Entity {
+  artMap         : TiledTilemap;
+  musicRegionsMap: TiledTilemap;
   musicRegions   : TilemapRegion[] = [];
 
   public static Instance: GameMap;

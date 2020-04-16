@@ -29,7 +29,7 @@ export class Game extends BaseGame<typeof AssetsToLoad> {
 
   initialize() {
     this.stage.addChild(new GameMap());
-    this.stage.addChild(new Player());
+    this.stage.addChild(this.state.player = new Player());
     this.stage.addChild(new Test());
     this.stage.addChild(new TasuketeHead());
 

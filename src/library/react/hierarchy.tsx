@@ -4,7 +4,7 @@ import { Container, Graphics } from 'pixi.js';
 import { Entity } from '../entity';
 import { Debug } from '../debug';
 
-type HierarchyProps = { root: Entity<any> | Container };
+type HierarchyProps = { root: Entity | Container };
 
 export class Hierarchy extends React.Component<HierarchyProps, { hover: boolean }> {
   constructor(props: HierarchyProps) {
@@ -22,7 +22,7 @@ export class Hierarchy extends React.Component<HierarchyProps, { hover: boolean 
   oldTint: { [key: number]: number } = {};
 
   hoverGraphics: Graphics[] = [];
-  hoverTarget: Entity<any> | Container | null = null;
+  hoverTarget: Entity | Container | null = null;
 
   updateDebugGraphics = () => {
     // clear debug graphics

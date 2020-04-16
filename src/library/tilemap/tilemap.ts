@@ -7,21 +7,20 @@ import { TiledTilemapObjects, TilemapCustomObjects, ObjectInfo } from './tilemap
 import { TilemapData, TilemapRegion } from './tilemap_data';
 import { Assets } from '../../game/assets';
 import { TypesafeLoader } from '../typesafe_loader';
-import { BaseGameState } from '../base_state';
 
-export type MapLayer<TState extends BaseGameState> = {
+export type MapLayer = {
   layerName  : string;
-  entity     : Entity<TState>;
+  entity     : Entity;
   objectLayer: boolean;
 };
 
 // TODO: Handle the weird new file format where tilesets link to ANOTHER json file
 
-export class TiledTilemap<TState extends BaseGameState> {
+export class TiledTilemap {
   private _tileWidth  : number;
   private _tileHeight : number;
   private _renderer   : Renderer;
-  private _objects    : TiledTilemapObjects<TState>;
+  private _objects    : TiledTilemapObjects;
   private _assets     : TypesafeLoader<any>;
 
   _data : TilemapData;
@@ -31,7 +30,7 @@ export class TiledTilemap<TState extends BaseGameState> {
     json         : TiledJSON; 
     renderer     : Renderer; 
     pathToTilemap: string;
-    customObjects: TilemapCustomObjects<TState>[];
+    customObjects: TilemapCustomObjects[];
     assets       : TypesafeLoader<any>;
   }) {
     this._data       = new TilemapData({ data, pathToTilemap });
@@ -61,8 +60,8 @@ export class TiledTilemap<TState extends BaseGameState> {
     throw new Error("Not a rect layer");
   }
 
-  public loadLayersInRect(region: Rect): MapLayer<TState>[] {
-    let tileLayers: MapLayer<TState>[] = [];
+  public loadLayersInRect(region: Rect): MapLayer[] {
+    let tileLayers: MapLayer[] = [];
 
     // Load tile layers
 
@@ -103,7 +102,7 @@ export class TiledTilemap<TState extends BaseGameState> {
         }
       }
 
-      const layerEntity = new Entity<TState>({ 
+      const layerEntity = new Entity({ 
         texture: renderTexture, 
         name   : layerName,
       });
@@ -140,7 +139,7 @@ export class TiledTilemap<TState extends BaseGameState> {
     this._objects.turnOffAllObjects();
   }
 
-  getAllObjects(): ObjectInfo<TState>[] {
+  getAllObjects(): ObjectInfo[] {
     return this._objects.getAllObjects();
   }
 }

@@ -10,7 +10,7 @@ import { BaseGameState } from "./base_state";
 const MAX_DEBUGGING_GRAPHICS_COUNT = 500;
 
 export class Debug {
-  public static stageReference: Entity<any>;
+  public static stageReference: Entity;
 
   public static DebugMode = false;
 
@@ -134,7 +134,7 @@ export class Debug {
    * 
    * If that's not what you want, pass persistent = true.
    */
-  public static DrawBounds(entity: Entity<any> | Sprite | Graphics | RectGroup | Container, color = 0xff0000, persistent = false): Graphics[] {
+  public static DrawBounds(entity: Entity | Sprite | Graphics | RectGroup | Container, color = 0xff0000, persistent = false): Graphics[] {
     if (entity instanceof Entity) {
       const group = entity.boundsAbsolute();
 

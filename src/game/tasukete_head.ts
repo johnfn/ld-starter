@@ -1,14 +1,12 @@
 import { GameCoroutine } from "../library/coroutine_manager";
-import { Player } from "./player";
 import { Vector2 } from "../library/geometry/vector2";
 import { DialogTexts } from "./dialog_text";
 import { DialogBox, DialogText } from "./dialog";
 import { Texture } from "pixi.js";
 import { Assets } from "./assets";
-import { GameState } from "./state";
-import { ModeEntity } from "./modes";
+import { Entity } from "../library/entity";
 
-export class TasuketeHead extends ModeEntity {
+export class TasuketeHead extends Entity {
   frames: Texture[];
 
   constructor() {
@@ -37,7 +35,7 @@ export class TasuketeHead extends ModeEntity {
     });
   }
 
-  *tasuketeAnimation(): GameCoroutine<GameState> {
+  *tasuketeAnimation(): GameCoroutine {
     let index = 0;
 
     while (true) {
@@ -66,27 +64,29 @@ export class TasuketeHead extends ModeEntity {
     this.startCoroutine("TasuketeDialog", this.annoying(nextDialog));
   }
 
-  *annoying(nextDialog: DialogText): GameCoroutine<GameState> {
+  *annoying(nextDialog: DialogText): GameCoroutine {
     yield* DialogBox.StartDialog(nextDialog);
     this.talking = false;
   }
 
-  *tasuketeMove(): GameCoroutine<GameState> {
-    const player = Player.Instance;
+  *tasuketeMove(): GameCoroutine {
+    let state = yield "next";
+
+    const player = state.player;
     const speed = 1.4;
 
     while (true) {
       const destination = player.position.add(Vector2.Random(200, 200, -200, -200).add(this.dimensions().divide(2)));
 
       while (destination.distance(this.position) > 50) {
-        yield "next";
+        state = yield "next";
 
         const towards = destination.subtract(this.position).normalize().multiply(speed);
 
         this.position = this.position.add(towards);
       }
 
-      yield { frames: 60 };
+      state = yield { frames: 60 };
     }
   }
 }

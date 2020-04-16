@@ -1,16 +1,13 @@
-import { Entity } from "../library/entity";
-import { BaseGameState } from "../library/base_state";
 import { Assets } from "./assets";
-import { ModeEntity } from "./modes";
-import { GameState } from "./state";
+import { Entity } from "../library/entity";
 
-export class Test extends ModeEntity {
+export class Test extends Entity {
   constructor() {
     super({
       name: "Bookshelf",
     });
 
-    const bookshelf = new ModeEntity({
+    const bookshelf = new Entity({
       texture: Assets.getResource("tileset"),
       name: "BookshelfTestGraphics",
     });
@@ -27,7 +24,7 @@ export class Test extends ModeEntity {
     // this.addChild(text);
   }
 
-  update(state: BaseGameState): void {
+  update(state: Library.IGameState): void {
 
   }
 }

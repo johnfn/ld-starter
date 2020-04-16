@@ -17,16 +17,18 @@ export enum EntityType {
   MovingEntity,
 }
 
-class AugmentedSprite<TState extends BaseGameState> extends Sprite {
-  entity!: Entity<TState>;
+class AugmentedSprite extends Sprite {
+  entity!: Entity;
 }
 
 // TODO: probably make less of these methods abstract?
-export class Entity<TState extends BaseGameState> {
+export class Entity {
   /**
    * This is the name that is displayed in the hierarchy.
    */
   public name     : string;
+
+  public activeModes = [0];
 
   public id       = getUniqueID();
 
@@ -35,7 +37,7 @@ export class Entity<TState extends BaseGameState> {
   /**
    * The PIXI Sprite that this Entity wraps.
    */
-  public sprite     : AugmentedSprite<TState>;
+  public sprite     : AugmentedSprite;
 
   protected _collidable: boolean;
 
@@ -56,15 +58,15 @@ export class Entity<TState extends BaseGameState> {
     this.sprite.anchor.set(0);
   }
 
-  addChild(child: Entity<TState>) {
+  addChild(child: Entity) {
     this.sprite.addChild(child.sprite);
   }
 
-  removeChild(child: Entity<TState>) {
+  removeChild(child: Entity) {
     this.sprite.removeChild(child.sprite);
   }
 
-  startCoroutine(name: string, coroutine: GameCoroutine<TState>): CoroutineId {
+  startCoroutine(name: string, coroutine: GameCoroutine): CoroutineId {
     return GameReference.coroutineManager.startCoroutine(name, coroutine);
   }
 
@@ -80,11 +82,11 @@ export class Entity<TState extends BaseGameState> {
     GameReference.state.entities.remove(this);
   }
 
-  shouldUpdate(state: TState): boolean {
+  shouldUpdate(state: Library.IGameState): boolean {
     return true;
   }
 
-  update(state: TState): void {}
+  update(state: Library.IGameState): void {}
 
   setCollideable(isCollideable: boolean) {
     this._collidable = isCollideable;
@@ -134,9 +136,9 @@ export class Entity<TState extends BaseGameState> {
     });
   }
 
-  children(): Entity<TState>[] {
+  children(): Entity[] {
     const children = this.sprite.children;
-    const result: Entity<TState>[] = [];
+    const result: Entity[] = [];
 
     for (const child of children) {
       if (child instanceof AugmentedSprite) {
@@ -147,7 +149,7 @@ export class Entity<TState extends BaseGameState> {
     return result;
   }
 
-  destroy(state: TState) {
+  destroy(state: BaseGameState) {
     state.toBeDestroyed.push(this);
   }
 
@@ -165,7 +167,7 @@ export class Entity<TState extends BaseGameState> {
 
   // Sprite wrapper stuff
 
-  public get parent(): Entity<TState> | null { 
+  public get parent(): Entity | null { 
     const parent = this.sprite.parent;
 
     if (parent instanceof AugmentedSprite) {
@@ -179,9 +181,9 @@ export class Entity<TState extends BaseGameState> {
     return null;
   }
 
-  queuedUpdates: ((state: TState) => void)[] = [];
+  private queuedUpdates: ((state: Library.IGameState) => void)[] = [];
 
-  baseUpdate(state: TState): void {
+  baseUpdate(state: Library.IGameState): void {
     for (const cb of this.queuedUpdates) {
       cb(state);
     }
@@ -191,7 +193,7 @@ export class Entity<TState extends BaseGameState> {
     this.update(state);
   }
 
-  addOnClick(listener: (state: TState) => void) {
+  addOnClick(listener: (state: Library.IGameState) => void) {
     this.sprite.interactive = true;
 
     this.sprite.on('click', () => {
@@ -199,7 +201,7 @@ export class Entity<TState extends BaseGameState> {
     });
   }
 
-  addOnMouseOver(listener: (state: TState) => void) {
+  addOnMouseOver(listener: (state: Library.IGameState) => void) {
     this.sprite.interactive = true;
 
     this.sprite.on('mouseover', () => {
@@ -207,7 +209,7 @@ export class Entity<TState extends BaseGameState> {
     });
   }
 
-  addOnMouseOut(listener: (state: TState) => void) {
+  addOnMouseOut(listener: (state: Library.IGameState) => void) {
     this.sprite.interactive = true;
 
     this.sprite.on('mouseout', () => {

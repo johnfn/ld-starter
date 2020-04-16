@@ -9,49 +9,48 @@ import { DebugFlagsType } from "./react/debug_flag_buttons";
 import { CollisionHandler } from "./collision_handler";
 import { Rect } from "./geometry/rect";
 import { CoroutineManager } from "./coroutine_manager";
-import { BaseGameState } from "./base_state";
 
 export let GameReference: BaseGame<any>;
 
-export type GameArgs<TState extends BaseGameState> = {
+export type GameArgs = {
   scale       : number;
   canvasWidth : number;
   canvasHeight: number;
   tileHeight  : number;
   tileWidth   : number;
   debugFlags  : DebugFlagsType;
-  state       : TState;
+  state       : Library.IGameState;
   assets      : TypesafeLoader<any>;
 };
 
-export class BaseGame<TResources extends AllResourcesType = {}, TState extends BaseGameState<TState> = any> {
+export class BaseGame<TResources extends AllResourcesType = {}> {
   app   : PIXI.Application;
 
-  state : TState;
+  state : Library.IGameState;
 
   /** 
    * The root of the display hierarchy for the game. Everything that exists in
    * the game that isn't fixed as the camera moves should be under this.
    */
-  stage : Entity<TState>;
+  stage : Entity;
 
   /**
    * A stage for things in the game that don't move when the camera move and are
    * instead fixed to the screen. For example, the HUD.
    */
-  fixedCameraStage: Entity<TState>;
+  fixedCameraStage: Entity;
 
   private assets: TypesafeLoader<TResources>;
 
   renderer: Renderer;
 
-  camera: Camera<TState>;
+  camera: Camera;
 
-  collisionHandler: CollisionHandler<TState>;
+  collisionHandler: CollisionHandler;
 
-  coroutineManager: CoroutineManager<TState>;
+  coroutineManager: CoroutineManager;
 
-  constructor(props: GameArgs<TState>) {
+  constructor(props: GameArgs) {
     GameReference = this;
 
     this.coroutineManager = new CoroutineManager();
@@ -83,14 +82,14 @@ export class BaseGame<TResources extends AllResourcesType = {}, TState extends B
 
     this.app.stage.scale = new Point(props.scale, props.scale);
 
-    this.stage = new Entity<TState>({
+    this.stage = new Entity({
       name: "Stage",
     });
     this.state.stage = this.stage;
 
     this.app.stage.addChild(this.stage.sprite);
 
-    this.fixedCameraStage = new Entity<TState>({
+    this.fixedCameraStage = new Entity({
       name: "FixedStage"
     });
     this.app.stage.addChild(this.fixedCameraStage.sprite);
@@ -104,7 +103,7 @@ export class BaseGame<TResources extends AllResourcesType = {}, TState extends B
 
     this.renderer = this.app.renderer;
 
-    this.camera = new Camera<TState>({
+    this.camera = new Camera({
       stage       : this.stage,
       state       : this.state,
       canvasWidth : props.canvasWidth,

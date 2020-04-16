@@ -5,32 +5,31 @@ import { Vector2 } from "./geometry/vector2";
 import { DefaultGrid } from "./data_structures/default_grid";
 import { RectGroup } from "./geometry/rect_group";
 import { Line } from "./geometry/line";
-import { BaseGameState } from "./base_state";
 
-type CollisionResultRect<TState extends BaseGameState> = {
+type CollisionResultRect = {
   firstRect    : Rect;
   secondRect   : Rect;
-  firstEntity ?: Entity<TState>;
-  secondEntity?: Entity<TState>;
+  firstEntity ?: Entity;
+  secondEntity?: Entity;
   overlap      : Rect;
 };
 
-type CollisionResultPoint<TState extends BaseGameState> = {
+type CollisionResultPoint = {
   firstRect    : Rect;
   secondRect   : Rect;
-  firstEntity ?: Entity<TState>;
-  secondEntity?: Entity<TState>;
+  firstEntity ?: Entity;
+  secondEntity?: Entity;
   overlap      : Vector2;
 };
 
-export class CollisionGrid<TState extends BaseGameState> {
+export class CollisionGrid {
   private _position: Vector2 = Vector2.Zero;
   private _width: number;
   private _height: number;
   private _cellSize: number;
   private _numCellsPerRow: number;
   private _numCellsPerCol: number;
-  private _cells: DefaultGrid<Cell<TState>>;
+  private _cells: DefaultGrid<Cell>;
   private _renderLines: Graphics | null = null;
 
   constructor(props: {
@@ -54,7 +53,7 @@ export class CollisionGrid<TState extends BaseGameState> {
     this._numCellsPerRow = Math.floor(width / cellSize);
     this._numCellsPerCol = Math.floor(height / cellSize);
 
-    this._cells = new DefaultGrid<Cell<TState>>((x, y) => new Cell(
+    this._cells = new DefaultGrid<Cell>((x, y) => new Cell(
       new Vector2({ x: x * cellSize, y: y * cellSize }),
       cellSize
     ));
@@ -75,8 +74,8 @@ export class CollisionGrid<TState extends BaseGameState> {
    * entity is passed in, ignores that entity when checking for collisions.
    * (Does not add the rect to the grid.)
    */
-  getRectCollisions = (rect: Rect, skipEntity?: Entity<TState>): CollisionResultRect<TState>[] => {
-    const cells: Cell<TState>[] = [];
+  getRectCollisions = (rect: Rect, skipEntity?: Entity): CollisionResultRect[] => {
+    const cells: Cell[] = [];
 
     const lowX  = Math.floor(rect.x           / this._cellSize);
     const highX = Math.ceil((rect.x + rect.w) / this._cellSize);
@@ -90,7 +89,7 @@ export class CollisionGrid<TState extends BaseGameState> {
       }
     }
 
-    const collisions: CollisionResultRect<TState>[] = [];
+    const collisions: CollisionResultRect[] = [];
 
     for (const cell of cells) {
       for (const { rect: rectInCell, entity: entityInCell } of cell.colliders) {
@@ -117,7 +116,7 @@ export class CollisionGrid<TState extends BaseGameState> {
     return collisions;
   };
 
-  getRectGroupCollisions = (group: RectGroup, entity?: Entity<TState>): CollisionResultRect<TState>[] => {
+  getRectGroupCollisions = (group: RectGroup, entity?: Entity): CollisionResultRect[] => {
     return group.getRects()
       .flatMap(rect => this.getRectCollisions(rect, entity));
   }
@@ -125,14 +124,14 @@ export class CollisionGrid<TState extends BaseGameState> {
   /** 
    * Same as collidesRect but immediately returns true if there's a collision.
    */
-  collidesRectFast = (rect: Rect, entity?: Entity<TState>): boolean => {
+  collidesRectFast = (rect: Rect, entity?: Entity): boolean => {
     const corners = rect.getCorners();
     const cells = corners.map(corner => this._cells.get(
       Math.floor(corner.x / this._cellSize),
       Math.floor(corner.y / this._cellSize),
     ));
 
-    const uniqueCells: { [key: string]: Cell<TState> } = {};
+    const uniqueCells: { [key: string]: Cell } = {};
 
     for (const cell of cells) {
       uniqueCells[cell.hash()] = cell;
@@ -157,12 +156,12 @@ export class CollisionGrid<TState extends BaseGameState> {
     return false;
   };
 
-  collidesPoint = (point: Vector2, entity?: Entity<TState>): CollisionResultPoint<TState>[] => {
+  collidesPoint = (point: Vector2, entity?: Entity): CollisionResultPoint[] => {
     const cell = this._cells.get(
       Math.floor(point.x / this._cellSize),
       Math.floor(point.y / this._cellSize),
     );
-    const collisions: CollisionResultPoint<TState>[] = [];
+    const collisions: CollisionResultPoint[] = [];
 
     for (const { rect, entity: entityInCell } of cell.colliders) {
       const overlap = rect.contains(point);
@@ -186,8 +185,8 @@ export class CollisionGrid<TState extends BaseGameState> {
   /**
    * Get all collisions on the grid.
    */
-  getAllCollisions = (): CollisionResultRect<TState>[] => {
-    const result: CollisionResultRect<TState>[] = [];
+  getAllCollisions = (): CollisionResultRect[] => {
+    const result: CollisionResultRect[] = [];
 
     for (let cell of this.cells) {
       const cellRects = cell.colliders;
@@ -217,7 +216,7 @@ export class CollisionGrid<TState extends BaseGameState> {
     return result;
   }
 
-  public get cells(): Cell<TState>[] {
+  public get cells(): Cell[] {
     return this._cells.values();
   }
 
@@ -229,7 +228,7 @@ export class CollisionGrid<TState extends BaseGameState> {
 
   // Add a rect to the hash grid.
   // Checks each corner, to handle entities that span multiply grid cells.
-  add = (rect: Rect, associatedEntity?: Entity<TState>) => {
+  add = (rect: Rect, associatedEntity?: Entity) => {
     const corners = rect.getCorners();
 
     for (const corner of corners) {
@@ -240,7 +239,7 @@ export class CollisionGrid<TState extends BaseGameState> {
     }
   };
 
-  addRectGroup = (group: RectGroup, associatedEntity?: Entity<TState>) => {
+  addRectGroup = (group: RectGroup, associatedEntity?: Entity) => {
     for (const rect of group.getRects()) {
       this.add(rect, associatedEntity);
     }
@@ -281,24 +280,24 @@ export class CollisionGrid<TState extends BaseGameState> {
   };
 }
 
-type CellItem<TState extends BaseGameState> = {
+type CellItem = {
   rect    : Rect; 
-  entity ?: Entity<TState>;
+  entity ?: Entity;
 };
 
-export class Cell<TState extends BaseGameState> {
+export class Cell {
   private _bounds: Rect;
-  private _rects: CellItem<TState>[] = [];
+  private _rects: CellItem[] = [];
 
   constructor(topLeft: Vector2, cellSize: number) {
     this._bounds = Rect.FromPoint(topLeft, cellSize);
   }
 
-  public get colliders(): CellItem<TState>[] {
+  public get colliders(): CellItem[] {
     return this._rects;
   }
 
-  add = (rect: Rect, entity?: Entity<TState>) => {
+  add = (rect: Rect, entity?: Entity) => {
     this._rects.push({ rect, entity });
   };
 

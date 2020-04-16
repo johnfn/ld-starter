@@ -1,12 +1,10 @@
 import { Texture } from "pixi.js";
 
-import { Entity } from "../library/entity";
 import { DialogBox } from "./dialog";
-import { GameState } from "./state";
 import { GameCoroutine } from "../library/coroutine_manager";
-import { ModeEntity } from "./modes";
+import { Entity } from "../library/entity";
 
-export abstract class VanishingEntity extends ModeEntity {
+export abstract class VanishingEntity extends Entity {
   constructor(props: {
     name     : string,
     texture ?: Texture;
@@ -16,7 +14,7 @@ export abstract class VanishingEntity extends ModeEntity {
       collidable: true,
     });
 
-    const content = new ModeEntity({
+    const content = new Entity({
       name   : "VanishingEntity",
       texture: props.texture,
     })
@@ -61,7 +59,7 @@ export abstract class VanishingEntity extends ModeEntity {
 
   public static index = -1;
 
-  *removeEntity(): GameCoroutine<GameState> {
+  *removeEntity(): GameCoroutine {
     VanishingEntity.index++;
     if (VanishingEntity.index > 4) { VanishingEntity.index = 4; }
 

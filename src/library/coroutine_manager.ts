@@ -1,15 +1,14 @@
-import { BaseGameState } from "./base_state";
 import { KeyInfoType } from "./keyboard";
 
 /**
  * const state: GameState = yield CoroutineResult;
  */
-export type GameCoroutine<TState extends BaseGameState> = Generator<CoroutineResult, void, TState>
+export type GameCoroutine = Generator<CoroutineResult, void, Library.IGameState>
 
 export type CoroutineResult = "next" | { frames: number } | { untilKeyPress: keyof KeyInfoType };
 
-type ActiveCoroutine<TState extends BaseGameState> = {
-  fn    : GameCoroutine<TState>;
+type ActiveCoroutine = {
+  fn    : GameCoroutine;
   status: 
     | { waiting: false }
     | { waiting: true; type: "frames"  ; frames: number }
@@ -19,11 +18,11 @@ type ActiveCoroutine<TState extends BaseGameState> = {
 
 export type CoroutineId = number;
 
-export class CoroutineManager<TState extends BaseGameState> {
+export class CoroutineManager {
   private lastCoroutineId: CoroutineId = -1;
-  private activeCoroutines: { [key: number]: ActiveCoroutine<TState> } = [];
+  private activeCoroutines: { [key: number]: ActiveCoroutine } = [];
 
-  startCoroutine(name: string, co: GameCoroutine<TState>): CoroutineId {
+  startCoroutine(name: string, co: GameCoroutine): CoroutineId {
     for (const activeCo of Object.values(this.activeCoroutines)) {
       if (activeCo.name === name) {
         throw new Error(`Two coroutines with the name ${ name }. Tell grant about this!!!`);
@@ -43,7 +42,7 @@ export class CoroutineManager<TState extends BaseGameState> {
     delete this.activeCoroutines[id];
   }
 
-  public updateCoroutines(state: TState): void {
+  public updateCoroutines(state: Library.IGameState): void {
     for (const key of Object.keys(this.activeCoroutines)) {
       const co = this.activeCoroutines[Number(key)];
 

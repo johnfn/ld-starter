@@ -41,7 +41,7 @@ export const AdvanceState = (currentState: TextSegmentState): TextSegmentState =
  * 
  * "%1%This is some red text% normal text %2%blue text!%".
  */
-export class TextEntity<T extends BaseGameState> extends BaseTextEntity<BaseGameState> {
+export class TextEntity extends BaseTextEntity<BaseGameState> {
   customStyles: TextStyles;
   defaultStyle: TextEntityStyle;
 

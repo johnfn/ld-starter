@@ -1,14 +1,11 @@
 import { Game } from "./game";
 import { GameMap } from "./game_map";
-import { DialogBox } from "./dialog";
 import { Vector2 } from "../library/geometry/vector2";
 import { Assets } from "./assets";
 import { GameState } from "./state";
-import { ModeEntity } from "./modes";
+import { Entity } from "../library/entity";
 
-export class Player extends ModeEntity {
-  public static Instance: Player;
-
+export class Player extends Entity {
   speed = 8;
   index = 0;
   frames: PIXI.Texture[];
@@ -21,7 +18,6 @@ export class Player extends ModeEntity {
 
     this.frames = Assets.getResource("miranda_walk");
 
-    Player.Instance = this;
     this.scale = new Vector2({ x: 0.25, y: 0.25 });
   }
 

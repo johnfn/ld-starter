@@ -1,5 +1,5 @@
 import { Loader, Texture } from 'pixi.js'
-import { AssetsToLoad, Assets } from '../game/assets';
+import { AssetsToLoad } from '../game/assets';
 import { TilemapData } from './tilemap/tilemap_data';
 import { TiledJSON } from './tilemap/tilemap_types';
 

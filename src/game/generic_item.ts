@@ -1,15 +1,12 @@
 import { VanishingEntity } from "./vanishing_entity";
 import { TextEntity } from "../library/text_entity";
 import { Texture } from "pixi.js";
-import { BaseGameState } from "../library/base_state";
-import { Player } from "./player";
 import { Entity } from "../library/entity";
 import { Assets } from "./assets";
-import { GameState } from "./state";
 
 export class GenericItem extends VanishingEntity {
-  floatingText: TextEntity<GameState>;
-  graphic: Entity<GameState>;
+  floatingText: TextEntity;
+  graphic: Entity;
 
   constructor(tex: Texture, description: string) {
     super({
@@ -37,8 +34,8 @@ export class GenericItem extends VanishingEntity {
     this.graphic.visible = false;
   }
 
-  update(state: BaseGameState): void {
-    this.floatingText.visible = Player.Instance.position.distance(this.position) < 200;
-    this.graphic.visible = Player.Instance.position.distance(this.position) < 200;
+  update(state: Library.IGameState): void {
+    this.floatingText.visible = state.player.position.distance(this.position) < 200;
+    this.graphic.visible = state.player.position.distance(this.position) < 200;
   }
 }
