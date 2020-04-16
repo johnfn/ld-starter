@@ -2,7 +2,8 @@ import { Renderer } from "pixi.js";
 import { KeyboardState } from "./keyboard";
 import { Entity } from "./entity";
 import { HashSet } from "./data_structures/hash";
-import { IGameState, Mode } from "Library";
+import { IGameState } from "Library";
+import { Mode } from "Library";
 
 export class BaseGameState implements Partial<IGameState> {
   keys          : KeyboardState;
@@ -11,7 +12,7 @@ export class BaseGameState implements Partial<IGameState> {
   toBeDestroyed : Entity[] = [];
   stage        !: Entity;
   spriteToEntity: { [key: number]: Entity } = {};
-  mode          : (keyof Mode) = "Normal";
+  mode          : Mode = "Normal";
 
   constructor() {
     this.keys = new KeyboardState();

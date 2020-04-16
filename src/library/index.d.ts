@@ -1,7 +1,9 @@
 declare module "Library" {
-  export interface Mode { 
+  export interface ModeList { 
     Normal: never;
   }
+
+  export type Mode = keyof ModeList;
 
   type HashSet<T>    = import("./data_structures/hash").HashSet<T>;
   type Entity        = import("./entity").Entity;
@@ -13,7 +15,7 @@ declare module "Library" {
     entities      : HashSet<Entity>;
     toBeDestroyed : Entity[];
     stage         : Entity;
-    mode          : keyof Mode;
+    mode          : Mode;
     spriteToEntity: { [key: number]: Entity };
   }
 }

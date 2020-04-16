@@ -3,6 +3,6 @@ import { Player } from "./player";
 import { IGameState, Mode } from "Library";
 
 export class GameState extends BaseGameState implements IGameState {
-  mode   : (keyof Mode) = "Normal";
+  mode   : Mode = "Normal";
   player!: Player;
 }

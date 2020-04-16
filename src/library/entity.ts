@@ -6,7 +6,7 @@ import { RectGroup } from "./geometry/rect_group";
 import { BaseGameState } from "./base_state";
 import { GameReference } from "./base_game";
 import { CoroutineId, GameCoroutine } from "./coroutine_manager";
-import { Mode, IGameState } from "Library";
+import { IGameState, Mode } from "Library";
 
 export enum EntityType {
   NormalEntity,
@@ -37,7 +37,7 @@ export class Entity {
    */
   public name     : string;
 
-  public activeModes: (keyof Mode)[] = [];
+  public activeModes: Mode[] = [];
 
   public id       = getUniqueID();
 

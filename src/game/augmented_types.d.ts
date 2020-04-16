@@ -1,7 +1,7 @@
 import { Player } from "./player";
 
 declare module "Library" {
-  export interface Mode {
+  export interface ModeList {
     Dialog: never;
   }
 

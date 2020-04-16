@@ -3,7 +3,8 @@ import { TextEntity } from "../library/text_entity";
 import { GameCoroutine } from "../library/coroutine_manager";
 import { Assets } from "./assets";
 import { Entity } from "../library/entity";
-import { Mode, IGameState } from "Library";
+import { IGameState } from "Library";
+import { Mode } from "Library";
 
 export type DialogText = {
   speaker: string;
@@ -11,7 +12,7 @@ export type DialogText = {
 }[];
 
 export class DialogBox extends Entity {
-  activeModes: (keyof Mode)[] = ["Dialog", "Normal"] ;
+  activeModes: Mode[] = ["Dialog", "Normal"] ;
 
   public static Instance: DialogBox;
   public static DialogVisible = () => DialogBox.Instance.visible;
